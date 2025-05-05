@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="general_ok">Ok</string>
+    <string name="cancel">Cancelar</string>
+    <string name="white"/>
+    <string name="owner">Propietario: </string>
+    <string name="image">Pulsa para añadir una foto: </string>
+    <string name="phone">Teléfono: </string>
+    <string name="address">Dirección: </string>
+    <string name="location">Ubicación: </string>
+    <string name="isFavourite">Añadido a favoritos</string>
+    <string name="state">Estado: </string>
+    <string name="refill_data">Rellene los siguientes datos</string>
+
+    <!-- Bundle Keys -->
+    <string name="bundle_email">correo</string>
+    <string name="bundle_house">house</string>
+
+    <!-- Layout login text -->
+    <string name="layout_email">Escriba su correo</string>
+    <string name="layout_name">Escriba su nombre</string>
+    <string name="layout_pswd">Escriba su contraseña</string>
+    <string name="layout_create_bt">Crear usuario</string>
+    <string name="layout_create_tv">Rellene los \n campos</string>
+    <string name="layout_login_tv">Bienvenido</string>
+    <string name="layout_login_btAccess">Iniciar sesión</string>
+    <string name="layout_login_btNew">Nuevo usuario</string>
+    <string name="layout_details_btFavPlus">Añadir a favoritos</string>
+    <string name="layout_details_btFavQuit">Quitar de favoritos</string>
+
+
+    <!-- Error/Warning texts -->
+    <string name="error_type">Error</string>
+    <string name="warning_type">Advertencia</string>
+    <string name="error_msg_login">No se ha podido comprobar al usuario con las credenciales escritas, revise sus credenciales</string>
+    <string name="error_msg_register">No se ha podido registrar al usuario, compruebe que las credenciales escritas cumplen con lo mínimo</string>
+    <string name="error_msg_new_house">No se ha podido crear la casa, revise que haya rellenado todo</string>
+    <string name="error_msg_fav_house">No se ha podido añadir a su lista</string>
+    <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta casa a su lista de favoritos?</string>
+    <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta casa de su lista de favoritos?</string>
+
+</resources>

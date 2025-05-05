@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "175639255531",
+    "project_id": "szene-project",
+    "storage_bucket": "szene-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175639255531:android:106657876e59814df721ae",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBufk38gZpX4Y5XCx31-mSvqU_YwtM4GIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
