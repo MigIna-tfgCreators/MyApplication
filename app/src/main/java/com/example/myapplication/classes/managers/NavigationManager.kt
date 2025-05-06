@@ -1,11 +1,9 @@
-package com.prueba.apphouse.classes.managers
+package com.example.myapplication.classes.managers
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
-import com.example.myapplication.classes.managers.NavigationManagerInterface
-import com.example.myapplication.classes.managers.navHostFragment
 import com.example.myapplication.classes.providers.ContextProviderInterface
 
 class NavigationManager(private val contextProvider: ContextProviderInterface):
@@ -15,8 +13,7 @@ class NavigationManager(private val contextProvider: ContextProviderInterface):
     val navController: NavController?
         get() = contextProvider.currentActivity?.navHostFragment?.navController
 
-
-    override fun navigate(navigate: Navigation.to) {
+    override fun navigate(navigate: Navigation) {
         with(navigate) {
             when(this) {
                 is Navigation.to ->
@@ -26,7 +23,7 @@ class NavigationManager(private val contextProvider: ContextProviderInterface):
                     val intent = Intent(context, destination)
                     if(bundle != null) intent.putExtras(bundle)
                     context.startActivity(intent)
-                    // context.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    //context.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                     context.finish()
                 }
                 is Navigation.popBackStack ->

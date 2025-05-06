@@ -3,8 +3,9 @@ package com.prueba.apphouse.classes.modules.start.routing
 import android.os.Bundle
 import androidx.collection.floatSetOf
 import com.example.myapplication.R
+import com.example.myapplication.classes.managers.Navigation
 import com.example.myapplication.classes.managers.NavigationManagerInterface
-import com.prueba.apphouse.classes.managers.Navigation
+import com.example.myapplication.classes.modules.main.view.MainActivity
 
 class RegisterRouting(
     private val navigationManager: NavigationManagerInterface
@@ -18,13 +19,10 @@ class RegisterRouting(
     }
 
     override fun navigateToMain(bundle: Bundle?) {
-        var flag = false
         if(bundle!= null)
-            flag = true
-            //navigationManager.navigate(Navigation.main(NaveganteActivity::class.java, bundle))
+            navigationManager.navigate(Navigation.main(MainActivity::class.java, bundle))
         else
-            flag = false
-            //navigationManager.navigate(Navigation.main(NaveganteActivity::class.java))
+            navigationManager.navigate(Navigation.main(MainActivity::class.java))
     }
 
 }

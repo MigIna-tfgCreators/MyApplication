@@ -2,7 +2,7 @@
     <string name="app_name">My Application</string>
     <string name="general_ok">Ok</string>
     <string name="cancel">Cancelar</string>
-    <string name="white"/>
+    <string name="white" />
     <string name="owner">Propietario: </string>
     <string name="image">Pulsa para añadir una foto: </string>
     <string name="phone">Teléfono: </string>
@@ -38,5 +38,7 @@
     <string name="error_msg_fav_house">No se ha podido añadir a su lista</string>
     <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta casa a su lista de favoritos?</string>
     <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta casa de su lista de favoritos?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
