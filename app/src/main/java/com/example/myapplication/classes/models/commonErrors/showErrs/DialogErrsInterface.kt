@@ -1,4 +1,4 @@
-package com.prueba.apphouse.classes.models.commonErrors.showErrs
+package com.example.myapplication.classes.models.commonErrors.showErrs
 
 interface DialogErrsInterface {
     fun showErrorLogin()

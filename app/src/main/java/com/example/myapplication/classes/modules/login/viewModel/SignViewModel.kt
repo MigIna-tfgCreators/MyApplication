@@ -4,18 +4,19 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
+import com.example.myapplication.classes.models.commonErrors.showErrs.DialogErrsInterface
 import com.example.myapplication.classes.models.login.LoginEvents
+import com.example.myapplication.classes.modules.login.routing.RegisterRoutingInterface
+import com.example.myapplication.classes.modules.main.routing.MainRoutingInterface
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.authUserRepository.AuthRepository
-import com.prueba.apphouse.classes.models.commonErrors.showErrs.DialogErrsInterface
-import com.prueba.apphouse.classes.modules.start.routing.RegisterRoutingInterface
 import kotlinx.coroutines.launch
 
 class SignViewModel(
-    val repository: AuthRepository,
-    val routing: RegisterRoutingInterface,
-    val errors: DialogErrsInterface,
-    val contextProvider: ContextProviderInterface
+    private val repository: AuthRepository,
+    private val routing: RegisterRoutingInterface,
+    private val errors: DialogErrsInterface,
+    private val contextProvider: ContextProviderInterface
 ): ViewModel() {
     fun addEvent(evento: LoginEvents){
         when(evento) {

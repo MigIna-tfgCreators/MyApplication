@@ -1,9 +1,8 @@
-package com.prueba.apphouse.classes.services.firebase.userService
+package com.example.myapplication.classes.services.authUserService
 
 import android.util.Log
 import com.example.myapplication.classes.models.API.PeliculaModel
 import com.example.myapplication.classes.models.firebase.UsuariosModel
-import com.example.myapplication.classes.services.authUserService.AuthService
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthEmailException
@@ -21,6 +20,7 @@ class AuthServiceImpl: AuthService{
     override suspend fun session(): String?{
 
         var connected = FirebaseAuth.getInstance().currentUser
+        Log.i("comprob", connected?.uid ?: "hola")
 
         return if (connected != null){
 

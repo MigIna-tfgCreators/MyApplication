@@ -14,12 +14,6 @@ interface WebService {
         @Query("language") language: String = "es-ES"
     ): Response<PeliculasResponse>
 
-    @GET("popular")
-    suspend fun obtenerPopulares(
-        @Query("api_key") apiKey: String,
-        @Query("language") language: String = "es-ES"
-    ): Response<PeliculasResponse>
-
     @GET("top_rated")
     suspend fun obtenerTop(
         @Query("api_key") apiKey: String,

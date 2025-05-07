@@ -3,18 +3,13 @@
     <string name="general_ok">Ok</string>
     <string name="cancel">Cancelar</string>
     <string name="white"/>
-    <string name="owner">Propietario: </string>
-    <string name="image">Pulsa para añadir una foto: </string>
-    <string name="phone">Teléfono: </string>
-    <string name="address">Dirección: </string>
-    <string name="location">Ubicación: </string>
     <string name="isFavourite">Añadido a favoritos</string>
     <string name="state">Estado: </string>
     <string name="refill_data">Rellene los siguientes datos</string>
 
     <!-- Bundle Keys -->
     <string name="bundle_email">correo</string>
-    <string name="bundle_house">house</string>
+    <string name="bundle_film">mandar pelicula</string>
 
     <!-- Layout login text -->
     <string name="layout_email">Escriba su correo</string>
@@ -34,8 +29,7 @@
     <string name="warning_type">Advertencia</string>
     <string name="error_msg_login">No se ha podido comprobar al usuario con las credenciales escritas, revise sus credenciales</string>
     <string name="error_msg_register">No se ha podido registrar al usuario, compruebe que las credenciales escritas cumplen con lo mínimo</string>
-    <string name="error_msg_new_house">No se ha podido crear la casa, revise que haya rellenado todo</string>
-    <string name="error_msg_fav_house">No se ha podido añadir a su lista</string>
+    <string name="error_msg_fav_film">No se ha podido añadir a su lista</string>
     <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta casa a su lista de favoritos?</string>
     <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta casa de su lista de favoritos?</string>
 

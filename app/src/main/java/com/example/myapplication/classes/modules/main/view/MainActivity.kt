@@ -1,10 +1,13 @@
 package com.example.myapplication.classes.modules.main.view
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.R
+import com.example.myapplication.classes.managers.navHostFragment
+import com.example.myapplication.classes.models.main.MainEvents
 import com.example.myapplication.classes.models.main.SelectedCardState
+import com.example.myapplication.classes.models.main.toNiceString
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.classes.modules.main.viewmodel.PeliculasViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,17 +24,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.apply {
-            cvCartelera.setOnClickListener {
-                cambiarUI(SelectedCardState.Cartelera)
-            }
-            cvTop.setOnClickListener {
-                cambiarUI(SelectedCardState.Top)
-            }
-            cvPopulares.setOnClickListener {
-                cambiarUI(SelectedCardState.Popular)
-            }
+
+        navHostFragment?.let {
+            NavigationUI.setupWithNavController(binding.botonesNavegacion,it.navController)
         }
+        menuListener()
+
     }
 
     private fun cambiarUI (seleccionado: SelectedCardState){
@@ -49,11 +47,44 @@ class MainActivity : AppCompatActivity() {
 
         }
         binding.apply {
-            cvCartelera.setCardBackgroundColor(colorCartelera)
-            cvPopulares.setCardBackgroundColor(colorPopulares)
-            cvTop.setCardBackgroundColor(colorTop)
 
-            binding.tvTitulo.text = seleccionado.toString()
+            binding.tvTitulo.text = seleccionado.toNiceString
         }
     }
+    fun menuListener(){
+
+        binding.botonesNavegacion.setOnItemSelectedListener { menuItem->
+
+            when(menuItem.itemId){
+                R.id.botonCartelera -> {
+                    binding.tvTitulo.text = "Cartelera"
+                    viewModel.addEvent(MainEvents.ListaCartelera, null)
+                    true
+                }
+                R.id.botonTop -> {
+                    binding.tvTitulo.text = "Top"
+                    viewModel.addEvent(MainEvents.ListaTop, null)
+                    true
+                }
+                R.id.botonBusqueda -> {
+                    binding.tvTitulo.text = "Búsqueda"
+                    viewModel.addEvent(MainEvents.ListaBusqueda, null)
+                    true
+                }
+                R.id.botonFavoritos -> {
+                    binding.tvTitulo.text = "Favoritos"
+                    viewModel.addEvent(MainEvents.ListaFavoritos, null)
+                    true
+                }
+                R.id.botonPerfil -> {
+                    viewModel.addEvent(MainEvents.Perfil, null)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
 }
+
+

@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph_listfilms">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_listfilms"
+    app:startDestination="@id/carteleraFragment">
 
+
+    <fragment
+        android:id="@+id/carteleraFragment"
+        android:name="com.example.myapplication.classes.modules.main.view.cartelera.CarteleraFragment"
+        android:label="fragment_cartelera"
+        tools:layout="@layout/fragment_cartelera" />
+
+    <fragment
+        android:id="@+id/topFragment"
+        android:name="com.example.myapplication.classes.modules.main.view.top.TopFragment"
+        android:label="fragment_top"
+        tools:layout="@layout/fragment_top" />
+    <fragment
+        android:id="@+id/detallesFragment"
+        android:name="com.example.myapplication.classes.modules.main.view.detalles.DetallesFragment"
+        android:label="fragment_detalles"
+        tools:layout="@layout/fragment_detalles" />
+    <fragment
+        android:id="@+id/favoritosFragment"
+        android:name="com.example.myapplication.classes.modules.main.view.favoritos.FavoritosFragment"
+        android:label="fragment_favoritos"
+        tools:layout="@layout/fragment_favoritos" />
+    <fragment
+        android:id="@+id/busquedaFragment"
+        android:name="com.example.myapplication.classes.modules.main.view.busqueda.BusquedaFragment"
+        android:label="fragment_busqueda"
+        tools:layout="@layout/fragment_busqueda" />
 </navigation>

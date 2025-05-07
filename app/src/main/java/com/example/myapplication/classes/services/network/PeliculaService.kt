@@ -8,6 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PeliculaService {
+
     @GET("{movie_id}")
     fun obtenerDetallesPelicula(
         @Path("movie_id") movieId: Int,

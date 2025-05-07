@@ -1,6 +1,7 @@
 package com.example.myapplication.classes.models.API
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PeliculaModel(
     @SerializedName("id")
@@ -17,4 +18,4 @@ data class PeliculaModel(
     var votoPromedio: String,
     @SerializedName("vote_count")
     var totalVotos: String
-)
+): Serializable

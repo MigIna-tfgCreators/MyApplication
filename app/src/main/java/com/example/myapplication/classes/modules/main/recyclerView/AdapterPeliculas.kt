@@ -10,11 +10,12 @@ import com.example.myapplication.classes.models.API.PeliculaModel
 import com.example.myapplication.classes.services.network.API
 import com.example.myapplication.databinding.ItemRvPeliculasBinding
 
-class ApadterPeliculas(
-    var listaPeliculas: List<PeliculaModel>
+class AdapterPeliculas(
+    private var listaPeliculas: List<PeliculaModel>?,
+    private val clickInterface: ClickItemInterface?
 ): RecyclerView.Adapter<MyViewHolder>(){
 
-    fun actualizarLista(nuevaLista: List<PeliculaModel>){
+    fun actualizarLista(nuevaLista: List<PeliculaModel>?){
         val peliculasDiff = PeliculasDiffUtil(listaPeliculas, nuevaLista)
         val result = DiffUtil.calculateDiff(peliculasDiff)
         listaPeliculas = nuevaLista
@@ -28,27 +29,28 @@ class ApadterPeliculas(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val pelicula = listaPeliculas[position]
+        val pelicula = listaPeliculas?.get(position)
         with(holder.binding){
             Glide.with(ivPoster.context)
-                .load("${API.BASE_URL_IMAGEN}${pelicula.poster}")
+                .load("${API.BASE_URL_IMAGEN}${pelicula?.poster}")
                 .apply(RequestOptions().override(API.IMAGEN_ANCHO, API.IMAGEN_ALTO))
                 .into(ivPoster)
 
             circularProgress.maxProgress = API.MAX_CALIFICATION
-            circularProgress.setCurrentProgress(pelicula.votoPromedio.toDouble())
+            circularProgress.setCurrentProgress(pelicula?.votoPromedio?.toDouble() ?: 0.0)
 
             cvPelicula.setOnClickListener {
-
+                clickInterface?.onFilmClick(pelicula)
             }
-
         }
     }
 
-    override fun getItemCount() = listaPeliculas.size
+    override fun getItemCount() = listaPeliculas?.size ?: 0
 
 }
 
-
-
 class MyViewHolder(val binding: ItemRvPeliculasBinding): RecyclerView.ViewHolder(binding.root)
+
+interface ClickItemInterface {
+    fun onFilmClick(pelicula: PeliculaModel?)
+}

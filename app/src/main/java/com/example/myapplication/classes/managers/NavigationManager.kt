@@ -9,7 +9,6 @@ import com.example.myapplication.classes.providers.ContextProviderInterface
 class NavigationManager(private val contextProvider: ContextProviderInterface):
     NavigationManagerInterface {
 
-
     val navController: NavController?
         get() = contextProvider.currentActivity?.navHostFragment?.navController
 

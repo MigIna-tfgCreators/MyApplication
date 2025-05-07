@@ -9,3 +9,13 @@ sealed class SelectedCardState {
     object Top: SelectedCardState()
 }
 fun <T: SelectedCardState> ViewModel.handleEvent(event: T, handler: (T) -> Unit){ handler(event) }
+
+val SelectedCardState.toNiceString: String
+    get(){
+
+        val resultadoAntes = this.toString().substringBefore("@")
+        val resultado = resultadoAntes.substringAfter("$")
+
+
+        return resultado
+    }
