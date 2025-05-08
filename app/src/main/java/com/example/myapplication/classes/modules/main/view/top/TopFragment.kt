@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.classes.models.API.PeliculaModel
+import com.example.myapplication.classes.models.main.APIEvents
 import com.example.myapplication.classes.models.main.MainEvents
 import com.example.myapplication.classes.modules.main.recyclerView.AdapterPeliculas
 import com.example.myapplication.classes.modules.main.recyclerView.ClickItemInterface
@@ -32,13 +33,13 @@ class TopFragment : Fragment() {
 
         binding.rvPeliculasTop.layoutManager = GridLayoutManager(requireContext(),3)
         adapter = AdapterPeliculas(
-            listaPeliculas = viewModel.uiState.value.actualList,
+            listaPeliculas = emptyList(),
             clickInterface = object : ClickItemInterface{
                 override fun onFilmClick(pelicula: PeliculaModel?) {
                     val bundle = Bundle().apply {
                         putSerializable(getString(R.string.bundle_film),pelicula)
                     }
-                    viewModel.addEvent(MainEvents.Detalle, bundle)
+                    viewModel.addEventNavegation(MainEvents.Detalle, bundle)
                 }
             }
         )
@@ -48,6 +49,8 @@ class TopFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel.addEventFilms(APIEvents.mostrarListadoTop)
 
         viewModel.viewModelScope.launch {
             viewModel.uiState.collect { state ->

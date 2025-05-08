@@ -58,26 +58,26 @@ class MainActivity : AppCompatActivity() {
             when(menuItem.itemId){
                 R.id.botonCartelera -> {
                     binding.tvTitulo.text = "Cartelera"
-                    viewModel.addEvent(MainEvents.ListaCartelera, null)
+                    viewModel.addEventNavegation(MainEvents.ListaCartelera, null)
                     true
                 }
                 R.id.botonTop -> {
                     binding.tvTitulo.text = "Top"
-                    viewModel.addEvent(MainEvents.ListaTop, null)
+                    viewModel.addEventNavegation(MainEvents.ListaTop, null)
                     true
                 }
                 R.id.botonBusqueda -> {
                     binding.tvTitulo.text = "Búsqueda"
-                    viewModel.addEvent(MainEvents.ListaBusqueda, null)
+                    viewModel.addEventNavegation(MainEvents.ListaBusqueda, null)
                     true
                 }
                 R.id.botonFavoritos -> {
                     binding.tvTitulo.text = "Favoritos"
-                    viewModel.addEvent(MainEvents.ListaFavoritos, null)
+                    viewModel.addEventNavegation(MainEvents.ListaFavoritos, null)
                     true
                 }
                 R.id.botonPerfil -> {
-                    viewModel.addEvent(MainEvents.Perfil, null)
+                    viewModel.addEventNavegation(MainEvents.Perfil, null)
                     true
                 }
                 else -> false

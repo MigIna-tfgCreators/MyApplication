@@ -19,6 +19,7 @@ import com.example.myapplication.classes.repositories.authUserRepository.AuthRep
 import com.example.myapplication.classes.services.authUserService.AuthService
 import com.example.myapplication.classes.services.authUserService.AuthServiceImpl
 import com.example.myapplication.classes.services.network.API
+import com.example.myapplication.classes.services.network.PeliculaService
 import com.example.myapplication.classes.services.network.WebService
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -32,12 +33,12 @@ val appModule = module{
         .baseUrl(API.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(WebService::class.java)
     }
-    factory<NavigationManagerInterface> { NavigationManager(get<ContextProviderInterface>()) }
-
+    single{ get<Retrofit>().create(PeliculaService::class.java)}
+    single{ get<Retrofit>().create(WebService::class.java)}
     factory<AuthService> { AuthServiceImpl() }
-    factory<> {  }
+
+    factory<NavigationManagerInterface> { NavigationManager(get<ContextProviderInterface>()) }
 
     factory<MainRoutingInterface>{ MainRouting(get()) }
     factory<RegisterRoutingInterface>{ RegisterRouting(get()) }

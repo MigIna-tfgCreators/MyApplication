@@ -10,10 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 
-class PeliculasRepositoryImpl: PeliculasRepository, KoinComponent {
-
-    private val webService: WebService by inject()
-    private val peliculaService: PeliculaService by inject()
+class PeliculasRepositoryImpl(
+    private val webService: WebService,
+    private val peliculaService: PeliculaService
+): PeliculasRepository {
 
     override suspend fun obtenerCartelera(): List<PeliculaModel> {
         return withContext(Dispatchers.IO) {
