@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classes.modules.main.view.top.TopFragment"
+    tools:context=".classes.modules.main.top.view.TopFragment"
     android:background="@drawable/fondo"
     android:padding="16dp"
     android:orientation="vertical">

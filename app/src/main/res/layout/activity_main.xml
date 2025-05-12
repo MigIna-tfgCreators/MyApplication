@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classes.modules.main.view.MainActivity">
+    tools:context=".classes.modules.main.activity.view.MainActivity">
 
     <ImageView
         android:layout_width="match_parent"

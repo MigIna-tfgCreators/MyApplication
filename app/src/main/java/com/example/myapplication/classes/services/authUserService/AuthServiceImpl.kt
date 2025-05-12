@@ -16,6 +16,7 @@ class AuthServiceImpl: AuthService{
     override val db: FirebaseFirestore
         get() =  FirebaseFirestore.getInstance()
 
+    override suspend fun logout() { FirebaseAuth.getInstance().signOut() }
 
     override suspend fun session(): String?{
 

@@ -24,4 +24,8 @@ class AuthRepositoyImpl(
             bbdd.login(email,pswd)
         }
     }
+
+    override suspend fun logout() {
+        bbdd.logout()
+    }
 }

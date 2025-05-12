@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classes.modules.main.view.cartelera.CarteleraFragment"
+    tools:context=".classes.modules.main.cartelera.view.CarteleraFragment"
     android:background="@drawable/fondo"
     android:padding="16dp"
     android:orientation="vertical">
@@ -19,11 +19,18 @@
         android:textSize="18sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPeliculasTop"
+        android:id="@+id/rvPeliculasCartelera"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="20dp"/>
+
+    <ProgressBar
+        android:id="@+id/progress_movieList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <Space
         android:layout_width="wrap_content"
         android:layout_height="20dp"/>

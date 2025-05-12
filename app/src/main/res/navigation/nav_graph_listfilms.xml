@@ -8,28 +8,28 @@
 
     <fragment
         android:id="@+id/carteleraFragment"
-        android:name="com.example.myapplication.classes.modules.main.view.cartelera.CarteleraFragment"
+        android:name="com.example.myapplication.classes.modules.main.cartelera.view.CarteleraFragment"
         android:label="fragment_cartelera"
         tools:layout="@layout/fragment_cartelera" />
 
     <fragment
         android:id="@+id/topFragment"
-        android:name="com.example.myapplication.classes.modules.main.view.top.TopFragment"
+        android:name="com.example.myapplication.classes.modules.main.top.view.TopFragment"
         android:label="fragment_top"
         tools:layout="@layout/fragment_top" />
     <fragment
         android:id="@+id/detallesFragment"
-        android:name="com.example.myapplication.classes.modules.main.view.detalles.DetallesFragment"
+        android:name="com.example.myapplication.classes.modules.main.detalles.view.DetallesFragment"
         android:label="fragment_detalles"
         tools:layout="@layout/fragment_detalles" />
     <fragment
         android:id="@+id/favoritosFragment"
-        android:name="com.example.myapplication.classes.modules.main.view.favoritos.FavoritosFragment"
+        android:name="com.example.myapplication.classes.modules.main.favoritos.view.FavoritosFragment"
         android:label="fragment_favoritos"
         tools:layout="@layout/fragment_favoritos" />
     <fragment
         android:id="@+id/busquedaFragment"
-        android:name="com.example.myapplication.classes.modules.main.view.busqueda.BusquedaFragment"
+        android:name="com.example.myapplication.classes.modules.main.busqueda.view.BusquedaFragment"
         android:label="fragment_busqueda"
         tools:layout="@layout/fragment_busqueda" />
 </navigation>

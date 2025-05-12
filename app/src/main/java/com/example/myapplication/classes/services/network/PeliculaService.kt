@@ -9,14 +9,14 @@ import retrofit2.http.Query
 
 interface PeliculaService {
 
-    @GET("{movie_id}")
+    @GET("movie/{movie_id}")
     fun obtenerDetallesPelicula(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "es-ES"
     ): Call<PeliculasDetalles>
 
-    @GET("{movie_id}/credits")
+    @GET("movie/{movie_id}/credits")
     fun obtenerCreditos(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String,

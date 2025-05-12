@@ -6,7 +6,7 @@ import java.io.Serializable
 data class PeliculaModel(
     @SerializedName("id")
     var id:String,
-    @SerializedName("original_title")
+    @SerializedName("title")
     var nombrePelicula:String,
     @SerializedName("overview")
     var descripcion: String,

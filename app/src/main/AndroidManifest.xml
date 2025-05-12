@@ -16,7 +16,7 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".classes.modules.login.view.FirstActivity"
+            android:name=".classes.modules.auth.view.FirstActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".classes.modules.main.view.MainActivity"
+            android:name=".classes.modules.main.activity.view.MainActivity"
             android:exported="false"/>
 
     </application>

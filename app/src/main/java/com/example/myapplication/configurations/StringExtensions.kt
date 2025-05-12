@@ -28,3 +28,5 @@ val String.firstMayus: String
 
         return resultado.toString()
     }
+val String.extractClaveYoutube: String
+    get() = Regex("v=([^&]+)").find(this)?.groupValues?.get(1) ?: ""

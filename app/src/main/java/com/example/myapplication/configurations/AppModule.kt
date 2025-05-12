@@ -4,12 +4,16 @@ import com.example.myapplication.classes.managers.NavigationManager
 import com.example.myapplication.classes.managers.NavigationManagerInterface
 import com.example.myapplication.classes.models.commonErrors.showErrs.DialogErrs
 import com.example.myapplication.classes.models.commonErrors.showErrs.DialogErrsInterface
-import com.example.myapplication.classes.modules.login.routing.RegisterRouting
-import com.example.myapplication.classes.modules.login.routing.RegisterRoutingInterface
-import com.example.myapplication.classes.modules.login.viewModel.SignViewModel
-import com.example.myapplication.classes.modules.main.routing.MainRouting
-import com.example.myapplication.classes.modules.main.routing.MainRoutingInterface
-import com.example.myapplication.classes.modules.main.viewmodel.PeliculasViewModel
+import com.example.myapplication.classes.modules.auth.routing.RegisterRouting
+import com.example.myapplication.classes.modules.auth.routing.RegisterRoutingInterface
+import com.example.myapplication.classes.modules.auth.viewModel.SignViewModel
+import com.example.myapplication.classes.modules.main.activity.routing.MainRouting
+import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
+import com.example.myapplication.classes.modules.main.activity.viewmodel.PeliculasViewModel
+import com.example.myapplication.classes.modules.main.cartelera.routing.CarteleraRouting
+import com.example.myapplication.classes.modules.main.cartelera.routing.CarteleraRoutingInterface
+import com.example.myapplication.classes.modules.main.cartelera.viewmodel.CarteleraViewModel
+import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetallesViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.PeliculasRepository.PeliculasRepository
@@ -42,11 +46,14 @@ val appModule = module{
 
     factory<MainRoutingInterface>{ MainRouting(get()) }
     factory<RegisterRoutingInterface>{ RegisterRouting(get()) }
+    factory<CarteleraRoutingInterface> { CarteleraRouting(get()) }
     factory<DialogErrsInterface>{ DialogErrs(get())}
 
     factory<AuthRepository> { AuthRepositoyImpl(get()) }
     factory<PeliculasRepository> { PeliculasRepositoryImpl(get(),get()) }
 
     viewModel{ SignViewModel(get(), get(), get(), get()) }
-    viewModel{ PeliculasViewModel(get(), get(), get(), get()) }
+    viewModel{ PeliculasViewModel(get(), get()) }
+    viewModel{ CarteleraViewModel(get(), get()) }
+    viewModel{ DetallesViewModel(get()) }
 }

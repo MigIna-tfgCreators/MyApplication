@@ -7,5 +7,6 @@ interface AuthService {
     suspend fun register(name: String,email: String, pswd: String): Boolean
     suspend fun login(email: String, pswd: String): Boolean
     suspend fun checkUser(email: String, pswd: String, create: Boolean): String?
+    suspend fun logout()
     val db: FirebaseFirestore
 }
