@@ -1,8 +1,6 @@
 package com.example.myapplication.classes.modules.main.cartelera.view
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,13 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.classes.models.API.PeliculaModel
+import com.example.myapplication.classes.models.API.Pelicula
 import com.example.myapplication.classes.modules.main.cartelera.model.CarteleraEvents
 import com.example.myapplication.classes.modules.main.cartelera.viewmodel.CarteleraViewModel
 import com.example.myapplication.databinding.FragmentCarteleraBinding
@@ -39,11 +36,10 @@ class CarteleraFragment : Fragment() {
         adapter = AdapterPeliculas(
             listaPeliculas = emptyList(),
             clickInterface = object : ClickItemInterface {
-                override fun onFilmClick(pelicula: PeliculaModel?) {
-
-                    Log.d("Identificador", "${Integer.parseInt(pelicula?.id)}")
+                override fun onFilmClick(pelicula: Pelicula?) {
+                    Log.d("Identificador", "${pelicula?.id}")
                     val bundle = Bundle().apply {
-                        putInt(getString(R.string.bundle_film), Integer.parseInt(pelicula?.id))
+                        putInt(getString(R.string.bundle_film), pelicula?.id ?: 0)
                     }
                     Log.d("Identificador2", "${bundle.getInt(getString(R.string.bundle_film))}")
                     viewModel.addEventFilms(CarteleraEvents.viajeDetalle, bundle)
@@ -78,8 +74,8 @@ class CarteleraFragment : Fragment() {
 
         viewModel.viewModelScope.launch {
             viewModel.movies.collect { state ->
-                adapter.actualizarLista(state?.results)
-                Log.d("Listado", "${state?.results?.size}")
+                adapter.actualizarLista(state)
+                Log.d("Listado", "${state?.size}")
                 binding.progressMovieList.visibility = View.GONE
             }
         }

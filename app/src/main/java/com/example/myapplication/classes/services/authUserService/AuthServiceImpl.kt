@@ -1,7 +1,7 @@
 package com.example.myapplication.classes.services.authUserService
 
 import android.util.Log
-import com.example.myapplication.classes.models.API.PeliculaModel
+import com.example.myapplication.classes.models.API.Pelicula
 import com.example.myapplication.classes.models.firebase.UsuariosModel
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +21,7 @@ class AuthServiceImpl: AuthService{
     override suspend fun session(): String?{
 
         var connected = FirebaseAuth.getInstance().currentUser
-        Log.i("comprob", connected?.uid ?: "hola")
+        Log.i("Identificador primarisimo", connected?.uid ?: "hola")
 
         return if (connected != null){
 
@@ -29,10 +29,7 @@ class AuthServiceImpl: AuthService{
                 .whereEqualTo("Correo",connected.email)
                 .get().await()
 
-            val document = snap.documents[0]
-            val check = document.getString("Nombre")
-
-            return check
+            snap.documents.firstOrNull()?.getString("Nombre")
         }else{
             return null
         }
@@ -44,7 +41,7 @@ class AuthServiceImpl: AuthService{
         return try{
             val id = checkUser(email,pswd, true).toString()
 
-            val usuario = UsuariosModel(id,name, email, pswd, listOf<PeliculaModel>())
+            val usuario = UsuariosModel(id,name, email, pswd, listOf<Pelicula>())
 
             db.collection("Usuarios").document(id).set(
                 hashMapOf(

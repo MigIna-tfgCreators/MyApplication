@@ -1,5 +1,6 @@
 package com.example.myapplication.configurations
 
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.classes.managers.NavigationManager
 import com.example.myapplication.classes.managers.NavigationManagerInterface
 import com.example.myapplication.classes.models.commonErrors.showErrs.DialogErrs
@@ -22,9 +23,10 @@ import com.example.myapplication.classes.repositories.authUserRepository.AuthRep
 import com.example.myapplication.classes.repositories.authUserRepository.AuthRepositoyImpl
 import com.example.myapplication.classes.services.authUserService.AuthService
 import com.example.myapplication.classes.services.authUserService.AuthServiceImpl
-import com.example.myapplication.classes.services.network.API
-import com.example.myapplication.classes.services.network.PeliculaService
-import com.example.myapplication.classes.services.network.WebService
+import com.example.myapplication.classes.services.api.API
+import com.example.myapplication.classes.services.api.APIServiceInterface
+import com.example.myapplication.classes.services.api.movies.MovieService
+import com.example.myapplication.classes.services.api.movies.MovieServiceImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -34,13 +36,13 @@ val appModule = module{
     single<ContextProvider>{ ContextProvider() }
     single<ContextProviderInterface> {get<ContextProvider>()}
     single{Retrofit.Builder()
-        .baseUrl(API.BASE_URL)
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     }
-    single{ get<Retrofit>().create(PeliculaService::class.java)}
-    single{ get<Retrofit>().create(WebService::class.java)}
+    single{ get<Retrofit>().create(APIServiceInterface::class.java)}
     factory<AuthService> { AuthServiceImpl() }
+    factory<MovieService> { MovieServiceImpl(get()) }
 
     factory<NavigationManagerInterface> { NavigationManager(get<ContextProviderInterface>()) }
 
@@ -50,7 +52,7 @@ val appModule = module{
     factory<DialogErrsInterface>{ DialogErrs(get())}
 
     factory<AuthRepository> { AuthRepositoyImpl(get()) }
-    factory<PeliculasRepository> { PeliculasRepositoryImpl(get(),get()) }
+    factory<PeliculasRepository> { PeliculasRepositoryImpl(get()) }
 
     viewModel{ SignViewModel(get(), get(), get(), get()) }
     viewModel{ PeliculasViewModel(get(), get()) }

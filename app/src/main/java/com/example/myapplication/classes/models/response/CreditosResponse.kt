@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 
 data class CreditosResponse(
     @SerializedName("cast")
-    val cast: List<MiembroReparto>,
+    val cast: List<MiembroRepartoResponse>,
     @SerializedName("crew")
-    val crew: List<MiembroEquipo>
+    val crew: List<MiembroEquipoResponse>
 )
 
-data class MiembroReparto(
+data class MiembroRepartoResponse(
     @SerializedName("name") val nombre: String,
     @SerializedName("character") val personaje: String,
     @SerializedName("profile_path") val foto: String?
 )
 
-data class MiembroEquipo(
+data class MiembroEquipoResponse(
     @SerializedName("name") val nombre: String,
     @SerializedName("job") val trabajo: String,
     @SerializedName("profile_path") val foto: String?

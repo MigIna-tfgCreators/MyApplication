@@ -1,6 +1,7 @@
 package com.example.myapplication.classes.modules.auth.viewModel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
@@ -46,6 +47,7 @@ class SignViewModel(
     private fun checkSession(){
         viewModelScope.launch {
             val respuesta = repository.session()
+            Log.d("Identificador primario",respuesta.toString())
             if(respuesta != null)
                 acceptAccess(respuesta)
             else

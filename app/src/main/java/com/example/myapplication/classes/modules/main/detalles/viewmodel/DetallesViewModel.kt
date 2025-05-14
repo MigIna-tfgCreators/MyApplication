@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.classes.models.API.PeliculasDetalles
 import com.example.myapplication.classes.models.response.PeliculaResponsePaginada
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsState
@@ -18,8 +17,8 @@ class DetallesViewModel(
     private val repository: PeliculasRepository
 ): ViewModel() {
 
-    private val _movie = MutableStateFlow<DetailsState?>(null)
-    val movie: StateFlow<DetailsState?> = _movie.asStateFlow()
+    private val _movie = MutableStateFlow<DetailsState>(DetailsState())
+    val movie: StateFlow<DetailsState> = _movie.asStateFlow()
 
     fun addDetailsEvent(event: DetailsEvent){
         viewModelScope.launch {
@@ -34,24 +33,26 @@ class DetallesViewModel(
     private fun getDetalles(id: Int){
         viewModelScope.launch {
             val newDetails = repository.obtenerDetalles(id)
-            _movie.value = _movie.value?.copy(actualFilm =  newDetails) ?: DetailsState(actualFilm = newDetails)
-            Log.d("Identificador3", "${newDetails.toString()}")
+            _movie.value = _movie.value.copy(actualFilm =  newDetails)
+            Log.d("IdentificadorDetails",newDetails.toString())
         }
     }
 
     private fun getCreditos(id: Int){
         viewModelScope.launch {
             val newDetails = repository.obtenerCreditos(id)
-            _movie.value = _movie.value?.copy(actualCredits =  newDetails) ?: DetailsState(actualCredits = newDetails)
-            Log.d("Identificador3", "${newDetails.toString()}")
+            _movie.value = _movie.value.copy(actualCredits =  newDetails)
+            Log.d("IdentificadorCreditos",newDetails.toString())
         }
     }
 
     private fun getTrailer(id: Int){
         viewModelScope.launch {
-            val newUrl = repository.obtenerTrailerYouTube(id)
-            _movie.value = _movie.value?.copy(youtubeUrl = newUrl) ?: DetailsState(youtubeUrl = newUrl)
-            Log.d("Identificador3", "${newUrl}")
+            val listado = repository.obtenerTrailerYouTube(id)
+            val video = listado.first{
+                (it.sitio == "YouTube" && it.tipo == "Trailer")
+            }
+            _movie.value =  _movie.value.copy(youtubeVideo = video)
         }
     }
 }

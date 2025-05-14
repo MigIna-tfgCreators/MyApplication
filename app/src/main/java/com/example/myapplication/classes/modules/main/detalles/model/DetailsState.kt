@@ -1,10 +1,11 @@
 package com.example.myapplication.classes.modules.main.detalles.model
 
-import com.example.myapplication.classes.models.API.PeliculasDetalles
-import com.example.myapplication.classes.models.response.CreditosResponse
+import com.example.myapplication.classes.models.API.Creditos
+import com.example.myapplication.classes.models.API.Pelicula
+import com.example.myapplication.classes.models.API.Video
 
 data class DetailsState(
-    val actualFilm: PeliculasDetalles? = null,
-    val actualCredits: CreditosResponse? = null,
-    val youtubeUrl: String? = null
+    val actualFilm: Pelicula = Pelicula.EMPTY,
+    val actualCredits: Creditos = Creditos.EMPTY,
+    val youtubeVideo: Video = Video.EMPTY
 )

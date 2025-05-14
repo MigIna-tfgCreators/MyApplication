@@ -1,80 +1,65 @@
 package com.example.myapplication.classes.repositories.PeliculasRepository
 
 import android.util.Log
-import com.example.myapplication.classes.models.API.PeliculaModel
+import com.example.myapplication.classes.models.API.Creditos
+import com.example.myapplication.classes.models.API.Pelicula
+import com.example.myapplication.classes.models.API.Video
+import com.example.myapplication.classes.models.API.toModel
 import com.example.myapplication.classes.models.response.PeliculaResponsePaginada
-import com.example.myapplication.classes.models.API.PeliculasDetalles
 import com.example.myapplication.classes.models.response.CreditosResponse
-import com.example.myapplication.classes.services.network.API
-import com.example.myapplication.classes.services.network.PeliculaService
-import com.example.myapplication.classes.services.network.WebService
+import com.example.myapplication.classes.services.api.API
+import com.example.myapplication.classes.services.api.movies.MovieService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class PeliculasRepositoryImpl(
-    private val webService: WebService,
-    private val peliculaService: PeliculaService
+    private val service: MovieService
 ): PeliculasRepository {
 
-    override suspend fun obtenerCartelera(page: Int): PeliculaResponsePaginada {
+    override suspend fun obtenerCartelera(page: Int): List<Pelicula> {
         return withContext(Dispatchers.IO) {
-            val response = webService.obtenerCartelera(API.API_KEY, page, API.REGION)
+            val response = service.obtenerCartelera(page)
 
-            if(response.isSuccessful){
-                response.body() ?: throw Exception("Error en la respuesta es nula")
-            }else{
-                throw Exception("Error en la respuesta")
-            }
+            response.results.map { it.toModel }
         }
     }
 
 
-    override suspend fun obtenerTop(): List<PeliculaModel> {
+    override suspend fun obtenerTop(page: Int): List<Pelicula> {
         return withContext(Dispatchers.IO) {
-            webService.obtenerTop(API.API_KEY).body()?.results?.sortedByDescending {
-                it.votoPromedio
-            } ?: listOf()
+            val response = service.obtenerTop(page)
+
+            response.results.map { it.toModel }
         }
     }
 
-    override suspend fun buscarPeliculas(query: String, page: Int): PeliculaResponsePaginada {
+
+    override suspend fun buscarPeliculas(query: String, page: Int): List<Pelicula> {
 
         return withContext(Dispatchers.IO) {
-            val response = webService.buscarPeliculas(API.API_KEY, query,"es-ES",page)
+            val response = service.buscarPeliculas(query,page)
 
-            response.body() ?: PeliculaResponsePaginada(0,0,0,emptyList())
-
+            response.results.map { it.toModel }
         }
     }
 
-    override suspend fun obtenerTrailerYouTube(idPelicula: Int): String {
+    override suspend fun obtenerTrailerYouTube(idPelicula: Int): List<Video> {
         return withContext(Dispatchers.IO) {
-            val response = webService.obtenerVideosPelicula(idPelicula, API.API_KEY)
-            Log.d("Identificador4","${response.body().toString()}")
-            if(response.isSuccessful){
-                val trailer = response.body()?.resultados?.firstOrNull{
-                    it.sitio == "YouTube" && it.tipo == "Trailer"
-                }
-                trailer?.let {
-                    "https://www.youtube.com/watch?v=${it.clave}"
-                } ?: "Trailer no disponible"
-            }
-            else{
-                "Error ${response.code()}"
-            }
+
+            val response = service.obtenerTrailerYouTube(idPelicula)
+
+            response.resultados.map { it.toModel }
         }
     }
-    override suspend fun obtenerDetalles(id: Int): PeliculasDetalles? {
+    override suspend fun obtenerDetalles(id: Int): Pelicula {
         return withContext(Dispatchers.IO) {
-            val response = peliculaService.obtenerDetallesPelicula(id, API.API_KEY).execute()
-            if (response.isSuccessful) response.body() else null
+            service.obtenerDetalles(id).toModel
         }
     }
 
-    override suspend fun obtenerCreditos(id: Int): CreditosResponse? {
+    override suspend fun obtenerCreditos(id: Int): Creditos {
         return withContext(Dispatchers.IO) {
-            val response = peliculaService.obtenerCreditos(id, API.API_KEY).execute()
-            if (response.isSuccessful) response.body() else null
+            service.obtenerCreditos(id).toModel
         }
     }
 

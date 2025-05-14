@@ -1,8 +1,10 @@
 package com.example.myapplication.classes.modules.main.cartelera.viewmodel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.classes.models.API.Pelicula
 import com.example.myapplication.classes.models.response.PeliculaResponsePaginada
 import com.example.myapplication.classes.modules.main.cartelera.model.CarteleraEvents
 import com.example.myapplication.classes.modules.main.cartelera.routing.CarteleraRoutingInterface
@@ -17,8 +19,9 @@ class CarteleraViewModel(
     private val routing: CarteleraRoutingInterface
 ): ViewModel()  {
 
-    private val _movies = MutableStateFlow<PeliculaResponsePaginada?>(null)
-    val movies: StateFlow<PeliculaResponsePaginada?> = _movies.asStateFlow()
+    private val _movies = MutableStateFlow<List<Pelicula>?>(listOf())
+    val movies: StateFlow<List<Pelicula>?> = _movies.asStateFlow()
+    var page = 1
 
 
     fun addEventFilms(events: CarteleraEvents, bundle: Bundle?){
@@ -41,33 +44,26 @@ class CarteleraViewModel(
     private fun actualizarListado(filtro: String){
         viewModelScope.launch {
             val peliculas = repository.buscarPeliculas(filtro, 1)
-            _movies.value = _movies.value?.copy(results = peliculas.results)
-
+            _movies.value = peliculas
         }
     }
 
     private fun mostrarListado(){
         viewModelScope.launch {
-
-            val actualPage = (_movies.value?.page ?: 0)+1
-            val newData = repository.obtenerCartelera(actualPage)
+            val newData = repository.obtenerCartelera(page)
 
             val currentMovies = _movies.value
 
-            val update = if(currentMovies == null){
-                newData
-            }else{
-                newData.copy(
-                    results = currentMovies.results + newData.results
-                )
-            }
-            _movies.value = update
+            val allMovies = (currentMovies?.plus(newData))
+
+            _movies.value = allMovies
+            page++
         }
     }
 
     private fun resetearListado(){
         viewModelScope.launch {
-            _movies.value = _movies.value?.copy(results = repository.obtenerCartelera(1).results)
+            _movies.value = repository.obtenerCartelera(1)
         }
     }
 

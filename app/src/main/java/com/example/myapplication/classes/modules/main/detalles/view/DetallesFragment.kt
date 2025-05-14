@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
+import com.example.myapplication.classes.models.API.Creditos
+import com.example.myapplication.classes.models.API.Pelicula
+import com.example.myapplication.classes.models.API.Video
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsState
 import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetallesViewModel
-import com.example.myapplication.classes.services.network.API
+import com.example.myapplication.classes.services.api.API
 import com.example.myapplication.configurations.extractClaveYoutube
 import com.example.myapplication.databinding.FragmentDetallesBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -47,7 +51,10 @@ class DetallesFragment : Fragment() {
 
         viewModel.viewModelScope.launch {
             viewModel.movie.collect { state ->
-                if(state?.actualCredits != null && state.actualFilm != null && state.youtubeUrl != null){
+                Log.d("Identificadoreision"," ${state.youtubeVideo.toString()} ------ ${state.actualCredits.toString()} --- ${state.actualFilm.toString()}")
+
+
+                if(state.actualCredits != Creditos.EMPTY && state.actualFilm != Pelicula.EMPTY && state.youtubeVideo != Video.EMPTY){
                     binding.progressBar.visibility = View.GONE
                     setUI(state)
                 }
@@ -61,16 +68,18 @@ class DetallesFragment : Fragment() {
         binding.apply {
             val movie = elemento?.actualFilm
             val credits = elemento?.actualCredits
-            val url = elemento?.youtubeUrl
+            val video = elemento?.youtubeVideo
 
-            tvTituloDetalle.setText(movie?.title)
-            tvDescripcionDetalle.setText(movie?.overview)
+            Log.d("Identificadoreision","HOLAAA")
 
-            val nombresGeneros = movie?.genres?.joinToString(", "){ it.name }
+            tvTituloDetalle.setText(movie?.nombrePelicula)
+            tvDescripcionDetalle.setText(movie?.descripcion)
+
+            val nombresGeneros = movie?.generos?.joinToString(", "){ it.name }
             tvGeneroDetalle.setText("Genero(s): $nombresGeneros")
 
             Glide.with(requireContext())
-                .load("${API.BASE_URL_IMAGEN}${movie?.posterPath}")
+                .load("${BuildConfig.BASE_URL_IMAGEN}${movie?.poster}")
                 .into(ivPosterDetalle)
 
             val reparto = credits?.cast?.take(3)?.joinToString("\n"){
@@ -87,6 +96,9 @@ class DetallesFragment : Fragment() {
                 tvGuionista.setText("Guionista: ${it?.nombre}")
             }
 
+            val url = video.let {
+                "https://www.youtube.com/watch?v=${it?.clave}"
+            }
             Log.d("Identificador","URL -> $url")
 
             youtubePlayerView.addYouTubePlayerListener(object: AbstractYouTubePlayerListener(){

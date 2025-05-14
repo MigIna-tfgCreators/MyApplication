@@ -10,6 +10,7 @@ android {
     compileSdk = 35
 
     buildFeatures.viewBinding = true
+    buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.example.myapplication"
@@ -17,6 +18,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField ("String", "API_KEY", "\"${property("API_KEY")}\"")
+        buildConfigField ("String", "BASE_URL", "\"${property("BASE_URL")}\"")
+        buildConfigField ("String", "BASE_URL_IMAGEN", "\"${property("BASE_URL_IMAGEN")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

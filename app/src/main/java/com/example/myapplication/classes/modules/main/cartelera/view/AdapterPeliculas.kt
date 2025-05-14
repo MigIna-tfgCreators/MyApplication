@@ -2,20 +2,20 @@ package com.example.myapplication.classes.modules.main.cartelera.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.myapplication.classes.models.API.PeliculaModel
-import com.example.myapplication.classes.services.network.API
+import com.example.myapplication.BuildConfig
+import com.example.myapplication.classes.models.API.Pelicula
+import com.example.myapplication.classes.services.api.API
 import com.example.myapplication.databinding.ItemRvPeliculasBinding
 
 class AdapterPeliculas(
-    private var listaPeliculas: List<PeliculaModel>?,
+    private var listaPeliculas: List<Pelicula>?,
     private val clickInterface: ClickItemInterface?
 ): RecyclerView.Adapter<MyViewHolder>(){
 
-    fun actualizarLista(nuevaLista: List<PeliculaModel>?){
+    fun actualizarLista(nuevaLista: List<Pelicula>?){
         listaPeliculas = nuevaLista
         notifyDataSetChanged()
     }
@@ -29,7 +29,7 @@ class AdapterPeliculas(
         val pelicula = listaPeliculas?.get(position)
         with(holder.binding){
             Glide.with(ivPoster.context)
-                .load("${API.BASE_URL_IMAGEN}${pelicula?.poster}")
+                .load("${BuildConfig.BASE_URL_IMAGEN}${pelicula?.poster}")
                 .apply(RequestOptions().override(API.IMAGEN_ANCHO, API.IMAGEN_ALTO))
                 .into(ivPoster)
 
@@ -49,5 +49,5 @@ class AdapterPeliculas(
 class MyViewHolder(val binding: ItemRvPeliculasBinding): RecyclerView.ViewHolder(binding.root)
 
 interface ClickItemInterface {
-    fun onFilmClick(pelicula: PeliculaModel?)
+    fun onFilmClick(pelicula: Pelicula?)
 }
