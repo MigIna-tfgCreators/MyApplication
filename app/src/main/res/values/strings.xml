@@ -5,11 +5,11 @@
     <string name="white" />
     <string name="isFavourite">Añadido a favoritos</string>
     <string name="state">Estado: </string>
-    <string name="refill_data">Rellene los siguientes datos</string>
+    <string name="refill_data">Rellene  los datos</string>
 
     <!-- Bundle Keys -->
     <string name="bundle_email">correo</string>
-    <string name="bundle_film">mandar pelicula</string>
+    <string name="bundle_film">mandar movie</string>
 
     <!-- Layout login text -->
     <string name="layout_email">Escriba su correo</string>
@@ -19,10 +19,9 @@
     <string name="layout_create_tv">Rellene los \n campos</string>
     <string name="layout_login_tv">Bienvenido</string>
     <string name="layout_login_btAccess">Iniciar sesión</string>
-    <string name="layout_login_btNew">Nuevo usuario</string>
+    <string name="layout_login_btNew">Crear cuenta</string>
     <string name="layout_details_btFavPlus">Añadir a favoritos</string>
     <string name="layout_details_btFavQuit">Quitar de favoritos</string>
-
 
     <!-- Error/Warning texts -->
     <string name="error_type">Error</string>
@@ -30,7 +29,44 @@
     <string name="error_msg_login">No se ha podido comprobar al usuario con las credenciales escritas, revise sus credenciales</string>
     <string name="error_msg_register">No se ha podido registrar al usuario, compruebe que las credenciales escritas cumplen con lo mínimo</string>
     <string name="error_msg_fav_film">No se ha podido añadir a su lista</string>
-    <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta pelicula a su lista de favoritos?</string>
-    <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta pelicula de su lista de favoritos?</string>
+    <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta movie a su lista de favoritos?</string>
+    <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta movie de su lista de favoritos?</string>
+
+    <!-- Other texts -->
+    <string name="popularity">popularity</string>
+    <string name="release_date">release_date</string>
+    <string name="ascender">.asc</string>
+    <string name="descender">.desc</string>
+
+    <string name="films">Peliculas</string>
+    <string name="sesion">Sesion</string>
+    <string name="search">Busqueda</string>
+    <string name="apply_filters">Aplicar filtros seleccionados</string>
+    <string name="reset_filters">Limpiar filtros</string>
+    <string name="search_movie">Buscar película</string>
+    <string name="director_points">Director:</string>
+    <string name="screenwriter_points">Guionista:</string>
+    <string name="director">Director</string>
+    <string name="writer">Writer</string>
+    <string name="screenplay">Screenplay</string>
+    <string name="screenwriter">Guionista</string>
+    <string name="genres">Género:</string>
+    <string name="categories">Categorias</string>
+    <string name="release_date_text">Fecha de salida</string>
+    <string name="line">-</string>
+    <string name="order_by">Ordenar por</string>
+    <string name="popularity_title">Popularidad</string>
+    <string name="release_date_title">Fecha lanzamiento</string>
+    <string name="ascendent_title">Ascendente</string>
+    <string name="downgrade_title">Descendente</string>
+    <string name="genres_text_details">Genero(s):</string>
+    <string name="now_playing_title">Cartelera</string>
+    <string name="top_title">Top</string>
+    <string name="search_title">Búsqueda</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="profile_title">Perfil</string>
+    <string name="error_message_general">Correo o contraseña incorrectos.</string>
+    <string name="error_message_create">No se pudo registrar el usuario.</string>
+    <string name="error_message_login">Error al iniciar sesión.</string>
 
 </resources>

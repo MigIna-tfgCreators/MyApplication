@@ -13,7 +13,8 @@ open class BaseApiService {
             if (response.isSuccessful && body != null) {
                 continuation.resumeWith(Result.success(body))
             } else {
-                resumeWithException(continuation, response.errorBody()?.toString())
+                val errorMessage = extractErrorMessage(response)
+                resumeWithException(continuation, errorMessage)
             }
         }
     }
@@ -23,7 +24,8 @@ open class BaseApiService {
             if (response.isSuccessful) {
                 continuation.resumeWith(Result.success(Unit))
             } else {
-                resumeWithException(continuation, response.errorBody()?.toString())
+                val errorMessage = extractErrorMessage(response)
+                resumeWithException(continuation, errorMessage)
             }
         }
     }
@@ -34,8 +36,17 @@ open class BaseApiService {
             if (response.isSuccessful) {
                 continuation.resumeWith(Result.success(body ?: listOf()))
             } else {
-                resumeWithException(continuation, response.errorBody()?.toString())
+                val errorMessage = extractErrorMessage(response)
+                resumeWithException(continuation, errorMessage)
             }
+        }
+    }
+    private fun extractErrorMessage(response: Response<*>): String {
+        return try {
+            response.errorBody()?.string()?.takeIf { it.isNotBlank() }
+                ?: "Ha ocurrido un error inesperado (${response.code()})"
+        } catch (e: Exception) {
+            "Error al leer el cuerpo de error: ${e.localizedMessage}"
         }
     }
 

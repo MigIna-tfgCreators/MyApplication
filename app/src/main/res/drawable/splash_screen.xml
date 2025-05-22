@@ -2,7 +2,7 @@
 <layer-list
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/backgroundBlue"/>
+    <item android:drawable="@color/darkBlue"/>
     <item>
         <bitmap android:src="@mipmap/icon_szene"
             android:gravity="center"/>

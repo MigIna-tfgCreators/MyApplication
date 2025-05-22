@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base for LinearLayouts -->
+    <style name="Theme.MyApplication.BaseLinearLayouts">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <!-- LinearLayouts -->
+    <style name="vertical_general_linearlayout" parent="Theme.MyApplication.BaseLinearLayouts">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <!-- Base for ImageView -->
+    <style name="Theme.MyApplication.BaseImageView">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <!-- ImageViews -->
+    <style name="background_imageview" parent="Theme.MyApplication.BaseImageView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <style name="init_background_imageview" parent="Theme.MyApplication.BaseImageView">
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Base for Buttons -->
+    <style name="Theme.MyApplication.BaseButtons" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Buttons -->
+    <style name="login_buttons" parent="Theme.MyApplication.BaseButtons">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@color/blueGray</item>
+    </style>
+
+    <style name="login_large_buttons" parent="Theme.MyApplication.BaseButtons">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@color/blueGray</item>
+    </style>
+
+    <!-- Base for EditText -->
+    <style name="Theme.MyApplication.BaseEditText" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="authuser_edittext" parent="Theme.MyApplication.BaseEditText">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="authuser_password_edittext" parent="Theme.MyApplication.BaseEditText">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+
+
+
+    <!-- Base for TextView -->
+    <style name="Theme.MyApplication.BaseTextView" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- TextViews -->
+    <style name="white_bolded_center_title" parent="Theme.MyApplication.BaseTextView">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="white_large_general_textview" parent="Theme.MyApplication.BaseTextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>

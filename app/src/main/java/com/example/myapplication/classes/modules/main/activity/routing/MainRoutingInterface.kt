@@ -3,9 +3,9 @@ package com.example.myapplication.classes.modules.main.activity.routing
 import android.os.Bundle
 
 interface MainRoutingInterface {
-    fun navigateToCartelera()
+    fun navigateToNowPlaying()
     fun navigateToTop()
-    fun navigateToDetalles(bundle: Bundle?)
-    fun navigateToBusqueda()
-    fun navigateToFavoritos()
+    fun navigateToDetails(bundle: Bundle?)
+    fun navigateToSearch()
+    fun navigateToFavorites()
 }

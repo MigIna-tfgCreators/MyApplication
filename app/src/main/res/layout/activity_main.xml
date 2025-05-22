@@ -9,43 +9,36 @@
     tools:context=".classes.modules.main.activity.view.MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/fondo"
-        android:scaleType="centerCrop"
+        style="@style/background_imageview"
+        android:src="@drawable/background"
         />
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="7dp">
+        style="@style/vertical_general_linearlayout">
 
-        <TextView
-            android:id="@+id/tvTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:text="Cartelera"
-            android:layout_gravity="center"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTitle"
+            style="@style/white_bolded_center_title"
+            android:text="@string/now_playing_title"
+            />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/contenedorPeliculas"
+            android:id="@+id/movieContainer"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:navGraph="@navigation/nav_graph_listfilms"
             app:defaultNavHost="true"
-        />
+            />
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/botonesNavegacion"
+            android:id="@+id/navBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/nav_bottom"
             app:labelVisibilityMode="labeled"
             app:itemIconSize="30dp"
-            android:background="@color/azul_oscuro_claro"
+            android:background="@color/darkBlue"
             />
 
 

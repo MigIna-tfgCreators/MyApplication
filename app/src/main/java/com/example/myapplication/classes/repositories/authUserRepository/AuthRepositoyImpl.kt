@@ -26,6 +26,8 @@ class AuthRepositoyImpl(
     }
 
     override suspend fun logout() {
-        bbdd.logout()
+        return withContext(Dispatchers.IO) {
+            bbdd.logout()
+        }
     }
 }

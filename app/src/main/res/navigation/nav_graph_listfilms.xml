@@ -3,33 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_listfilms"
-    app:startDestination="@id/carteleraFragment">
-
+    app:startDestination="@id/nowPlayingFragment">
 
     <fragment
-        android:id="@+id/carteleraFragment"
-        android:name="com.example.myapplication.classes.modules.main.cartelera.view.CarteleraFragment"
+        android:id="@+id/nowPlayingFragment"
+        android:name="com.example.myapplication.classes.modules.main.cartelera.view.NowPlayingFragment"
         android:label="fragment_cartelera"
-        tools:layout="@layout/fragment_cartelera" />
+        tools:layout="@layout/fragment_now_playing"
+        />
 
     <fragment
         android:id="@+id/topFragment"
         android:name="com.example.myapplication.classes.modules.main.top.view.TopFragment"
         android:label="fragment_top"
-        tools:layout="@layout/fragment_top" />
+        tools:layout="@layout/fragment_top"
+        />
+
     <fragment
-        android:id="@+id/detallesFragment"
-        android:name="com.example.myapplication.classes.modules.main.detalles.view.DetallesFragment"
+        android:id="@+id/detailsFragment"
+        android:name="com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment"
         android:label="fragment_detalles"
-        tools:layout="@layout/fragment_detalles" />
+        tools:layout="@layout/fragment_movie_details"
+        />
+
     <fragment
-        android:id="@+id/favoritosFragment"
-        android:name="com.example.myapplication.classes.modules.main.favoritos.view.FavoritosFragment"
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.myapplication.classes.modules.main.favoritos.view.FavoritesFragment"
         android:label="fragment_favoritos"
-        tools:layout="@layout/fragment_favoritos" />
+        tools:layout="@layout/fragment_movie_favorites"
+        />
+
     <fragment
-        android:id="@+id/busquedaFragment"
+        android:id="@+id/searchFragment"
         android:name="com.example.myapplication.classes.modules.main.busqueda.view.BusquedaFragment"
         android:label="fragment_busqueda"
-        tools:layout="@layout/fragment_busqueda" />
+        tools:layout="@layout/fragment_search"
+        />
+
 </navigation>

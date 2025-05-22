@@ -19,7 +19,7 @@ class App: Application() {
             androidContext(this@App)
             modules(appModule)
         }
-        // Hack to register lifecycle
+
         val contextProviderInterface: ContextProviderInterface by inject()
         contextProviderInterface.currentActivity
     }

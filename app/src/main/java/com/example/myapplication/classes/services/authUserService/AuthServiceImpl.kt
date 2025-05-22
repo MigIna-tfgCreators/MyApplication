@@ -1,8 +1,8 @@
 package com.example.myapplication.classes.services.authUserService
 
 import android.util.Log
-import com.example.myapplication.classes.models.API.Pelicula
-import com.example.myapplication.classes.models.firebase.UsuariosModel
+import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.models.firebase.UsersModel
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthEmailException
@@ -21,8 +21,7 @@ class AuthServiceImpl: AuthService{
     override suspend fun session(): String?{
 
         var connected = FirebaseAuth.getInstance().currentUser
-        Log.i("Identificador primarisimo", connected?.uid ?: "hola")
-
+        Log.d("Hola","Adios ${connected?.uid}")
         return if (connected != null){
 
             val snap = db.collection("Usuarios")
@@ -41,51 +40,53 @@ class AuthServiceImpl: AuthService{
         return try{
             val id = checkUser(email,pswd, true).toString()
 
-            val usuario = UsuariosModel(id,name, email, pswd, listOf<Pelicula>())
+            val user = UsersModel(id,name, email, pswd, listOf<Movie>())
 
             db.collection("Usuarios").document(id).set(
                 hashMapOf(
-                    "Nombre" to usuario.nombre,
-                    "Correo" to usuario.correo,
-                    "Lista Personal" to usuario.listaPersonal
+                    "Nombre" to user.userName,
+                    "Correo" to user.userEmail,
+                    "Lista Personal" to user.userPersonalList
                 )
             ).await()
 
             return id != null
 
         } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Log.e("mal", "Credenciales inválidas al iniciar sesión: $email")
+            throw Exception("Credenciales inválidas")
             false
         } catch (e: FirebaseAuthEmailException){
-            Log.e("mal", "Email ya usado")
+            throw Exception("Email ya está en uso")
             false
         } catch (e: FirebaseAuthWeakPasswordException) {
-            Log.e("mal", "Contraseña débil: ${e.reason}")
+            throw Exception("Contraseña débil: ${e.reason}")
             false
         }catch (e: Exception){
+            throw Exception("Error desconocido ${e.localizedMessage}")
             false
         }
     }
 
-    override suspend fun login(correo: String, pswd: String): Boolean {
+    override suspend fun login(email: String, pswd: String): Boolean {
         return try {
-            val id = checkUser(correo,pswd,false).toString()
+            val id = checkUser(email,pswd,false).toString()
 
             id != null
         } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Log.e("mal", "Credenciales inválidas al iniciar sesión: $correo")
+            throw Exception("Credenciales inválidas al iniciar sesión: $email")
             false
         } catch (e: Exception){
+            throw Exception("Error desconocido ${e.localizedMessage}")
             false
         }
     }
 
-    override suspend fun checkUser(correo: String, pswd: String, creando: Boolean): String?{
+    override suspend fun checkUser(email: String, pswd: String, isCreating: Boolean): String?{
         var auth: AuthResult
-        if(creando)
-            auth = FirebaseAuth.getInstance().createUserWithEmailAndPassword(correo,pswd).await()
+        if(isCreating)
+            auth = FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,pswd).await()
         else
-            auth = FirebaseAuth.getInstance().signInWithEmailAndPassword(correo,pswd).await()
+            auth = FirebaseAuth.getInstance().signInWithEmailAndPassword(email,pswd).await()
 
         return auth.user?.uid
     }

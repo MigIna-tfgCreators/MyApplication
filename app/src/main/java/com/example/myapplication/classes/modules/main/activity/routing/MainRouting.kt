@@ -1,38 +1,22 @@
 package com.example.myapplication.classes.modules.main.activity.routing
 
 import android.os.Bundle
-import android.util.Log
 import com.example.myapplication.R
 import com.example.myapplication.classes.managers.Navigation
 import com.example.myapplication.classes.managers.NavigationManagerInterface
-import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
 
 class MainRouting(
     private val navigationManager: NavigationManagerInterface
 ): MainRoutingInterface {
-    override fun navigateToCartelera() {
-        Log.i("Navegacion Profunda", "Cartelera")
-        navigationManager.navigate(Navigation.to(R.id.carteleraFragment))
-    }
 
-    override fun navigateToTop() {
-        Log.i("Navegacion Profunda", "Top")
-        navigationManager.navigate(Navigation.to(R.id.topFragment))
-    }
+    override fun navigateToNowPlaying() = navigationManager.navigate(Navigation.to(R.id.nowPlayingFragment))
 
-    override fun navigateToDetalles(bundle: Bundle?) {
-        Log.i("Navegacion Profunda", "Detalle")
-        navigationManager.navigate(Navigation.withArguments(R.id.detallesFragment, bundle))
-    }
+    override fun navigateToTop() = navigationManager.navigate(Navigation.to(R.id.topFragment))
 
-    override fun navigateToBusqueda() {
-        Log.i("Navegacion Profunda", "Busqueda")
-        navigationManager.navigate(Navigation.to(R.id.busquedaFragment))
-    }
+    override fun navigateToDetails(bundle: Bundle?) = navigationManager.navigate(Navigation.withArguments(R.id.detailsFragment, bundle))
 
-    override fun navigateToFavoritos() {
-        Log.i("Navegacion Profunda", "Lista")
-        navigationManager.navigate(Navigation.to(R.id.favoritosFragment))
-    }
+    override fun navigateToSearch() = navigationManager.navigate(Navigation.to(R.id.searchFragment))
+
+    override fun navigateToFavorites() = navigationManager.navigate(Navigation.to(R.id.favoritesFragment))
 
 }

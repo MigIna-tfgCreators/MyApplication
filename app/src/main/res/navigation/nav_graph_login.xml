@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_login"
@@ -7,12 +8,15 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.myapplication.classes.modules.auth.view.fragments.LoginFragment"
+        android:name="com.example.myapplication.classes.modules.auth.login.view.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login"
+        />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.myapplication.classes.modules.auth.view.fragments.RegisterFragment"
+        android:name="com.example.myapplication.classes.modules.auth.register.view.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register"
+        />
+
 </navigation>

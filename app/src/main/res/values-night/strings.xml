@@ -9,7 +9,7 @@
 
     <!-- Bundle Keys -->
     <string name="bundle_email">correo</string>
-    <string name="bundle_film">mandar pelicula</string>
+    <string name="bundle_film">mandar movie</string>
 
     <!-- Layout login text -->
     <string name="layout_email">Escriba su correo</string>
@@ -32,5 +32,12 @@
     <string name="error_msg_fav_film">No se ha podido añadir a su lista</string>
     <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta casa a su lista de favoritos?</string>
     <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta casa de su lista de favoritos?</string>
+    <string name="now_playing_title">Cartelera</string>
+    <string name="top_title">Top</string>
+    <string name="search_title">Búsqueda</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="profile_title">Perfil</string>
+    <string name="error_message_general">Correo o contraseña incorrectos.</string>
+    <string name="error_message_create">No se pudo registrar el usuario.</string>
 
 </resources>

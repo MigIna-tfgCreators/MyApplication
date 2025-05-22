@@ -2,12 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="backgroundBlue">#2f2f49</color>
-    <color name="gris_200">#B3B2B2</color>
-    <color name="verde_200">#4CAF50</color>
-    <color name="rojo_200">#F44336</color>
-    <color name="blanco_200">#CCFFFFFF</color>
-    <color name="azul_200">#3F51B5</color>
-    <color name="azul_oscuro_claro">#1B263B</color>
-    <color name="azul_claro">#49FBD2</color>
+    <color name="persGray">#D3D3D3</color>
+    <color name="backgroundGray">#A2A2A2</color>
+    <color name="blueGray">#2C3E50</color>
+    <color name="borderGray">#8fa3b1</color>
+    <color name="textGray">#2a3d47</color>
+    <color name="lightBlue">#61788c</color>
+    <color name="very_light_blue">#e3f2fd</color>
+    <color name="palidBlue">#d7e3ed</color>
+    <color name="mainCardText">#2a2f33</color>
+    <color name="secundaryCardText">#5a6570</color>
+    <color name="darkGray">#333333</color>
+    <color name="lightGray">#F5F5F5</color>
+    <color name="whitePers">#F2F2F2</color>
+    <color name="lightGreen">#6D9F3A</color>
+    <color name="stateGreen">#008000</color>
+    <color name="stateYellow">#FFFF00</color>
+    <color name="stateRed">#FF0000</color>
+    <color name="strongBlue">#1E3A8A</color>
+    <color name="darkBlue">#1B263B</color>
 </resources>

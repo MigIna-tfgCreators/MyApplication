@@ -21,7 +21,13 @@ android {
 
         buildConfigField ("String", "API_KEY", "\"${property("API_KEY")}\"")
         buildConfigField ("String", "BASE_URL", "\"${property("BASE_URL")}\"")
-        buildConfigField ("String", "BASE_URL_IMAGEN", "\"${property("BASE_URL_IMAGEN")}\"")
+        buildConfigField ("String", "BASE_IMAGE_URL", "\"${property("BASE_IMAGE_URL")}\"")
+
+        buildConfigField("int", "IMAGE_WIDTH", property("IMAGE_WIDTH") as String)
+        buildConfigField ("int", "IMAGE_HEIGHT", property("IMAGE_HEIGHT") as String)
+        buildConfigField ("double", "MAX_RATING", property("MAX_RATING") as String)
+        buildConfigField("String", "REGION", "\"${property("REGION")}\"")
+        buildConfigField("String", "LANGUAGE", "\"${property("LANGUAGE")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

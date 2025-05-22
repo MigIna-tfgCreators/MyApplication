@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.R
 import com.example.myapplication.classes.managers.navHostFragment
-import com.example.myapplication.classes.modules.main.activity.viewmodel.PeliculasViewModel
+import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
 import com.example.myapplication.classes.modules.main.activity.model.MainEvents
 import com.example.myapplication.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: PeliculasViewModel by viewModel()
+    private val viewModel: MoviesMainViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
 
         navHostFragment?.let {
-            NavigationUI.setupWithNavController(binding.botonesNavegacion,it.navController)
+            NavigationUI.setupWithNavController(binding.navBottom,it.navController)
         }
         menuListener()
 
@@ -31,30 +31,30 @@ class MainActivity : AppCompatActivity() {
 
     fun menuListener(){
 
-        binding.botonesNavegacion.setOnItemSelectedListener { menuItem->
+        binding.navBottom.setOnItemSelectedListener { menuItem->
 
             when(menuItem.itemId){
-                R.id.botonCartelera -> {
-                    binding.tvTitulo.text = "Cartelera"
-                    viewModel.addEventNavegation(MainEvents.ListaCartelera, null)
+                R.id.btNowPlaying -> {
+                    binding.tvTitle.text = getString(R.string.now_playing_title)
+                    viewModel.addEventNavigation(MainEvents.NowPlayingList)
                     true
                 }
-                R.id.botonTop -> {
-                    binding.tvTitulo.text = "Top"
-                    viewModel.addEventNavegation(MainEvents.ListaTop, null)
+                R.id.btTop -> {
+                    binding.tvTitle.text = getString(R.string.top_title)
+                    viewModel.addEventNavigation(MainEvents.TopList)
                     true
                 }
-                R.id.botonBusqueda -> {
-                    binding.tvTitulo.text = "Búsqueda"
-                    viewModel.addEventNavegation(MainEvents.ListaBusqueda, null)
+                R.id.btSearch -> {
+                    binding.tvTitle.text = getString(R.string.search_title)
+                    viewModel.addEventNavigation(MainEvents.SearchList)
                     true
                 }
-                R.id.botonFavoritos -> {
-                    binding.tvTitulo.text = "Favoritos"
-                    viewModel.addEventNavegation(MainEvents.ListaFavoritos, null)
+                R.id.btFavorites -> {
+                    binding.tvTitle.text = getString(R.string.favorites_title)
+                    viewModel.addEventNavigation(MainEvents.FavoritesList)
                     true
                 }
-                R.id.botonPerfil -> {
+                R.id.btProfile -> {
                     //viewModel.addEventNavegation(MainEvents.Perfil, null)
                     true
                 }

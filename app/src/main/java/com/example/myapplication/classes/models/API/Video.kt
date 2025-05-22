@@ -1,24 +1,19 @@
 package com.example.myapplication.classes.models.API
 
 import com.example.myapplication.classes.models.response.VideoDTO
-import com.google.gson.annotations.SerializedName
 
 data class Video(
-    val clave: String = "",
-    val sitio: String = "",
-    val tipo: String = ""
-){
-    companion object{
-        val EMPTY = Video()
-    }
-}
+    val videoKey: String = "",
+    val videoSite: String = "",
+    val videoType: String = ""
+)
 
 val VideoDTO.toModel: Video
     get(){
         return Video(
-            clave = clave,
-            sitio = sitio,
-            tipo = tipo
+            videoKey = this@toModel.videoKey ?: "",
+            videoSite = this@toModel.videoSite ?: "",
+            videoType = this@toModel.videoType ?: ""
         )
     }
 

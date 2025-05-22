@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.R
-import com.example.myapplication.classes.models.API.Pelicula
-import com.example.myapplication.classes.modules.main.cartelera.view.AdapterPeliculas
-import com.example.myapplication.classes.modules.main.cartelera.view.ClickItemInterface
-import com.example.myapplication.classes.modules.main.activity.viewmodel.PeliculasViewModel
+import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
+import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
+import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
 import com.example.myapplication.databinding.FragmentTopBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TopFragment : Fragment() {
 
     private lateinit var binding: FragmentTopBinding
-    private lateinit var adapter: AdapterPeliculas
-    private val viewModel: PeliculasViewModel by viewModel()
+    private lateinit var adapter: AdapterMovies
+    private val viewModel: MoviesMainViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,12 +27,12 @@ class TopFragment : Fragment() {
         binding = FragmentTopBinding.inflate(inflater, container, false)
 
         binding.rvPeliculasTop.layoutManager = GridLayoutManager(requireContext(), 3)
-        adapter = AdapterPeliculas(
-            listaPeliculas = emptyList(),
-            clickInterface = object : ClickItemInterface {
-                override fun onFilmClick(pelicula: Pelicula?) {
+        adapter = AdapterMovies(
+            movieList = emptyList(),
+            clickInterface = object: ClickItemInterface {
+                override fun onFilmClick(movie: Movie) {
                     val bundle = Bundle().apply {
-                        putSerializable(getString(R.string.bundle_film), pelicula)
+                        putSerializable(getString(R.string.bundle_film), movie)
                     }
                     //viewModel.addEventNavegation(MainEvents.Detalle, bundle)
                 }

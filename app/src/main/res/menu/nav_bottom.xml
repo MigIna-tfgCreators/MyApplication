@@ -2,28 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Cartelera"
-        android:id="@+id/botonCartelera"
-        android:icon="@drawable/cartelera_provisional"/>
+        android:title="@string/now_playing_title"
+        android:id="@+id/btNowPlaying"
+        android:icon="@drawable/now_playing_icon"/>
     <item
-        android:title="Top"
-        android:id="@+id/botonTop"
-        android:icon="@drawable/top_provisional"/>
+        android:title="@string/top_title"
+        android:id="@+id/btTop"
+        android:icon="@drawable/top_icon"/>
 
     <item
-        android:title="Búsqueda"
-        android:id="@+id/botonBusqueda"
-        android:icon="@drawable/busqueda_provisional"/>
+        android:title="@string/search_title"
+        android:id="@+id/btSearch"
+        android:icon="@drawable/search_icon"/>
 
     <item
-        android:title="Favoritos"
-        android:id="@+id/botonFavoritos"
-        android:icon="@drawable/favoritos_provisional" />
+        android:title="@string/favorites_title"
+        android:id="@+id/btFavorites"
+        android:icon="@drawable/heart_icon" />
 
 
     <item
-        android:title="Perfil"
-        android:id="@+id/botonPerfil"
-        android:icon="@drawable/perfil_provisional"/>
+        android:title="@string/profile_title"
+        android:id="@+id/btProfile"
+        android:icon="@drawable/profile_icon"/>
 
 </menu>

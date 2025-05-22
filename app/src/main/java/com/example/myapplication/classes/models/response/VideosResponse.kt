@@ -4,13 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class VideosResponse(
     @SerializedName("results")
-    val resultados: List<VideoDTO>
+    val videoResults: List<VideoDTO>? = emptyList()
 )
 
 data class VideoDTO(
-    @SerializedName("id") val id: String,
-    @SerializedName("key") val clave: String, // YouTube video key
-    @SerializedName("name") val nombre: String,
-    @SerializedName("site") val sitio: String, // YouTube, Vimeo, etc.
-    @SerializedName("type") val tipo: String   // Trailer, Teaser, etc.
+    @SerializedName("id") val videoId: String? = "",
+
+    @SerializedName("key") val videoKey: String? = "",
+
+    @SerializedName("name") val videoName: String? = "",
+
+    @SerializedName("site") val videoSite: String? = "",
+
+    @SerializedName("type") val videoType: String? = ""
 )

@@ -12,12 +12,13 @@
         android:icon="@mipmap/icon_szene"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_szene"
-        android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
+        android:supportsRtl="true"
         tools:targetApi="31">
         <activity
-            android:name=".classes.modules.auth.view.FirstActivity"
-            android:exported="true" >
+            android:name=".classes.modules.auth.activity.view.SignActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -22,7 +22,6 @@ class NavigationManager(private val contextProvider: ContextProviderInterface):
                     val intent = Intent(context, destination)
                     if(bundle != null) intent.putExtras(bundle)
                     context.startActivity(intent)
-                    //context.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                     context.finish()
                 }
                 is Navigation.popBackStack ->

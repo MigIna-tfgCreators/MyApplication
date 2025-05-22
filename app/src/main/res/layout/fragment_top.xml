@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".classes.modules.main.top.view.TopFragment"
-    android:background="@drawable/fondo"
+    android:background="@drawable/background"
     android:padding="16dp"
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/etFiltrarTop"
+        android:id="@+id/etFilterTop"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
