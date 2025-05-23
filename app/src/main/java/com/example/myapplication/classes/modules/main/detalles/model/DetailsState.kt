@@ -8,6 +8,6 @@ data class DetailsState(
     val actualFilm: Movie = Movie(),
     val actualCredits: Credits = Credits(),
     val youtubeVideo: Video = Video(),
-    val isLoading: Boolean? = false,
+    val isLoading: Boolean = false,
     val error: String? = null
 )

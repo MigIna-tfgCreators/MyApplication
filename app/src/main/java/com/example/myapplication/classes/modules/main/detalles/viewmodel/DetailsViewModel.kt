@@ -20,37 +20,59 @@ class DetailsViewModel(
     fun addDetailsEvent(event: DetailsEvent){
         viewModelScope.launch {
             when(event) {
-                is DetailsEvent.ShowDetails -> getDetalles(event.id)
-                is DetailsEvent.ShowCredits -> getCreditos(event.id)
+                is DetailsEvent.ShowDetails -> getDetails(event.id)
+
+                is DetailsEvent.ShowCredits -> getCredits(event.id)
+
                 is DetailsEvent.ShowTrailer -> getTrailer(event.id)
+
+                DetailsEvent.ClearError -> clearError()
             }
         }
     }
 
-    private fun getDetalles(id: Int){
+    private fun getDetails(id: Int){
         viewModelScope.launch {
-            val newDetails = repository.getMovieDetails(id)
-            _movie.value = _movie.value.copy(actualFilm =  newDetails)
+            try {
+                _movie.value = _movie.value.copy(isLoading = true, error = null)
+                val newDetails = repository.getMovieDetails(id)
+                _movie.value = _movie.value.copy(actualFilm = newDetails, isLoading = false)
+            } catch (e: Exception) {
+                _movie.value = _movie.value.copy(isLoading = false, error = e.message)
+            }
         }
     }
 
-    private fun getCreditos(id: Int){
+    private fun getCredits(id: Int){
         viewModelScope.launch {
-            val newDetails = repository.getMovieCredits(id)
-            _movie.value = _movie.value.copy(actualCredits =  newDetails)
+            try {
+                _movie.value = _movie.value.copy(isLoading = true, error = null)
+                val newCredits = repository.getMovieCredits(id)
+                _movie.value = _movie.value.copy(actualCredits = newCredits, isLoading = false)
+            } catch (e: Exception) {
+                _movie.value = _movie.value.copy(isLoading = false, error = e.message)
+            }
         }
     }
 
     private fun getTrailer(id: Int){
         viewModelScope.launch {
-            val list = repository.getYoutubeTrailer(id)
-            val video = list.firstOrNull{
-                (it.videoSite == "YouTube" && it.videoType == "Trailer")
+            try {
+                _movie.value = _movie.value.copy(isLoading = true, error = null)
+                val list = repository.getYoutubeTrailer(id)
+                val video = list.firstOrNull {
+                    it.videoSite == "YouTube" && it.videoType == "Trailer"
+                }
+                if(video!= null)
+                    _movie.value = _movie.value.copy(youtubeVideo = video, isLoading = false)
+            } catch (e: Exception) {
+                _movie.value = _movie.value.copy(isLoading = false, error = e.message)
             }
-            if(video!= null)
-                _movie.value =  _movie.value.copy(youtubeVideo = video)
-//            else
-//                _movie.value
         }
     }
+
+    private fun clearError() {
+        _movie.value = _movie.value.copy(error = null)
+    }
+
 }

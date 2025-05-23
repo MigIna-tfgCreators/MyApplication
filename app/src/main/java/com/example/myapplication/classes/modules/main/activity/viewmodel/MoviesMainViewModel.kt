@@ -10,18 +10,14 @@ class MoviesMainViewModel(
 
     fun addEventNavigation(events: MainEvents) {
         when(events) {
-            MainEvents.SearchList -> {
-                routing.navigateToSearch()
-            }
-            MainEvents.NowPlayingList -> {
-                routing.navigateToNowPlaying()
-            }
-            MainEvents.FavoritesList -> {
-                routing.navigateToFavorites()
-            }
-            MainEvents.TopList -> {
-                routing.navigateToTop()
-            }
+            MainEvents.SearchList -> routing.navigateToSearch()
+
+            MainEvents.NowPlayingList -> routing.navigateToNowPlaying()
+
+            MainEvents.FavoritesList -> routing.navigateToFavorites()
+
+            MainEvents.TopList -> routing.navigateToTop()
+
             MainEvents.AppearanceProfile -> {
                 //Todavía por implementar
             }

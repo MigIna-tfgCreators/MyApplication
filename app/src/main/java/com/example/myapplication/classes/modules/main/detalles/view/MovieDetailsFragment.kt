@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.modules.main.detalles.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,12 +35,9 @@ class MovieDetailsFragment(
     ): View? {
         binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
 
-
-
         viewModel.addDetailsEvent(DetailsEvent.ShowDetails(movieId))
         viewModel.addDetailsEvent(DetailsEvent.ShowCredits(movieId))
         viewModel.addDetailsEvent(DetailsEvent.ShowTrailer(movieId))
-
 
         return binding.root
     }
@@ -49,21 +47,36 @@ class MovieDetailsFragment(
 
         viewModel.viewModelScope.launch {
             viewModel.movie.collect { state ->
-                if(state.actualCredits != null && state.actualFilm != null && state.youtubeVideo.videoKey != null){
-                    binding.progressBar.visibility = View.GONE
+
+                binding.progressBar.visibility = if(state.isLoading) View.VISIBLE else View.GONE
+
+                if(state.error != null)
+                    state.error.let { errorMsg ->
+                        AlertDialog.Builder(requireContext())
+                            .setTitle(getString(R.string.error_type))
+                            .setMessage(errorMsg)
+                            .setPositiveButton(R.string.general_ok) { dialog, _ -> dialog.dismiss() }
+                            .show()
+
+                        viewModel.addDetailsEvent(DetailsEvent.ClearError)
+                    }
+
+                if(state.actualCredits != null && state.actualFilm != null && state.youtubeVideo.videoKey != null)
                     setUI(state)
-                }
-                else
-                    binding.progressBar.visibility = View.VISIBLE
             }
         }
+
+        binding.btBackDetails.setOnClickListener {
+            dismiss()
+        }
+
     }
 
-    fun setUI(elemento: DetailsState?){
+    fun setUI(state: DetailsState?){
         binding.apply {
-            val movie = elemento?.actualFilm
-            val credits = elemento?.actualCredits
-            val video = elemento?.youtubeVideo
+            val movie = state?.actualFilm
+            val credits = state?.actualCredits
+            val video = state?.youtubeVideo
 
             tvMovieTitleDetails.setText(movie?.movieTitle)
             tvMovieDescriptionDetails.setText(movie?.movieDescription)
