@@ -44,10 +44,13 @@ class DetailsViewModel(
     private fun getTrailer(id: Int){
         viewModelScope.launch {
             val list = repository.getYoutubeTrailer(id)
-            val video = list.first{
+            val video = list.firstOrNull{
                 (it.videoSite == "YouTube" && it.videoType == "Trailer")
             }
-            _movie.value =  _movie.value.copy(youtubeVideo = video)
+            if(video!= null)
+                _movie.value =  _movie.value.copy(youtubeVideo = video)
+//            else
+//                _movie.value
         }
     }
 }

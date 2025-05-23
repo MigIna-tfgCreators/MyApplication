@@ -25,11 +25,11 @@ class NowPlayingViewModel(
     fun addEventFilms(events: NowPlayingEvents){
         viewModelScope.launch {
             when(events) {
-                NowPlayingEvents.ShowList -> showList()
-
                 NowPlayingEvents.ResetAll -> resetList()
 
                 is NowPlayingEvents.ShowSearchedList -> showSearchedList(events.query)
+
+                NowPlayingEvents.ShowAllList -> showAllList()
             }
         }
     }
@@ -39,20 +39,25 @@ class NowPlayingViewModel(
             try{
                 if( _moviesState.value.isLoading) return@launch
 
-                if(query != lastQuery){
-                    actualPage = 1
-                    _moviesState.value = _moviesState.value.copy(actualFilms = emptyList())
-                }
                 lastQuery = query
 
                 _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = true)
 
-                val searchedMovies = repository.searchMovies(query, actualPage)
-
                 val currentList = _moviesState.value.actualFilms
-                val allData = if(actualPage == 1) searchedMovies else currentList + searchedMovies
+                Log.d("NowPlayingFragment2","currrentList -> ${currentList.size}")
 
-                _moviesState.value = _moviesState.value.copy(actualFilms = allData, isLoading = false, actualQuery = query)
+                val searchedMovies = currentList.filter {
+                    it.movieTitle.contains(query, ignoreCase = true)
+                }
+
+                Log.d("NowPlayingFragment2","searchedList -> ${searchedMovies.size}")
+
+                val combinedData = if(actualPage == 1)
+                    searchedMovies
+                else
+                    (currentList + searchedMovies).distinctBy { it.movieId }
+
+                _moviesState.value = _moviesState.value.copy(actualFilms = combinedData, isLoading = false, actualQuery = query)
                 actualPage++
 
             } catch (e: Exception){
@@ -61,22 +66,17 @@ class NowPlayingViewModel(
         }
     }
 
-    private fun showList(){
+
+    private fun showAllList(){
         viewModelScope.launch {
-            try{
+            try {
                 if( _moviesState.value.isLoading) return@launch
                 _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = false)
 
-                val newData = repository.getNowPlaying(actualPage)
-                Log.d("NowPlayingViewModel", "Fetched ${newData.size} movies")
-
-
-                val currentMovies = _moviesState.value.actualFilms
-
-                val allMovies = currentMovies + newData
-
+                val allMovies = repository.getAllNowPlaying()
                 _moviesState.value = _moviesState.value.copy(isLoading = false, actualFilms = allMovies)
-                actualPage++
+
+                Log.d("NowPlayingFragment", "el tamaño de todo es ${allMovies.size}")
 
             }catch (e: Exception){
                 _moviesState.value = _moviesState.value.copy(isLoading = false, error = e.message)
@@ -87,7 +87,7 @@ class NowPlayingViewModel(
     private fun resetList(){
         viewModelScope.launch {
             actualPage = 1
-            _moviesState.value = _moviesState.value.copy(actualFilms = emptyList(), error = null)
+            _moviesState.value = _moviesState.value.copy(error = null)
         }
     }
 

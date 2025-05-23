@@ -17,6 +17,7 @@ import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingEvents
+import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingState
 import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
 import com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
@@ -63,7 +64,7 @@ class NowPlayingFragment : Fragment() {
                     if(viewModel.moviesState.value.isSearchMode)
                         viewModel.addEventFilms(NowPlayingEvents.ShowSearchedList(viewModel.moviesState.value.actualQuery))
                     else
-                        viewModel.addEventFilms(NowPlayingEvents.ShowList)
+                        binding.progressMovieList.visibility = View.GONE
                 }
             }
 
@@ -76,7 +77,7 @@ class NowPlayingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.addEventFilms(NowPlayingEvents.ShowList)
+        viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
 
         viewModel.viewModelScope.launch {
             viewModel.moviesState.collect { state ->
@@ -97,7 +98,7 @@ class NowPlayingFragment : Fragment() {
                     endlessScrollListener.resetState()
                     viewModel.addEventFilms(NowPlayingEvents.ResetAll)
                     delay(500)
-                    viewModel.addEventFilms(NowPlayingEvents.ShowList)
+                    viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
                 }
             }
         }

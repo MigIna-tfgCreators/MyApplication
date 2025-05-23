@@ -7,5 +7,7 @@ import com.example.myapplication.classes.models.API.Video
 data class DetailsState(
     val actualFilm: Movie = Movie(),
     val actualCredits: Credits = Credits(),
-    val youtubeVideo: Video = Video()
+    val youtubeVideo: Video = Video(),
+    val isLoading: Boolean? = false,
+    val error: String? = null
 )

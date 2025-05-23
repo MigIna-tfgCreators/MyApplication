@@ -7,6 +7,7 @@ import com.example.myapplication.classes.models.API.Video
 
 interface MoviesRepository {
     suspend fun getNowPlaying(page: Int): List<Movie>
+    suspend fun getAllNowPlaying(): List<Movie>
     suspend fun getTopRated(page: Int): List<Movie>
     suspend fun searchMovies(query: String, page: Int): List<Movie>
     suspend fun getYoutubeTrailer(movieId: Int): List<Video>
