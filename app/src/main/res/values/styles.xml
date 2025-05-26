@@ -13,7 +13,16 @@
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="horizontal_widthparent_linearlayout" parent="Theme.MyApplication.BaseLinearLayouts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 
+    <!-- Chip styles  -->
+    <style name="one_selection_chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/secundaryCardText</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <!-- Base for ImageView -->
     <style name="Theme.MyApplication.BaseImageView">
@@ -58,6 +67,14 @@
         <item name="backgroundTint">@color/blueGray</item>
     </style>
 
+    <style name="large_bluegray_rounded_button" parent="Theme.MyApplication.BaseButtons">
+        <item name="android:textColor">@color/textGray</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="strokeColor">@color/borderGray</item>
+        <item name="backgroundTint">@color/palidBlue</item>
+        <item name="android:padding">7dp</item>
+    </style>
+
     <!-- Base for EditText -->
     <style name="Theme.MyApplication.BaseEditText" parent="Widget.Material3.TextInputEditText.FilledBox">
         <item name="android:layout_width">match_parent</item>
@@ -69,6 +86,12 @@
     </style>
 
     <!-- EditText -->
+    <style name="medium_date_edittext" parent="Theme.MyApplication.BaseEditText">
+        <item name="android:inputType">none</item>
+        <item name="android:focusable">false</item>
+        <item name="android:cursorVisible">false</item>
+    </style>
+
     <style name="authuser_edittext" parent="Theme.MyApplication.BaseEditText">
         <item name="android:inputType">text</item>
     </style>
@@ -76,8 +99,6 @@
     <style name="authuser_password_edittext" parent="Theme.MyApplication.BaseEditText">
         <item name="android:inputType">textPassword</item>
     </style>
-
-
 
 
     <!-- Base for TextView -->
@@ -96,6 +117,13 @@
 
     <style name="white_large_general_textview" parent="Theme.MyApplication.BaseTextView">
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="large_bolded_textview_general" parent="Theme.MyApplication.BaseTextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/darkGray</item>
+
     </style>
 
 </resources>

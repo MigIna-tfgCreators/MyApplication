@@ -91,9 +91,9 @@ class MoviesRepositoryImpl(
         }
     }
 
-    override suspend fun getFilterList(page: Int, genres: List<Genre>,dates: String, sortBy: String): List<Movie> {
+    override suspend fun getFilterList(page: Int, genresIds: List<Int>, dates: String, sortBy: String): List<Movie> {
         return withContext(Dispatchers.IO) {
-            val genreParams = genres.joinToString(separator = ",") { it.genreId.toString() }
+            val genreParams = genresIds.joinToString(separator = ",") { it.toString() }
 
             val endDate = if(!dates.substringAfter("&").isEmpty())
                 dates.substringAfter("&")

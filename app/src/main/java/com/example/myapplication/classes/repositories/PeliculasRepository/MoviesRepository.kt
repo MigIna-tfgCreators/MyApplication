@@ -14,5 +14,5 @@ interface MoviesRepository {
     suspend fun getMovieDetails(id: Int): Movie
     suspend fun getMovieCredits(id: Int): Credits
     suspend fun getListGenres(): List<Genre>
-    suspend fun getFilterList(page: Int, genres: List<Genre>, dates: String, sortBy: String): List<Movie>
+    suspend fun getFilterList(page: Int, genresIds: List<Int>, dates: String, sortBy: String): List<Movie>
 }

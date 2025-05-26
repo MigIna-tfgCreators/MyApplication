@@ -12,6 +12,17 @@
         style="@style/init_background_imageview"
         android:src="@drawable/szene"
         />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="200dp"
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/containerStart"

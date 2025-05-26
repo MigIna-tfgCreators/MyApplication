@@ -1,7 +1,6 @@
 package com.example.myapplication.classes.modules.auth.activity.viewModel
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
@@ -33,6 +32,7 @@ class SignViewModel(
             AuthEvents.ClearErrors -> clearError()
         }
     }
+
     private fun checkCreateUser(name: String, email: String, pswd: String){
         viewModelScope.launch {
             _signState.value = _signState.value.copy(isLoading = true, errorMessage = null)
@@ -68,12 +68,19 @@ class SignViewModel(
 
     private fun checkSession(){
         viewModelScope.launch {
-            val response = repository.session()
+            _signState.value = _signState.value.copy(isLoading = true, errorMessage = null)
+            try{
+                val response = repository.session()
 
-            if(response != null)
-                acceptAccess(response)
-            else
-                routing.navigateToLogin()
+                if(response != null)
+                    acceptAccess(response)
+                else {
+                    routing.navigateToLogin()
+                    _signState.value = _signState.value.copy(isLoading = false)
+                }
+            } catch (e: Exception) {
+                _signState.value = _signState.value.copy(isLoading = false)
+            }
         }
     }
     private fun acceptAccess(response: String){
@@ -81,6 +88,7 @@ class SignViewModel(
             var bundle = Bundle().apply {
                 putString(contextProvider.currentActivity?.getString(R.string.bundle_email), response)
             }
+            _signState.value = _signState.value.copy(isLoading = false)
             routing.navigateToMain(bundle)
         }
     }
@@ -89,7 +97,7 @@ class SignViewModel(
 
 
     private fun clearError() {
-        _signState.value = _signState.value.copy(errorMessage = null)
+        _signState.value = _signState.value.copy(errorMessage = null, isLoading = false)
     }
 
 }

@@ -3,7 +3,6 @@ package com.example.myapplication.classes.modules.main.cartelera.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingEvents
 import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingState
 import com.example.myapplication.classes.repositories.PeliculasRepository.MoviesRepository

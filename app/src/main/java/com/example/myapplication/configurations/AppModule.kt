@@ -9,6 +9,7 @@ import com.example.myapplication.classes.modules.auth.activity.viewModel.SignVie
 import com.example.myapplication.classes.modules.main.activity.routing.MainRouting
 import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
+import com.example.myapplication.classes.modules.main.busqueda.viewmodel.SearchViewModel
 import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
 import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.providers.ContextProvider
@@ -51,4 +52,5 @@ val appModule = module{
     viewModel{ MoviesMainViewModel(get()) }
     viewModel{ NowPlayingViewModel(get()) }
     viewModel{ DetailsViewModel(get()) }
+    viewModel{ SearchViewModel(get(), get()) }
 }

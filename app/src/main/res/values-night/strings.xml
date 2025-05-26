@@ -39,5 +39,8 @@
     <string name="profile_title">Perfil</string>
     <string name="error_message_general">Correo o contraseña incorrectos.</string>
     <string name="error_message_create">No se pudo registrar el usuario.</string>
+    <string name="api_error_get_films_filter">No se pudo recuperar la lista de peliculas</string>
+    <string name="api_error_get_films_query">No se pudo recuperar la lista buscada</string>
+    <string name="api_error_get_genres">No se pudo recuperar la lista de generos de la api</string>
 
 </resources>
