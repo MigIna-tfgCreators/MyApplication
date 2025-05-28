@@ -28,9 +28,9 @@
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.myapplication.classes.modules.main.favoritos.view.FavoritesFragment"
+        android:name="com.example.myapplication.classes.modules.main.favoritos.view.PersonalFragment"
         android:label="fragment_favoritos"
-        tools:layout="@layout/fragment_movie_favorites"
+        tools:layout="@layout/fragment_movie_personal"
         />
 
     <fragment

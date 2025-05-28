@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.myapplication.databinding.FragmentMovieFavoritesBinding
+import com.example.myapplication.databinding.FragmentMoviePersonalBinding
 
-class FavoritesFragment : Fragment() {
+class PersonalFragment: Fragment() {
 
-    private lateinit var binding: FragmentMovieFavoritesBinding
+    private lateinit var binding: FragmentMoviePersonalBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMovieFavoritesBinding.inflate(layoutInflater, container, false)
+        binding = FragmentMoviePersonalBinding.inflate(layoutInflater, container, false)
 
         return binding.root
     }

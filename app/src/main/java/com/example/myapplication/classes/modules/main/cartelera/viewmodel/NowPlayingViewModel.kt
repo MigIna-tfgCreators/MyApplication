@@ -26,24 +26,23 @@ class NowPlayingViewModel(
     private val _moviesState = MutableStateFlow<GeneralMovieState>(GeneralMovieState())
     val moviesState: StateFlow<GeneralMovieState> = _moviesState.asStateFlow()
 
-    var actualPage = 1
     private var lastQuery = ""
 
 
-    fun addEventFilms(events: NowPlayingEvents){
+    fun addEventFilms(event: NowPlayingEvents){
         viewModelScope.launch {
-            when(events) {
+            when(event) {
                 NowPlayingEvents.ResetAll -> resetList()
 
-                is NowPlayingEvents.ShowSearchedList -> showSearchedList(events.query)
+                is NowPlayingEvents.ShowSearchedList -> showSearchedList(event.query)
 
                 NowPlayingEvents.ShowTMDBList -> showTMDBList()
                 NowPlayingEvents.ShowPersonalList -> showPersonalList()
 
-                is NowPlayingEvents.AddPersonalMovie -> addPersonalMovie(events.movie, events.info)
-                is NowPlayingEvents.QuitPersonalMovie -> quitPersonalMovie(events.movie)
+                is NowPlayingEvents.AddPersonalMovie -> addPersonalMovie(event.movie, event.info)
+                is NowPlayingEvents.QuitPersonalMovie -> quitPersonalMovie(event.movie)
 
-                is NowPlayingEvents.HasInPersonal -> hashPersonal(events.movie, events.info)
+                is NowPlayingEvents.HasInPersonal -> hashPersonal(event.movie, event.info)
 
                 NowPlayingEvents.ShowAllList -> showAllList()
             }
@@ -150,7 +149,6 @@ class NowPlayingViewModel(
 //                    (currentList?.plus(searchedMovies))?.distinctBy<Movie> { it.movieId }
 
                 _moviesState.value = _moviesState.value.copy(actualMovies = searchedMovies, isLoading = false, actualQuery = query)
-                actualPage++
 
             } catch (e: Exception){
                 _moviesState.value = _moviesState.value.copy(isLoading = false, error = e.message)
@@ -160,7 +158,6 @@ class NowPlayingViewModel(
 
     private fun resetList(){
         viewModelScope.launch {
-            actualPage = 1
             _moviesState.value = _moviesState.value.copy(error = null)
         }
     }

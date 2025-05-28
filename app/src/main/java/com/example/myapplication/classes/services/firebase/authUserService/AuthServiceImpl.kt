@@ -40,13 +40,12 @@ class AuthServiceImpl: AuthService{
         return try{
             val id = checkUser(email,pswd, true).toString()
 
-            val user = UsersModel(id,name, email, pswd, listOf<Movie>())
+            val user = UsersModel(id,name, email)
 
             db.collection("Usuarios").document(id).set(
                 hashMapOf(
                     "Nombre" to user.userName,
-                    "Correo" to user.userEmail,
-                    "Lista Personal" to user.userPersonalList
+                    "Correo" to user.userEmail
                 )
             ).await()
 

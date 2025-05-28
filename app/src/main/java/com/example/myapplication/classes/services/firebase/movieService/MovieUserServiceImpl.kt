@@ -1,10 +1,8 @@
 package com.example.myapplication.classes.services.firebase.movieService
 
 import android.util.Log
-import com.example.myapplication.classes.models.API.Genre
 import com.example.myapplication.classes.models.firebase.MovieModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -16,7 +14,8 @@ class MovieUserServiceImpl: MovieUserService {
     override suspend fun addPersonalMovie(movie: MovieModel, uid: String) {
         try {
             db.collection("Usuarios").document(uid)
-                .update("Lista Personal", FieldValue.arrayUnion(movie)).await()
+                .collection("Lista Personal").document(movie.movieId.toString()).set(movie).await()
+
             Log.i("Firestore", "Valor quitado de la lista personal")
         } catch (e: Exception) {
             throw Exception("No se ha podido añadir la pelicula")
@@ -26,7 +25,8 @@ class MovieUserServiceImpl: MovieUserService {
     override suspend fun quitPersonalMovie(movie: MovieModel, uid: String) {
         try {
             db.collection("Usuarios").document(uid)
-                .update("Lista Personal", FieldValue.arrayRemove(movie)).await()
+                .collection("Lista Personal").document(movie.movieId.toString()).delete().await()
+
             Log.i("Firestore", "Valor quitado de la lista personal")
         } catch (e: Exception) {
             throw Exception("No se ha podido quitar la pelicula")
@@ -37,54 +37,29 @@ class MovieUserServiceImpl: MovieUserService {
 
 
     override suspend fun hasUserMovie(movieId: Int, uid: String): Boolean {
-        val document = db.collection("Usuarios").document(uid).get().await()
-        val favList = document.get("Lista Personal")
-        if(favList is List<*>) {
-            val list = sendPersonalList(favList)
-            return list.any{ it.movieId == movieId}
-        }
-        return false
+        val movie = getMovieById(uid, movieId)
+        return movie != null
     }
 
     override suspend fun getPersonalList(uid: String): List<MovieModel> {
         return try{
 
-            val document = db.collection("Usuarios").document(uid).get().await()
-            val persList = document.get("Lista Personal")
+            val snapshot = db.collection("Usuarios").document(uid).collection("Lista Personal").get().await()
 
-            return if(persList is List<*>)
-                sendPersonalList(persList)
-            else
-                emptyList()
+            snapshot.documents.mapNotNull { doc -> doc.toObject(MovieModel::class.java) }
 
-        }catch (e: Exception) {
-            throw Exception("No se ha podido conseguir la lista personal o esta vacia")
-            emptyList()
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error al obtener lista personal: ${e.message}", e)
+            throw Exception("No se ha podido conseguir la lista personal o está vacía: ${e.message}")
         }
     }
 
 
     override suspend fun getMovieById(uid: String, movieId: Int): MovieModel? {
-        val document = db.collection("Usuarios").document(uid).get().await()
-        val favList = document.get("Lista Personal")
+        return try{
+            val document = db.collection("Usuarios").document(uid).collection("Lista Personal").document(movieId.toString()).get().await()
 
-        if (favList is List<*>) {
-            val personalList = sendPersonalList(favList)
-            return personalList.find { it.movieId == movieId }
-        }
-        return null
-    }
-
-    override suspend fun sendPersonalList(list: List<*>): List<MovieModel> {
-        return list.mapNotNull { item ->
-            val map = item as? Map<String, Any> ?: return@mapNotNull null
-            MovieModel(
-                movieId = (map["movieId"] as? Number)?.toInt() ?: 0,
-                ownVote = (map["ownVote"] as? Number)?.toInt() ?: 0,
-                ownVoteDate = map["ownVoteDate"] as? String ?: "",
-                movieAverageVotes = (map["movieAverageVotes"] as? Number)?.toFloat() ?: 0.00f,
-                userReview = map["userReview"] as? String ?: ""
-            )
-        }
+            document.toObject(MovieModel::class.java)
+        } catch (e: Exception){ null }
     }
 }
