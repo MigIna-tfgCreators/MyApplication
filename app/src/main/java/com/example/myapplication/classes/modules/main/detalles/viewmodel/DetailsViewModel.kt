@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.detalles.model.DetailsState
-import com.example.myapplication.classes.repositories.PeliculasRepository.MoviesRepository
+import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

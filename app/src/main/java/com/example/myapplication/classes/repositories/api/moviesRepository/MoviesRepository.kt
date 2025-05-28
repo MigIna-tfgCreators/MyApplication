@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.repositories.PeliculasRepository
+package com.example.myapplication.classes.repositories.api.moviesRepository
 
 import com.example.myapplication.classes.models.API.Credits
 import com.example.myapplication.classes.models.API.Genre

@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.services.authUserService
+package com.example.myapplication.classes.services.firebase.authUserService
 
 import com.google.firebase.firestore.FirebaseFirestore
 

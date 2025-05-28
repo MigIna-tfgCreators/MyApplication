@@ -18,6 +18,7 @@
     <color name="lightGreen">#6D9F3A</color>
     <color name="stateGreen">#008000</color>
     <color name="stateYellow">#FFFF00</color>
+    <color name="starColor">#ffd250</color>
     <color name="stateRed">#FF0000</color>
     <color name="strongBlue">#1E3A8A</color>
     <color name="darkBlue">#1B263B</color>

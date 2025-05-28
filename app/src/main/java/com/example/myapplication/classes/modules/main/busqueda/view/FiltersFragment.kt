@@ -2,7 +2,6 @@ package com.example.myapplication.classes.modules.main.busqueda.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.example.myapplication.classes.models.API.Genre
 import com.example.myapplication.databinding.FragmentFiltersBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Calendar
-import kotlin.toString
 
 class FiltersFragment(
     private val filters: List<Genre>,

@@ -14,15 +14,19 @@ import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPla
 import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
-import com.example.myapplication.classes.repositories.PeliculasRepository.MoviesRepository
-import com.example.myapplication.classes.repositories.PeliculasRepository.MoviesRepositoryImpl
-import com.example.myapplication.classes.repositories.authUserRepository.AuthRepository
-import com.example.myapplication.classes.repositories.authUserRepository.AuthRepositoyImpl
-import com.example.myapplication.classes.services.authUserService.AuthService
-import com.example.myapplication.classes.services.authUserService.AuthServiceImpl
+import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
+import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepositoryImpl
+import com.example.myapplication.classes.repositories.firebase.authUserRepository.AuthRepository
+import com.example.myapplication.classes.repositories.firebase.authUserRepository.AuthRepositoyImpl
+import com.example.myapplication.classes.repositories.firebase.usermovieRepository.UserMovieRepository
+import com.example.myapplication.classes.repositories.firebase.usermovieRepository.UserMovieRepositoryImpl
+import com.example.myapplication.classes.services.firebase.authUserService.AuthService
+import com.example.myapplication.classes.services.firebase.authUserService.AuthServiceImpl
 import com.example.myapplication.classes.services.api.APIServiceInterface
 import com.example.myapplication.classes.services.api.movies.MovieService
 import com.example.myapplication.classes.services.api.movies.MovieServiceImpl
+import com.example.myapplication.classes.services.firebase.movieService.MovieUserService
+import com.example.myapplication.classes.services.firebase.movieService.MovieUserServiceImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -38,6 +42,7 @@ val appModule = module{
     }
     single{ get<Retrofit>().create(APIServiceInterface::class.java)}
     factory<AuthService> { AuthServiceImpl() }
+    factory<MovieUserService> { MovieUserServiceImpl() }
     factory<MovieService> { MovieServiceImpl(get()) }
 
     factory<NavigationManagerInterface> { NavigationManager(get<ContextProviderInterface>()) }
@@ -47,10 +52,11 @@ val appModule = module{
 
     factory<AuthRepository> { AuthRepositoyImpl(get()) }
     factory<MoviesRepository> { MoviesRepositoryImpl(get()) }
+    factory<UserMovieRepository> { UserMovieRepositoryImpl(get()) }
 
     viewModel{ SignViewModel(get(), get(), get()) }
     viewModel{ MoviesMainViewModel(get()) }
-    viewModel{ NowPlayingViewModel(get()) }
+    viewModel{ NowPlayingViewModel(get(), get()) }
     viewModel{ DetailsViewModel(get()) }
     viewModel{ SearchViewModel(get(), get()) }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.repositories.authUserRepository
+package com.example.myapplication.classes.repositories.firebase.authUserRepository
 
 interface AuthRepository {
     suspend fun session(): String?

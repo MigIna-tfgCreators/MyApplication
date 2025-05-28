@@ -73,5 +73,10 @@
     <string name="api_error_get_films_filter">No se pudo recuperar la lista de peliculas</string>
     <string name="api_error_get_films_query">No se pudo recuperar la lista buscada</string>
     <string name="api_error_get_genres">No se pudo recuperar la lista de generos de la api</string>
+    <string name="valoration_text">¿Quiere dejar una valoración?</string>
+    <string name="write_resume">Escribe tu reseña</string>
+    <string name="resume_text">¿Quiere dejar una reseña?</string>
+    <string name="clean_filters">Limpiar filtros</string>
+    <string name="go_back"> Volver</string>
 
 </resources>

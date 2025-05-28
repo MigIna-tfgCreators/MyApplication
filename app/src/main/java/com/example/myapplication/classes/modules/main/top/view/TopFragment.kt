@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
+import com.example.myapplication.classes.modules.main.activity.model.MainEvents
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
@@ -31,10 +33,14 @@ class TopFragment : Fragment() {
             movieList = emptyList(),
             clickInterface = object: ClickItemInterface {
                 override fun onFilmClick(movie: Movie) {
-                    val bundle = Bundle().apply {
-                        putSerializable(getString(R.string.bundle_film), movie)
-                    }
-                    //viewModel.addEventNavegation(MainEvents.Detalle, bundle)
+//                    val bundle = Bundle().apply {
+//                        putSerializable(getString(R.string.bundle_film), movie)
+//                    }
+//                    viewModel.addEventNavigation(MainEvents., bundle)
+                }
+
+                override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
+
                 }
             }
         )

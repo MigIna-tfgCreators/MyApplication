@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.valueOrEmpty
+import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
 import com.example.myapplication.classes.modules.main.busqueda.model.SearchEvents
-import com.example.myapplication.classes.modules.main.busqueda.model.SearchState
 import com.example.myapplication.classes.providers.ContextProviderInterface
-import com.example.myapplication.classes.repositories.PeliculasRepository.MoviesRepository
+import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +18,8 @@ class SearchViewModel(
     private val repository: MoviesRepository,
     private val context: ContextProviderInterface
 ): ViewModel()  {
-    private val _searchState = MutableStateFlow<SearchState>(SearchState())
-    val searchState: StateFlow<SearchState> = _searchState.asStateFlow()
+    private val _searchState = MutableStateFlow<GeneralMovieState>(GeneralMovieState())
+    val searchState: StateFlow<GeneralMovieState> = _searchState.asStateFlow()
 
     internal var actualPage = 1
     private var lastQuery = ""
@@ -38,13 +38,15 @@ class SearchViewModel(
 
             is SearchEvents.SearchMovies -> getSearchedList(event.query)
 
+            is SearchEvents.AddPersonalMovie -> TODO()
+            is SearchEvents.QuitPersonalMovie -> TODO()
         }
     }
 
     private fun resetAll(){
         viewModelScope.launch {
             actualPage = 1
-            _searchState.value = _searchState.value.copy(actualFilms = emptyList(), genresListApplied = emptyList(), dates = "&", order = "popularity.desc", showText = null)
+            _searchState.value = _searchState.value.copy(actualMovies = emptyList(), genresListApplied = emptyList(), dates = "&", order = "popularity.desc", error = null)
         }
     }
 
@@ -52,7 +54,7 @@ class SearchViewModel(
         viewModelScope.launch {
             actualPage = 1
             lastQuery = ""
-            _searchState.value = _searchState.value.copy(actualFilms = emptyList(), showText = null)
+            _searchState.value = _searchState.value.copy(actualMovies = emptyList(), error = null)
         }
     }
 
@@ -62,18 +64,20 @@ class SearchViewModel(
                 if (_searchState.value.isLoading) return@launch
                 _searchState.value = _searchState.value.copy(isLoading = true, isSearchMode = false)
 
-                val newData = repository.getFilterList(actualPage, _searchState.value.genresListApplied, _searchState.value.dates, _searchState.value.order)
+                val newData = repository.getFilterList(actualPage, _searchState.value.genresListApplied,
+                    _searchState.value.dates.toString(), _searchState.value.order.toString()
+                )
 
-                val currentMovies = _searchState.value.actualFilms
+                val currentMovies = _searchState.value.actualMovies
                 val allMovies = currentMovies + newData
 
-                _searchState.value = _searchState.value.copy(actualFilms = allMovies, isLoading = false)
+                _searchState.value = _searchState.value.copy(actualMovies = allMovies, isLoading = false)
 
                 actualPage++
             }catch (e: Exception) {
-                _searchState.value = _searchState.value.copy( isLoading = false, showText = context.currentActivity?.getString(R.string.api_error_get_films_filter).valueOrEmpty)
+                _searchState.value = _searchState.value.copy( isLoading = false, error = context.currentActivity?.getString(R.string.api_error_get_films_filter).valueOrEmpty)
                 delay(500)
-                _searchState.value = _searchState.value.copy(showText = null)
+                _searchState.value = _searchState.value.copy(error = null)
             }
         }
     }
@@ -94,9 +98,9 @@ class SearchViewModel(
                 _searchState.value = _searchState.value.copy(genresList = listGenres, isLoading = false)
 
             }catch (e: Exception){
-                _searchState.value = _searchState.value.copy( isLoading = false, showText = context.currentActivity?.getString(R.string.api_error_get_genres).valueOrEmpty)
+                _searchState.value = _searchState.value.copy( isLoading = false, error = context.currentActivity?.getString(R.string.api_error_get_genres).valueOrEmpty)
                 delay(500)
-                _searchState.value = _searchState.value.copy(showText = null)
+                _searchState.value = _searchState.value.copy(error = null)
             }
         }
     }
@@ -108,7 +112,7 @@ class SearchViewModel(
 
                 if(query != lastQuery){
                     actualPage = 1
-                    _searchState.value = _searchState.value.copy(actualFilms = emptyList())
+                    _searchState.value = _searchState.value.copy(actualMovies = emptyList())
                 }
                 lastQuery = query
 
@@ -116,16 +120,17 @@ class SearchViewModel(
 
                 val searchedMovies = repository.searchMovies(query, actualPage)
 
-                val currentList = _searchState.value.actualFilms
-                val updatedList = if(actualPage == 1) searchedMovies else currentList + searchedMovies
+                val currentList = _searchState.value.actualMovies
+
+                val updatedList = if(actualPage == 1) searchedMovies else currentList?.plus(searchedMovies).valueOrEmpty
 
 
-                _searchState.value = _searchState.value.copy(actualFilms = updatedList, isLoading = false, actualQuery = query)
+                _searchState.value = _searchState.value.copy(actualMovies = updatedList, isLoading = false, actualQuery = query )
                 actualPage++
             }catch (e: Exception){
-                _searchState.value = _searchState.value.copy( isLoading = false, showText = context.currentActivity?.getString(R.string.api_error_get_films_query).valueOrEmpty)
+                _searchState.value = _searchState.value.copy( isLoading = false, error = context.currentActivity?.getString(R.string.api_error_get_films_query).valueOrEmpty)
                 delay(500)
-                _searchState.value = _searchState.value.copy(showText = null)
+                _searchState.value = _searchState.value.copy(error = null)
             }
         }
     }

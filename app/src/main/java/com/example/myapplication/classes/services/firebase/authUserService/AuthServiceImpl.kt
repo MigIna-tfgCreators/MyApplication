@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.services.authUserService
+package com.example.myapplication.classes.services.firebase.authUserService
 
 import android.util.Log
 import com.example.myapplication.classes.models.API.Movie

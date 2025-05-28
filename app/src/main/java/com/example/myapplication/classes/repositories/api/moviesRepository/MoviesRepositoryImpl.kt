@@ -1,8 +1,7 @@
-package com.example.myapplication.classes.repositories.PeliculasRepository
+package com.example.myapplication.classes.repositories.api.moviesRepository
 
 import android.util.Log
 import com.example.myapplication.classes.extensions.valueOrEmpty
-import com.example.myapplication.classes.extensions.valueOrZero
 import com.example.myapplication.classes.models.API.Credits
 import com.example.myapplication.classes.models.API.Genre
 import com.example.myapplication.classes.models.API.Movie
@@ -26,22 +25,11 @@ class MoviesRepositoryImpl(
 
     override suspend fun getAllNowPlaying(): List<Movie> {
         return withContext(Dispatchers.IO) {
-            val allMovies = mutableListOf<Movie>()
-            var currentPage = 1
-            var totalPages = Int.MAX_VALUE
-
-            while(currentPage <= totalPages){
-                val response = service.getNowPlaying(currentPage)
+            val response = service.getNowPlaying(1)
 
                 val moviesPage = response.movieResults?.map { it.toModel }.valueOrEmpty
-                allMovies.addAll(moviesPage)
+                moviesPage
 
-                totalPages = response.movieTotalPages.valueOrZero
-                currentPage++
-            }
-            for(movie in allMovies)
-                Log.d("NowPlayingFragment1.0",movie.movieTitle)
-            allMovies
         }
     }
 

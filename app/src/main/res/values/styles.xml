@@ -44,6 +44,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="fav_imageview" parent="Theme.MyApplication.BaseImageView">
+        <item name="android:button">@drawable/plus_circle</item>
+        <item name="android:checkedButton">@drawable/minus_circle</item>
+        <item name="buttonTint">@null</item>
+    </style>
+
     <!-- Base for Buttons -->
     <style name="Theme.MyApplication.BaseButtons" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">wrap_content</item>
@@ -123,7 +129,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/darkGray</item>
-
     </style>
+    <style name="small_bolded_textview_general" parent="Theme.MyApplication.BaseTextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/darkGray</item>
+    </style>
+
 
 </resources>

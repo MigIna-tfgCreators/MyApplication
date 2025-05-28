@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.classes.extensions.textChanges
+import com.example.myapplication.classes.extensions.valueOrEmpty
 import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.busqueda.model.SearchEvents
@@ -42,6 +44,15 @@ class BusquedaFragment : Fragment() {
                     val bottomSheet = MovieDetailsFragment(movie.movieId)
                     bottomSheet.show(parentFragmentManager, bottomSheet.tag)
                 }
+
+                override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
+                    movie.let {
+                        viewModel.viewModelScope.launch {
+
+                        }
+                    }
+                }
+
             }
         )
 
@@ -54,8 +65,8 @@ class BusquedaFragment : Fragment() {
             override fun onLoadMore() {
                 if(!viewModel.searchState.value.isLoading){
                     binding.progressMovieBar.visibility = View.VISIBLE
-                    if(viewModel.searchState.value.isSearchMode)
-                        viewModel.addEvent(SearchEvents.SearchMovies(viewModel.searchState.value.actualQuery))
+                    if(viewModel.searchState.value.isSearchMode == true)
+                        viewModel.addEvent(SearchEvents.SearchMovies(viewModel.searchState.value.actualQuery.toString()))
                     else
                         viewModel.addEvent(SearchEvents.GetFilterList)
                 }
@@ -76,7 +87,7 @@ class BusquedaFragment : Fragment() {
             binding.searchEditText.setText("")
             viewModel.viewModelScope.launch {
                 val bottomSheet = FiltersFragment(viewModel.searchState.value.genresList, viewModel.searchState.value.genresListApplied,
-                    viewModel.searchState.value.order, viewModel.searchState.value.dates,
+                    viewModel.searchState.value.order.valueOrEmpty, viewModel.searchState.value.dates.valueOrEmpty,
                     onFilterSelected = { selectedGenres, datesSelected, selectedOrder ->
 
                         endlessScrollListener.resetState()
@@ -91,7 +102,7 @@ class BusquedaFragment : Fragment() {
 
         viewModel.viewModelScope.launch {
             viewModel.searchState.collect { result ->
-                val movieList = result.actualFilms
+                val movieList = result.actualMovies
                 binding.recyclerViewMovieList.post {
                     adapter.updateList(movieList)
                     binding.progressMovieBar.visibility = View.GONE

@@ -8,7 +8,7 @@ import com.example.myapplication.classes.modules.auth.activity.model.AuthEvents
 import com.example.myapplication.classes.modules.auth.activity.model.AuthState
 import com.example.myapplication.classes.modules.auth.activity.routing.RegisterRoutingInterface
 import com.example.myapplication.classes.providers.ContextProviderInterface
-import com.example.myapplication.classes.repositories.authUserRepository.AuthRepository
+import com.example.myapplication.classes.repositories.firebase.authUserRepository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +28,10 @@ class SignViewModel(
             is AuthEvents.CheckCreation -> checkCreateUser(event.name,event.email, event.pswd)
             is AuthEvents.CheckAuth -> checkLoginUser(event.email, event.pswd)
             AuthEvents.CheckSession -> checkSession()
-            AuthEvents.RegisterTrip -> toLoginScreen()
+            AuthEvents.RegisterTrip -> {
+                clearError()
+                toLoginScreen()
+            }
             AuthEvents.ClearErrors -> clearError()
         }
     }

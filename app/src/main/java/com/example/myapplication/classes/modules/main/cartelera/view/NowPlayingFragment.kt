@@ -1,23 +1,19 @@
 package com.example.myapplication.classes.modules.main.cartelera.view
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.textChanges
 import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingEvents
-import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingState
 import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
 import com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
@@ -36,7 +32,6 @@ class NowPlayingFragment : Fragment() {
     private val viewModel: NowPlayingViewModel by viewModel()
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,12 +40,21 @@ class NowPlayingFragment : Fragment() {
 
         binding.rvWatchedMovies.layoutManager = GridLayoutManager(requireContext(), 3)
         adapter = AdapterMovies(
-            movieList = emptyList(),
-            clickInterface = object: ClickItemInterface {
+            movieList = viewModel.moviesState.value.actualMovies,
+            clickInterface = object: ClickItemInterface{
                 override fun onFilmClick(movie: Movie) {
                     val bottomSheet = MovieDetailsFragment(movie.movieId)
                     bottomSheet.show(parentFragmentManager, bottomSheet.tag)
                 }
+
+                override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
+                    movie.let {
+                        viewModel.viewModelScope.launch {
+                            viewModel.addEventFilms(NowPlayingEvents.HasInPersonal(movie, extraInfo))
+                        }
+                    }
+                }
+
             }
         )
         binding.rvWatchedMovies.adapter = adapter
@@ -61,8 +65,8 @@ class NowPlayingFragment : Fragment() {
             override fun onLoadMore() {
                 if(!viewModel.moviesState.value.isLoading) {
                     binding.progressMovieList.visibility = View.VISIBLE
-                    if(viewModel.moviesState.value.isSearchMode)
-                        viewModel.addEventFilms(NowPlayingEvents.ShowSearchedList(viewModel.moviesState.value.actualQuery))
+                    if(viewModel.moviesState.value.isSearchMode == true)
+                        viewModel.addEventFilms(NowPlayingEvents.ShowSearchedList(viewModel.moviesState.value.actualQuery.toString()))
                     else
                         binding.progressMovieList.visibility = View.GONE
                 }
@@ -77,14 +81,18 @@ class NowPlayingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
+
 
         viewModel.viewModelScope.launch {
             viewModel.moviesState.collect { state ->
-                val movieList = state.actualFilms
+                val movieList = state.actualMovies
+                val personalList = state.actualPersonalMovies
                 binding.rvWatchedMovies.post {
-                    Log.d("NowPlayingFragment", "Actual films size: ${state.actualFilms.size}")
+                    Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
+                    adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                     binding.progressMovieList.visibility = View.GONE
                 }
             }
