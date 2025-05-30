@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.cartelera.model
+package com.example.myapplication.classes.modules.main.now_playing.model
 
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo

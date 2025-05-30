@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nowPlayingFragment"
-        android:name="com.example.myapplication.classes.modules.main.cartelera.view.NowPlayingFragment"
+        android:name="com.example.myapplication.classes.modules.main.now_playing.view.NowPlayingFragment"
         android:label="fragment_cartelera"
         tools:layout="@layout/fragment_now_playing"
         />
@@ -21,21 +21,21 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment"
+        android:name="com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment"
         android:label="fragment_detalles"
         tools:layout="@layout/fragment_movie_details"
         />
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.myapplication.classes.modules.main.favoritos.view.PersonalFragment"
+        android:name="com.example.myapplication.classes.modules.main.personal.view.PersonalFragment"
         android:label="fragment_favoritos"
         tools:layout="@layout/fragment_movie_personal"
         />
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.myapplication.classes.modules.main.busqueda.view.BusquedaFragment"
+        android:name="com.example.myapplication.classes.modules.main.search.view.BusquedaFragment"
         android:label="fragment_busqueda"
         tools:layout="@layout/fragment_search"
         />

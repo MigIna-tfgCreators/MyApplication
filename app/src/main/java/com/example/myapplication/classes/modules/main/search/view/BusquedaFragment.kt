@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.busqueda.view
+package com.example.myapplication.classes.modules.main.search.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +13,9 @@ import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
-import com.example.myapplication.classes.modules.main.busqueda.model.SearchEvents
-import com.example.myapplication.classes.modules.main.busqueda.viewmodel.SearchViewModel
-import com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment
+import com.example.myapplication.classes.modules.main.search.model.SearchEvents
+import com.example.myapplication.classes.modules.main.search.viewmodel.SearchViewModel
+import com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
 import com.example.myapplication.databinding.FragmentSearchBinding
 import kotlinx.coroutines.flow.debounce

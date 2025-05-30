@@ -1,9 +1,9 @@
-package com.example.myapplication.classes.modules.main.detalles.viewmodel
+package com.example.myapplication.classes.modules.main.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.classes.modules.main.detalles.model.DetailsEvent
-import com.example.myapplication.classes.modules.main.detalles.model.DetailsState
+import com.example.myapplication.classes.modules.main.details.model.DetailsEvent
+import com.example.myapplication.classes.modules.main.details.model.DetailsState
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

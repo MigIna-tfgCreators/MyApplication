@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.cartelera.viewmodel
+package com.example.myapplication.classes.modules.main.now_playing.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -6,15 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
-import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingEvents
+import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
 import com.example.myapplication.classes.repositories.firebase.usermovieRepository.UserMovieRepository
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 

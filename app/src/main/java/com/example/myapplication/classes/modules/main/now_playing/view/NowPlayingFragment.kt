@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.cartelera.view
+package com.example.myapplication.classes.modules.main.now_playing.view
 
 import android.os.Bundle
 import android.util.Log
@@ -13,9 +13,9 @@ import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
-import com.example.myapplication.classes.modules.main.cartelera.model.NowPlayingEvents
-import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
-import com.example.myapplication.classes.modules.main.detalles.view.MovieDetailsFragment
+import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
+import com.example.myapplication.classes.modules.main.now_playing.viewmodel.NowPlayingViewModel
+import com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
 import com.example.myapplication.databinding.FragmentNowPlayingBinding
 import kotlinx.coroutines.delay
@@ -99,7 +99,7 @@ class NowPlayingFragment : Fragment() {
         }
 
         viewModel.viewModelScope.launch {
-            binding.etFiltrarCartelera.textChanges().debounce(500).map { it.trim() }.distinctUntilChanged().collect { text ->
+            binding.etNowPlayingFilter.textChanges().debounce(500).map { it.trim() }.distinctUntilChanged().collect { text ->
                 if(text.length >= 3){
                     viewModel.addEventFilms(NowPlayingEvents.ShowSearchedList(text))
                 }else{

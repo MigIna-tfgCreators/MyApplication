@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.detalles.view
+package com.example.myapplication.classes.modules.main.details.view
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,9 +10,9 @@ import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
-import com.example.myapplication.classes.modules.main.detalles.model.DetailsEvent
-import com.example.myapplication.classes.modules.main.detalles.model.DetailsState
-import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetailsViewModel
+import com.example.myapplication.classes.modules.main.details.model.DetailsEvent
+import com.example.myapplication.classes.modules.main.details.model.DetailsState
+import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.extensions.extractClaveYoutube
 import com.example.myapplication.classes.extensions.valueOrEmpty
 import com.example.myapplication.databinding.FragmentMovieDetailsBinding

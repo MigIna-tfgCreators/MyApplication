@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.detalles.model
+package com.example.myapplication.classes.modules.main.details.model
 
 import com.example.myapplication.classes.models.API.Credits
 import com.example.myapplication.classes.models.API.Movie

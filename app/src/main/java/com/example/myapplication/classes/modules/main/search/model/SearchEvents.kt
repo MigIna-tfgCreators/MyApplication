@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.busqueda.model
+package com.example.myapplication.classes.modules.main.search.model
 
 import com.example.myapplication.classes.models.API.Movie
 

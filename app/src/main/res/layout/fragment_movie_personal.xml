@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classes.modules.main.favoritos.view.PersonalFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+    tools:context=".classes.modules.main.personal.view.PersonalFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvWatchedMovies"
+    <LinearLayout
+        android:id="@+id/personalContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"/>
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="13dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:hint="Filtrar cartelera"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPersonalListFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWatchedMovies"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.70"
+            android:layout_marginTop="20dp"/>
+
+        <ProgressBar
+            android:id="@+id/progress_personal_list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

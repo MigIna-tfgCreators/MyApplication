@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.busqueda.view
+package com.example.myapplication.classes.modules.main.search.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle

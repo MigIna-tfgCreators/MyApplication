@@ -9,9 +9,10 @@ import com.example.myapplication.classes.modules.auth.activity.viewModel.SignVie
 import com.example.myapplication.classes.modules.main.activity.routing.MainRouting
 import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
-import com.example.myapplication.classes.modules.main.busqueda.viewmodel.SearchViewModel
-import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
-import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetailsViewModel
+import com.example.myapplication.classes.modules.main.search.viewmodel.SearchViewModel
+import com.example.myapplication.classes.modules.main.now_playing.viewmodel.NowPlayingViewModel
+import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
+import com.example.myapplication.classes.modules.main.personal.viewmodel.PersonalListViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
@@ -59,4 +60,5 @@ val appModule = module{
     viewModel{ NowPlayingViewModel(get(), get()) }
     viewModel{ DetailsViewModel(get()) }
     viewModel{ SearchViewModel(get(), get()) }
+    viewModel{ PersonalListViewModel(get(), get()) }
 }

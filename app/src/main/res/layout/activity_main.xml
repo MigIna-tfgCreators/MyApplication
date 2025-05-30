@@ -13,12 +13,14 @@
         android:src="@drawable/background"
         />
     <LinearLayout
-        style="@style/vertical_general_linearlayout">
+        style="@style/vertical_general_linearlayout"
+        android:padding="0dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvTitle"
             style="@style/white_bolded_center_title"
             android:text="@string/now_playing_title"
+            android:layout_marginVertical="25dp"
             />
 
         <androidx.fragment.app.FragmentContainerView
@@ -29,6 +31,7 @@
             android:layout_weight="1"
             app:navGraph="@navigation/nav_graph_listfilms"
             app:defaultNavHost="true"
+            android:layout_margin="7dp"
             />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,8 +43,5 @@
             app:itemIconSize="30dp"
             android:background="@color/darkBlue"
             />
-
-
     </LinearLayout>
-
 </FrameLayout>

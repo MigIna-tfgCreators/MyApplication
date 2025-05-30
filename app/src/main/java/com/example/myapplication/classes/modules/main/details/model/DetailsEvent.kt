@@ -1,4 +1,4 @@
-package com.example.myapplication.classes.modules.main.detalles.model
+package com.example.myapplication.classes.modules.main.details.model
 
 sealed class DetailsEvent {
     data class ShowDetails(val id: Int): DetailsEvent()

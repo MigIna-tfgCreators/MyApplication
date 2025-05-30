@@ -1,11 +1,11 @@
-package com.example.myapplication.classes.modules.main.busqueda.viewmodel
+package com.example.myapplication.classes.modules.main.search.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.valueOrEmpty
 import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
-import com.example.myapplication.classes.modules.main.busqueda.model.SearchEvents
+import com.example.myapplication.classes.modules.main.search.model.SearchEvents
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
 import kotlinx.coroutines.delay
