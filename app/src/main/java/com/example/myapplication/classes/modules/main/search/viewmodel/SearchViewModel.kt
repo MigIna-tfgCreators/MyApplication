@@ -118,7 +118,12 @@ class SearchViewModel(
 
                 _searchState.value = _searchState.value.copy(isLoading = true, isSearchMode = true)
 
-                val searchedMovies = repository.searchMovies(query, actualPage)
+                val cleanQuery = query.trim()
+                val searchedMovies = repository.searchMovies(cleanQuery, actualPage)
+                    .filter {
+                        (it.movieAverageVote != null && it.movieAverageVote > 0.0)
+                    }
+                    .sortedByDescending { it.movieTotalVotes }
 
                 val currentList = _searchState.value.actualMovies
 
