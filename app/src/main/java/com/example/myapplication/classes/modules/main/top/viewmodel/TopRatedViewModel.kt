@@ -49,7 +49,14 @@ class TopRatedViewModel(
                 if (_moviesState.value.isLoading) return@launch
                 _moviesState.value = _moviesState.value.copy(isLoading = true, error = null, isSearchMode = false)
 
-                val allMoviesDeferred = async { repository.getTopRated(page = 1) }
+                val allMoviesDeferred = async {
+                    val page1 = repository.getTopRated(page = 1)
+                    val page2 = repository.getTopRated(page = 2)
+                    val page3 = repository.getTopRated(page = 3)
+                    val page4 = repository.getTopRated(page = 4)
+                    val page5 = repository.getTopRated(page = 5)
+                    page1 + page2 + page3 + page4 + page5
+                }
                 val personalListDeferred = async {
                     val personalList = firebaseRepository.getPersonalList()
                     personalList.map { repository.getMovieDetails(it.movieId) }

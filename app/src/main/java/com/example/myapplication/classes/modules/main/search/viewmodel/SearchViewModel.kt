@@ -66,7 +66,8 @@ class SearchViewModel(
 
                 val newData = repository.getFilterList(actualPage, _searchState.value.genresListApplied,
                     _searchState.value.dates.toString(), _searchState.value.order.toString()
-                )
+                ).filter { it.movieAverageVote != null && it.movieAverageVote > 0.0 }
+                    .sortedByDescending { it.movieTotalVotes }
 
                 val currentMovies = _searchState.value.actualMovies
                 val allMovies = currentMovies + newData
