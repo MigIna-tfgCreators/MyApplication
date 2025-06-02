@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.R
+import com.example.myapplication.classes.extensions.valueOrNoReview
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.databinding.FragmentConfirmationBinding
@@ -120,7 +121,7 @@ class ConfirmationFragment(
         val extraInfo = UserMovieExtraInfo(
             ownVote = (rating*2).toInt(),
             ownVoteDate = LocalDate.now().toString(),
-            userReview = review
+            userReview = review.valueOrNoReview
         )
 
         onDismissResult(aceptChange, extraInfo)

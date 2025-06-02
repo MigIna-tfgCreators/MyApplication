@@ -1,20 +1,19 @@
 package com.example.myapplication.classes.models.firebase
 
+import com.example.myapplication.classes.extensions.valueOrNoReview
 import com.example.myapplication.classes.models.API.Movie
 import java.time.LocalDate
 
 data class MovieModel(
     val movieId: Int = 0,
-    var ownVote: Int? = null,
-    var ownVoteDate: String? = null,
     var movieAverageVotes: Float? = null,
-    var userReview: String? = null
+    var extraInfo: UserMovieExtraInfo? = null
 )
 
 data class UserMovieExtraInfo(
-    val ownVote: Int,
+    val ownVote: Int = 0,
     val ownVoteDate: String = LocalDate.now().toString(),
-    val userReview: String
+    val userReview: String? = String().valueOrNoReview
 )
 
 val Movie.toFirebaseModel: MovieModel
@@ -22,8 +21,10 @@ val Movie.toFirebaseModel: MovieModel
         return MovieModel(
             movieId = this.movieId,
             movieAverageVotes = this.movieAverageVote,
-            ownVote = null,
-            ownVoteDate = "",
-            userReview = ""
+            extraInfo = UserMovieExtraInfo(
+                ownVote = 0,
+                ownVoteDate = "",
+                userReview = String().valueOrNoReview
+            )
         )
     }

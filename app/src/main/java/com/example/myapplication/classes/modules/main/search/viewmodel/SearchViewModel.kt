@@ -1,13 +1,18 @@
 package com.example.myapplication.classes.modules.main.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.valueOrEmpty
+import com.example.myapplication.classes.models.API.Movie
+import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
 import com.example.myapplication.classes.modules.main.search.model.SearchEvents
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
+import com.example.myapplication.classes.repositories.firebase.usermovieRepository.UserMovieRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val repository: MoviesRepository,
+    private val firebaseRepository: UserMovieRepository,
     private val context: ContextProviderInterface
 ): ViewModel()  {
     private val _searchState = MutableStateFlow<GeneralMovieState>(GeneralMovieState())
@@ -38,15 +44,24 @@ class SearchViewModel(
 
             is SearchEvents.SearchMovies -> getSearchedList(event.query)
 
-            is SearchEvents.AddPersonalMovie -> TODO()
-            is SearchEvents.QuitPersonalMovie -> TODO()
+            is SearchEvents.CheckMovie -> checkMovie(event.movie)
+
+            is SearchEvents.HasInPersonal -> hashInPersonal(event.movie, event.info)
+
+            SearchEvents.ResetFav -> resetFav()
         }
     }
+    private fun resetFav(){
+        viewModelScope.launch {
+            _searchState.value = _searchState.value.copy(error = null, isInPersonalList = null)
+        }
+    }
+
 
     private fun resetAll(){
         viewModelScope.launch {
             actualPage = 1
-            _searchState.value = _searchState.value.copy(actualMovies = emptyList(), genresListApplied = emptyList(), dates = "&", order = "popularity.desc", error = null)
+            _searchState.value = _searchState.value.copy(actualMovies = emptyList(), genresListApplied = emptyList(), dates = "&", order = "popularity.desc", error = null, isInPersonalList = null)
         }
     }
 
@@ -64,14 +79,31 @@ class SearchViewModel(
                 if (_searchState.value.isLoading) return@launch
                 _searchState.value = _searchState.value.copy(isLoading = true, isSearchMode = false)
 
-                val newData = repository.getFilterList(actualPage, _searchState.value.genresListApplied,
-                    _searchState.value.dates.toString(), _searchState.value.order.toString()
-                )
+                Log.d("NowPlayingFragment Page", "lpagina -> $actualPage")
 
-                val currentMovies = _searchState.value.actualMovies
-                val allMovies = currentMovies + newData
 
-                _searchState.value = _searchState.value.copy(actualMovies = allMovies, isLoading = false)
+                val filterListDeferred =async {
+                    val list = repository.getFilterList(
+                        actualPage, _searchState.value.genresListApplied,
+                        _searchState.value.dates.toString(), _searchState.value.order.toString()
+                    )
+                    Log.d("NowPlayingFragment List",list.size.toString())
+                    list
+                }
+                val personalListDeferred = async {
+                    val personalList = firebaseRepository.getPersonalList()
+                    personalList.map { repository.getMovieDetails(it.movieId) }
+                }
+
+                val filterList = filterListDeferred.await()
+                val personalList = personalListDeferred.await()
+
+                val allMovies = _searchState.value.actualMovies + filterList
+
+                Log.d("NowPlayingFragment", "listados -> ${filterList.size} ; ${allMovies.size}")
+
+                _searchState.value = _searchState.value.copy(actualMovies = allMovies,
+                    actualPersonalMovies = personalList, isLoading = false)
 
                 actualPage++
             }catch (e: Exception) {
@@ -110,27 +142,37 @@ class SearchViewModel(
             try{
                 if(_searchState.value.isLoading) return@launch
 
-                if(query != lastQuery){
-                    actualPage = 1
-                    _searchState.value = _searchState.value.copy(actualMovies = emptyList())
-                }
-                lastQuery = query
-
                 _searchState.value = _searchState.value.copy(isLoading = true, isSearchMode = true)
 
                 val cleanQuery = query.trim()
-                val searchedMovies = repository.searchMovies(cleanQuery, actualPage)
-                    .filter {
-                        (it.movieAverageVote != null && it.movieAverageVote > 0.0)
-                    }
-                    .sortedByDescending { it.movieTotalVotes }
+
+                val isNewSearch = lastQuery != query
+                if(isNewSearch){
+                    actualPage = 1
+                    lastQuery =cleanQuery
+                    _searchState.value = _searchState.value.copy(actualMovies = emptyList())
+
+                }
+
+                val searchedMoviesDeferred = async {
+                    repository.searchMovies(cleanQuery, actualPage)
+                        .filter { it.movieAverageVote != null && it.movieAverageVote > 0.0 }
+                        .sortedByDescending { it.movieTotalVotes }
+                }
+                val personalListDeferred = async {
+                    firebaseRepository.getPersonalList().map { repository.getMovieDetails(it.movieId) }
+                }
+                val searchedMovies = searchedMoviesDeferred.await()
+                val personalList  = personalListDeferred.await()
+
 
                 val currentList = _searchState.value.actualMovies
 
-                val updatedList = if(actualPage == 1) searchedMovies else currentList?.plus(searchedMovies).valueOrEmpty
+                val updatedList = if(actualPage == 1) searchedMovies else currentList + searchedMovies
 
 
-                _searchState.value = _searchState.value.copy(actualMovies = updatedList, isLoading = false, actualQuery = query )
+                _searchState.value = _searchState.value.copy(actualMovies = updatedList, actualPersonalMovies = personalList,
+                    isLoading = false, actualQuery = query )
                 actualPage++
             }catch (e: Exception){
                 _searchState.value = _searchState.value.copy( isLoading = false, error = context.currentActivity?.getString(R.string.api_error_get_films_query).valueOrEmpty)
@@ -140,4 +182,79 @@ class SearchViewModel(
         }
     }
 
+
+    private fun addPersonalMovie(movie: Movie, extraInfo: UserMovieExtraInfo?){
+        viewModelScope.launch {
+            try{
+                if (_searchState.value.isLoading) return@launch
+                _searchState.value = _searchState.value.copy(isLoading = true, error = null)
+
+                firebaseRepository.addPersonalMovie(movie, extraInfo)
+                _searchState.value = _searchState.value.copy(isLoading = false)
+
+                if(_searchState.value.isSearchMode == true) getSearchedList(lastQuery)
+                else getFilterList()
+
+            } catch (e: Exception){
+                _searchState.value = _searchState.value.copy(isLoading = false, error = e.message)
+            }
+        }
+    }
+
+    private fun quitPersonalMovie(movie: Movie){
+        viewModelScope.launch {
+            try{
+                if (_searchState.value.isLoading) return@launch
+                _searchState.value = _searchState.value.copy(isLoading = true, error = null)
+
+                firebaseRepository.quitPersonalMovie(movie)
+                _searchState.value = _searchState.value.copy(isLoading = false)
+
+                if(_searchState.value.isSearchMode == true) getSearchedList(lastQuery)
+                else getFilterList()
+
+            } catch (e: Exception){
+                _searchState.value = _searchState.value.copy(isLoading = false, error = e.message)
+            }
+        }
+    }
+
+    private fun hashInPersonal(movie: Movie, info: UserMovieExtraInfo?){
+        viewModelScope.launch {
+            try{
+                Log.d("TESTEANDOOO","flag.toString()")
+
+                if (_searchState.value.isLoading) return@launch
+                _searchState.value = _searchState.value.copy(isLoading = true, error = null)
+
+                val flag = firebaseRepository.checkUserMovie(movie.movieId)
+                Log.d("TESTEANDOOO",flag.toString())
+                _searchState.value = _searchState.value.copy(isLoading = false)
+
+                if(flag) quitPersonalMovie(movie)
+
+                else addPersonalMovie(movie, info)
+
+            } catch (e: Exception){
+                _searchState.value = _searchState.value.copy(isLoading = false, error = e.message)
+            }
+        }
+    }
+
+    private fun checkMovie(movie: Movie){
+        viewModelScope.launch {
+            Log.d("FAVORITO","probando")
+            try{
+                if (_searchState.value.isLoading) return@launch
+                _searchState.value = _searchState.value.copy(isLoading = true, error = null)
+
+                val check = firebaseRepository.checkUserMovie(movie.movieId)
+                Log.d("FAVORITO",check.toString())
+                _searchState.value = _searchState.value.copy(isLoading = false, isInPersonalList = check)
+
+            } catch (e: Exception){
+                _searchState.value = _searchState.value.copy(isLoading = false, error = e.message)
+            }
+        }
+    }
 }

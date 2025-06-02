@@ -1,6 +1,7 @@
 package com.example.myapplication.classes.modules.main.search.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.classes.extensions.textChanges
 import com.example.myapplication.classes.extensions.valueOrEmpty
+import com.example.myapplication.classes.extensions.valueOrFalse
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
@@ -16,19 +18,23 @@ import com.example.myapplication.classes.modules.main.activity.view.ClickItemInt
 import com.example.myapplication.classes.modules.main.search.model.SearchEvents
 import com.example.myapplication.classes.modules.main.search.viewmodel.SearchViewModel
 import com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment
+import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
 import com.example.myapplication.databinding.FragmentSearchBinding
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BusquedaFragment : Fragment() {
+class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: AdapterMovies
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
+    private lateinit var bottomSheet: MovieDetailsFragment
     private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreateView(
@@ -38,17 +44,27 @@ class BusquedaFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
 
         adapter = AdapterMovies(
-            movieList = emptyList(),
+            movieList = viewModel.searchState.value.actualMovies,
             clickInterface = object: ClickItemInterface{
                 override fun onFilmClick(movie: Movie) {
-                    val bottomSheet = MovieDetailsFragment(movie.movieId)
-                    bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+                    viewModel.viewModelScope.launch {
+                        viewModel.addEvent(SearchEvents.CheckMovie(movie))
+
+                        val state = viewModel.searchState.first { it.isInPersonalList != null }
+
+                        val isFav = state.isInPersonalList
+
+                        bottomSheet = MovieDetailsFragment(movie.movieId, isFav.valueOrFalse)
+                        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+
+                        viewModel.addEvent(SearchEvents.ResetFav)
+                    }
                 }
 
                 override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
                     movie.let {
                         viewModel.viewModelScope.launch {
-
+                            viewModel.addEvent(SearchEvents.HasInPersonal(movie, extraInfo))
                         }
                     }
                 }
@@ -67,8 +83,11 @@ class BusquedaFragment : Fragment() {
                     binding.progressMovieBar.visibility = View.VISIBLE
                     if(viewModel.searchState.value.isSearchMode == true)
                         viewModel.addEvent(SearchEvents.SearchMovies(viewModel.searchState.value.actualQuery.toString()))
-                    else
+                    else {
+                        Log.d("AYUDA PO FAVO","vacas")
                         viewModel.addEvent(SearchEvents.GetFilterList)
+                        binding.progressMovieBar.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -101,10 +120,13 @@ class BusquedaFragment : Fragment() {
         }
 
         viewModel.viewModelScope.launch {
-            viewModel.searchState.collect { result ->
-                val movieList = result.actualMovies
+            viewModel.searchState.collect { state ->
+                val movieList = state.actualMovies
+                val personalList = state.actualPersonalMovies
                 binding.recyclerViewMovieList.post {
+                    Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
+                    adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                     binding.progressMovieBar.visibility = View.GONE
                 }
             }
@@ -117,6 +139,7 @@ class BusquedaFragment : Fragment() {
                         viewModel.addEvent(SearchEvents.SearchMovies(text))
                     }else{
                         endlessScrollListener.resetState()
+                        delay(500)
                         viewModel.addEvent(SearchEvents.ClearMovies)
                     }
                 }

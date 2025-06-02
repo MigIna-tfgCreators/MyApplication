@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.classes.modules.main.details.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.details.model.DetailsState
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
+import com.example.myapplication.classes.repositories.firebase.usermovieRepository.UserMovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
-    private val repository: MoviesRepository
+    private val repository: MoviesRepository,
+    private val firebaseRepository: UserMovieRepository
 ): ViewModel() {
 
     private val _movie = MutableStateFlow<DetailsState>(DetailsState())
@@ -27,6 +29,8 @@ class DetailsViewModel(
                 is DetailsEvent.ShowTrailer -> getTrailer(event.id)
 
                 DetailsEvent.ClearError -> clearError()
+
+                is DetailsEvent.ShowPersonalData -> getPersonalInformation(event.id)
             }
         }
     }
@@ -35,7 +39,9 @@ class DetailsViewModel(
         viewModelScope.launch {
             try {
                 _movie.value = _movie.value.copy(isLoading = true, error = null)
+
                 val newDetails = repository.getMovieDetails(id)
+
                 _movie.value = _movie.value.copy(actualFilm = newDetails, isLoading = false)
             } catch (e: Exception) {
                 _movie.value = _movie.value.copy(isLoading = false, error = e.message)
@@ -47,7 +53,9 @@ class DetailsViewModel(
         viewModelScope.launch {
             try {
                 _movie.value = _movie.value.copy(isLoading = true, error = null)
+
                 val newCredits = repository.getMovieCredits(id)
+
                 _movie.value = _movie.value.copy(actualCredits = newCredits, isLoading = false)
             } catch (e: Exception) {
                 _movie.value = _movie.value.copy(isLoading = false, error = e.message)
@@ -59,12 +67,16 @@ class DetailsViewModel(
         viewModelScope.launch {
             try {
                 _movie.value = _movie.value.copy(isLoading = true, error = null)
+
                 val list = repository.getYoutubeTrailer(id)
+
                 val video = list.firstOrNull {
                     it.videoSite == "YouTube" && it.videoType == "Trailer"
                 }
+
                 if(video!= null)
                     _movie.value = _movie.value.copy(youtubeVideo = video, isLoading = false)
+
             } catch (e: Exception) {
                 _movie.value = _movie.value.copy(isLoading = false, error = e.message)
             }
@@ -73,6 +85,21 @@ class DetailsViewModel(
 
     private fun clearError() {
         _movie.value = _movie.value.copy(error = null)
+    }
+
+    private fun getPersonalInformation(id: Int){
+        viewModelScope.launch {
+            try {
+                _movie.value = _movie.value.copy(isLoading = true, error = null)
+
+                val info = firebaseRepository.getExtraInfo(id)
+
+                _movie.value = _movie.value.copy(extraInfo = info , isLoading = false)
+
+            } catch (e: Exception) {
+                _movie.value = _movie.value.copy(isLoading = false, error = e.message)
+            }
+        }
     }
 
 }

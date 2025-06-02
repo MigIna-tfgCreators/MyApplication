@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieDetailsFragment(
-    private val movieId: Int
+    private val movieId: Int,
+    private val isPersonalMovie: Boolean
 ): BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentMovieDetailsBinding
@@ -38,6 +39,8 @@ class MovieDetailsFragment(
         viewModel.addDetailsEvent(DetailsEvent.ShowDetails(movieId))
         viewModel.addDetailsEvent(DetailsEvent.ShowCredits(movieId))
         viewModel.addDetailsEvent(DetailsEvent.ShowTrailer(movieId))
+        if(isPersonalMovie)
+            viewModel.addDetailsEvent(DetailsEvent.ShowPersonalData(movieId))
 
         return binding.root
     }
@@ -61,8 +64,16 @@ class MovieDetailsFragment(
                         viewModel.addDetailsEvent(DetailsEvent.ClearError)
                     }
 
-                if(state.actualCredits != null && state.actualFilm != null && state.youtubeVideo.videoKey != null)
-                    setUI(state)
+                if (isPersonalMovie) {
+                    if (state.actualFilm != null && state.extraInfo != null) {
+                        setUI(state)
+                    }
+                } else {
+                    if (state.actualCredits != null && state.actualFilm != null && state.youtubeVideo.videoKey != null) {
+                        setUI(state)
+                    }
+                }
+
             }
         }
 
@@ -81,36 +92,9 @@ class MovieDetailsFragment(
             tvMovieTitleDetails.setText(movie?.movieTitle)
             tvMovieDescriptionDetails.setText(movie?.movieDescription)
 
-            val genresNames = movie?.movieGenres?.joinToString(", "){ it.genreName }
-            tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
-
             Glide.with(requireContext())
                 .load("${BuildConfig.BASE_IMAGE_URL}${movie?.moviePoster}")
                 .into(ivMoviePosterDetails)
-
-            val cast = credits?.cast?.take(3)?.joinToString("\n"){
-                "${it.nameCast} como ${it.characterCast}"
-            }
-            tvMovieCast.setText(cast)
-
-            val director = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.director)}
-            val writer = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.writer) || it.jobCrew == getString(R.string.screenplay)}
-            director.let {
-                tvDirector.setText(
-                    if(director!= null)
-                        "${getString(R.string.director_points)}  ${it?.nameCrew}"
-                    else
-                        "${getString(R.string.director_points)} desconocido"
-                )
-            }
-            writer.let {
-                tvScreenWriter.setText(
-                    if (writer!= null)
-                        "${getString(R.string.screenwriter_points)}  ${it?.nameCrew}"
-                    else
-                        "${getString(R.string.screenwriter_points)} desconocido"
-                )
-            }
 
             val url = video.let {
                 "https://www.youtube.com/watch?v=${it?.videoKey}"
@@ -122,6 +106,52 @@ class MovieDetailsFragment(
                     youTubePlayer.cueVideo(url.extractClaveYoutube.valueOrEmpty,0f)
                 }
             })
+
+            val genresNames = movie?.movieGenres?.joinToString(", "){ it.genreName }
+            tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
+
+
+            if(!isPersonalMovie){
+                tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
+
+                val cast = credits?.cast?.take(3)?.joinToString("\n"){
+                    "${it.nameCast} como ${it.characterCast}"
+                }
+                tvMovieCast.setText(cast)
+
+                val director = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.director)}
+                val writer = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.writer) || it.jobCrew == getString(R.string.screenplay)}
+                director.let {
+                    tvDirector.setText(
+                        if(director!= null)
+                            "${getString(R.string.director_points)}  ${it?.nameCrew}"
+                        else
+                            "${getString(R.string.director_points)} desconocido"
+                    )
+                }
+                writer.let {
+                    tvScreenWriter.setText(
+                        if (writer!= null)
+                            "${getString(R.string.screenwriter_points)}  ${it?.nameCrew}"
+                        else
+                            "${getString(R.string.screenwriter_points)} desconocido"
+                    )
+                }
+            }
+            else{
+                val information = viewModel.movie.value.extraInfo
+
+                information.apply {
+                    tvMovieCast.setText(this?.userReview.valueOrEmpty)
+                    tvDirector.setText("Tu voto es: ${this?.ownVote}")
+                    tvScreenWriter.setText("La añadiste a tu lista el  ${this?.ownVoteDate}")
+                }
+                val linearLayout = binding.tvMovieGenreDetails.parent as ViewGroup
+                linearLayout.removeView(binding.tvMovieGenreDetails)
+                linearLayout.addView(binding.tvMovieGenreDetails, linearLayout.indexOfChild(binding.tvMovieDescriptionDetails) + 1)
+
+
+            }
 
         }
     }

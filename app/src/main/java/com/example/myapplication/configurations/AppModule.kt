@@ -58,7 +58,7 @@ val appModule = module{
     viewModel{ SignViewModel(get(), get(), get()) }
     viewModel{ MoviesMainViewModel(get()) }
     viewModel{ NowPlayingViewModel(get(), get()) }
-    viewModel{ DetailsViewModel(get()) }
-    viewModel{ SearchViewModel(get(), get()) }
+    viewModel{ DetailsViewModel(get(), get()) }
+    viewModel{ SearchViewModel(get(), get(), get()) }
     viewModel{ PersonalListViewModel(get(), get()) }
 }

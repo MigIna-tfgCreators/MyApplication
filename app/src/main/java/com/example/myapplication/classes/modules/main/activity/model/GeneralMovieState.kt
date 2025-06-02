@@ -14,6 +14,7 @@ data class GeneralMovieState(
     val genresListApplied: List<Int> = emptyList(),
 
     val isSearchMode: Boolean? = false,
+    val isInPersonalList: Boolean? = null,
 
     val actualQuery: String? = "",
     val dates: String? = "&",

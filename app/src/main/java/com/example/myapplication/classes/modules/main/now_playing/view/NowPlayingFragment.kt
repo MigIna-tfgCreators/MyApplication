@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.classes.extensions.textChanges
+import com.example.myapplication.classes.extensions.valueOrFalse
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
@@ -19,8 +20,10 @@ import com.example.myapplication.classes.modules.main.details.view.MovieDetailsF
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
 import com.example.myapplication.databinding.FragmentNowPlayingBinding
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +34,8 @@ class NowPlayingFragment : Fragment() {
     private lateinit var adapter: AdapterMovies
     private val viewModel: NowPlayingViewModel by viewModel()
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
+    private lateinit var bottomSheet: MovieDetailsFragment
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,18 +43,29 @@ class NowPlayingFragment : Fragment() {
     ): View? {
         binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
 
-        binding.rvWatchedMovies.layoutManager = GridLayoutManager(requireContext(), 3)
+
         adapter = AdapterMovies(
             movieList = viewModel.moviesState.value.actualMovies,
             clickInterface = object: ClickItemInterface{
                 override fun onFilmClick(movie: Movie) {
-                    val bottomSheet = MovieDetailsFragment(movie.movieId)
-                    bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+                    viewModel.viewModelScope.launch {
+                        viewModel.addEventFilms(NowPlayingEvents.CheckMovie(movie))
+
+                        val state = viewModel.moviesState.first { it.isInPersonalList != null }
+
+                        val isFav = state.isInPersonalList
+
+                        bottomSheet = MovieDetailsFragment(movie.movieId, isFav.valueOrFalse)
+                        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+
+                        viewModel.addEventFilms(NowPlayingEvents.ResetAll)
+                    }
                 }
 
                 override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
                     movie.let {
                         viewModel.viewModelScope.launch {
+                            Log.d("TESTEANDOOO","kjhfksdhfsdk")
                             viewModel.addEventFilms(NowPlayingEvents.HasInPersonal(movie, extraInfo))
                         }
                     }
@@ -57,7 +73,9 @@ class NowPlayingFragment : Fragment() {
 
             }
         )
+
         binding.rvWatchedMovies.adapter = adapter
+        binding.rvWatchedMovies.layoutManager = GridLayoutManager(requireContext(), 3)
 
         val layoutManager = binding.rvWatchedMovies.layoutManager as GridLayoutManager
 
@@ -81,9 +99,7 @@ class NowPlayingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
-
 
         viewModel.viewModelScope.launch {
             viewModel.moviesState.collect { state ->

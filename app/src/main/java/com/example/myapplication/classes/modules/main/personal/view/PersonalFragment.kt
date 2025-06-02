@@ -46,7 +46,7 @@ class PersonalFragment: Fragment() {
             movieList = viewModel.moviesState.value.actualMovies,
             clickInterface = object: ClickItemInterface{
                 override fun onFilmClick(movie: Movie) {
-                    val bottomSheet = MovieDetailsFragment(movie.movieId)
+                    val bottomSheet = MovieDetailsFragment(movie.movieId, true)
                     bottomSheet.show(parentFragmentManager, bottomSheet.tag)
                 }
 
