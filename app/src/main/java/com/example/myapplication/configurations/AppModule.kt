@@ -13,6 +13,7 @@ import com.example.myapplication.classes.modules.main.search.viewmodel.SearchVie
 import com.example.myapplication.classes.modules.main.now_playing.viewmodel.NowPlayingViewModel
 import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.modules.main.personal.viewmodel.PersonalListViewModel
+import com.example.myapplication.classes.modules.main.top.viewmodel.TopRatedViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
@@ -61,4 +62,5 @@ val appModule = module{
     viewModel{ DetailsViewModel(get(), get()) }
     viewModel{ SearchViewModel(get(), get(), get()) }
     viewModel{ PersonalListViewModel(get(), get()) }
+    viewModel{ TopRatedViewModel(get(), get()) }
 }

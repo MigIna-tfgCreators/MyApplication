@@ -78,5 +78,8 @@
     <string name="resume_text">¿Quiere dejar una reseña?</string>
     <string name="clean_filters">Limpiar filtros</string>
     <string name="go_back"> Volver</string>
+    <string name="search_movie_text">Buscar película</string>
+    <string name="filter_now_playing_films">Filtrar cartelera</string>
+    <string name="filter_personal_list">Filtrar peliculas valoradas</string>
 
 </resources>

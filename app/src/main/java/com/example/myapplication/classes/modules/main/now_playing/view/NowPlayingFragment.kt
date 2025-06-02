@@ -32,9 +32,9 @@ class NowPlayingFragment : Fragment() {
 
     private lateinit var binding: FragmentNowPlayingBinding
     private lateinit var adapter: AdapterMovies
-    private val viewModel: NowPlayingViewModel by viewModel()
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
     private lateinit var bottomSheet: MovieDetailsFragment
+    private val viewModel: NowPlayingViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -43,7 +43,7 @@ class NowPlayingFragment : Fragment() {
     ): View? {
         binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
 
-
+        binding.rvWatchedMovies.layoutManager = GridLayoutManager(requireContext(), 3)
         adapter = AdapterMovies(
             movieList = viewModel.moviesState.value.actualMovies,
             clickInterface = object: ClickItemInterface{
@@ -65,7 +65,6 @@ class NowPlayingFragment : Fragment() {
                 override fun onCheckClick(movie: Movie, extraInfo: UserMovieExtraInfo?) {
                     movie.let {
                         viewModel.viewModelScope.launch {
-                            Log.d("TESTEANDOOO","kjhfksdhfsdk")
                             viewModel.addEventFilms(NowPlayingEvents.HasInPersonal(movie, extraInfo))
                         }
                     }
@@ -75,7 +74,6 @@ class NowPlayingFragment : Fragment() {
         )
 
         binding.rvWatchedMovies.adapter = adapter
-        binding.rvWatchedMovies.layoutManager = GridLayoutManager(requireContext(), 3)
 
         val layoutManager = binding.rvWatchedMovies.layoutManager as GridLayoutManager
 
