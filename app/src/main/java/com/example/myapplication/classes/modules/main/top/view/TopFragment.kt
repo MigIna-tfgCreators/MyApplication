@@ -84,6 +84,8 @@ class TopFragment : Fragment() {
                             )
                         )
                     }
+                    else
+                        viewModel.addEvent(TopRatedEvents.ShowAllList)
                 }
             }
         }

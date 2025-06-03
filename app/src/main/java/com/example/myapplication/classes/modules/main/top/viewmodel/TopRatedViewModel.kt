@@ -23,6 +23,7 @@ class TopRatedViewModel(
     val moviesState: StateFlow<GeneralMovieState> = _moviesState.asStateFlow()
 
     private var lastQuery = ""
+    private var actualPage = 1
 
     fun addEvent(event: TopRatedEvents) {
         viewModelScope.launch {
@@ -48,13 +49,15 @@ class TopRatedViewModel(
                 if (_moviesState.value.isLoading) return@launch
                 _moviesState.value = _moviesState.value.copy(isLoading = true, error = null, isSearchMode = false, isInPersonalList = null)
 
-                val allMoviesDeferred = async { repository.getTopRated(page = 1) }
+                val allMoviesDeferred = async { repository.getTopRated(page = actualPage) }
                 val personalListDeferred = async {
                     val personalList = firebaseRepository.getPersonalList()
                     personalList.map { repository.getMovieDetails(it.movieId) }
                 }
 
-                val allMovies = allMoviesDeferred.await()
+                val currentMovies = _moviesState.value.actualMovies
+                val allMovies = if(actualPage == 1) allMoviesDeferred.await() else currentMovies + allMoviesDeferred.await()
+
                 val personalMovies = personalListDeferred.await()
 
                 _moviesState.value = _moviesState.value.copy(
@@ -62,6 +65,7 @@ class TopRatedViewModel(
                     actualMovies = allMovies,
                     actualPersonalMovies = personalMovies
                 )
+                actualPage++
 
             } catch (e: Exception) {
                 _moviesState.value = _moviesState.value.copy(isLoading = false, error = e.message)

@@ -36,6 +36,8 @@ class MoviesRepositoryImpl(
 
     override suspend fun getTopRated(page: Int): List<Movie> {
         return withContext(Dispatchers.IO) {
+            if(page > 6) return@withContext emptyList()
+
             val response = service.getTopRated(page)
 
             response.movieResults?.map { it.toModel }.valueOrEmpty

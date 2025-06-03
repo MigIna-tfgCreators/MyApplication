@@ -86,7 +86,9 @@ class SearchViewModel(
                     val list = repository.getFilterList(
                         actualPage, _searchState.value.genresListApplied,
                         _searchState.value.dates.toString(), _searchState.value.order.toString()
-                    )
+                    ).filter { it.movieAverageVote != null && it.movieAverageVote >0.0 }
+                        .sortedByDescending { it.movieTotalVotes }
+
                     Log.d("NowPlayingFragment List",list.size.toString())
                     list
                 }
