@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
+import com.example.myapplication.classes.extensions.valueOrZero
 import com.example.myapplication.classes.modules.main.profile.model.ProfileEvents
 import com.example.myapplication.classes.modules.main.profile.model.ProfileState
 import com.example.myapplication.classes.modules.main.profile.viewmodel.ProfileViewModel
@@ -67,7 +68,7 @@ class ProfileFragment: DialogFragment() {
         binding.apply {
             tvUsername.text = "Bienvenido/a ${state.userName}"
             tvWatchedMovies.text = state.totalPersonalFilms.toString()
-            tvFavoriteMovies.text = state.averageVotes.toString()
+            tvFavoriteMovies.text = state.averageVotes.valueOrZero.toString()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.repositories.firebase.authUserRepository
 
+import android.util.Log
 import com.example.myapplication.classes.services.firebase.authUserService.AuthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,12 +16,14 @@ class AuthRepositoyImpl(
 
     override suspend fun register(name: String, email: String, pswd: String): Boolean {
         return withContext(Dispatchers.IO) {
+            Log.d("PROBANDO","$name -> $email : $pswd")
             bbdd.register(name,email,pswd)
         }
     }
 
     override suspend fun login(email: String, pswd: String): Boolean {
         return withContext(Dispatchers.IO) {
+            Log.d("PROBANDO","$email : $pswd")
             bbdd.login(email,pswd)
         }
     }

@@ -1,6 +1,7 @@
 package com.example.myapplication.classes.modules.auth.activity.viewModel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
@@ -58,7 +59,7 @@ class SignViewModel(
             _signState.value = _signState.value.copy(isLoading = true, errorMessage = null)
             try {
                 val response = repository.login(email, pswd)
-
+                Log.d("PROBANDOO",response.toString())
                 if (response)
                     checkSession()
                 else
@@ -74,7 +75,7 @@ class SignViewModel(
             _signState.value = _signState.value.copy(isLoading = true, errorMessage = null)
             try{
                 val response = repository.session()
-
+                Log.d("PROBANDOO",response.toString())
                 if(response != null)
                     acceptAccess(response)
                 else {
