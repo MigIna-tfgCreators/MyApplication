@@ -5,5 +5,4 @@ sealed class MainEvents {
     object TopList: MainEvents()
     object SearchList: MainEvents()
     object FavoritesList: MainEvents()
-    object AppearanceProfile: MainEvents()
 }

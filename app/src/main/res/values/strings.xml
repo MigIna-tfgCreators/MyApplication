@@ -81,5 +81,8 @@
     <string name="search_movie_text">Buscar película</string>
     <string name="filter_now_playing_films">Filtrar cartelera</string>
     <string name="filter_personal_list">Filtrar peliculas valoradas</string>
+    <string name="films_watched">Películas vistas</string>
+    <string name="average_valoration">Valoración media</string>
+    <string name="logout">Cerrar sesión</string>
 
 </resources>

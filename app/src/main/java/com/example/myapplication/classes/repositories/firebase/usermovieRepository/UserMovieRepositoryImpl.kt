@@ -56,4 +56,21 @@ class UserMovieRepositoryImpl(
         }
     }
 
+    override suspend fun getPersonalInformation(): List<Double> {
+        return withContext(Dispatchers.IO) {
+            val list = bbdd.getPersonalList(bbdd.getCurrentUser())
+            val moviesCount = list.size
+            var averageVotes = 0.00
+
+            for(movie in list){
+                averageVotes += movie.extraInfo?.ownVote.valueOrZero
+            }
+
+            averageVotes = averageVotes/moviesCount
+
+            listOf<Double>(moviesCount.toDouble(), averageVotes)
+
+        }
+    }
+
 }

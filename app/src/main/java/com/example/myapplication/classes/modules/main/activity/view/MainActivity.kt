@@ -7,6 +7,7 @@ import com.example.myapplication.R
 import com.example.myapplication.classes.managers.navHostFragment
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
 import com.example.myapplication.classes.modules.main.activity.model.MainEvents
+import com.example.myapplication.classes.modules.main.profile.view.ProfileFragment
 import com.example.myapplication.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -55,7 +56,8 @@ class MainActivity: AppCompatActivity() {
                     true
                 }
                 R.id.btProfile -> {
-                    //viewModel.addEventNavegation(MainEvents.Perfil, null)
+                    val dialog = ProfileFragment()
+                    dialog.show(supportFragmentManager, "ProfileDialog")
                     true
                 }
                 else -> false

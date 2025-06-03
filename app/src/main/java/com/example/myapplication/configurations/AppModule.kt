@@ -13,6 +13,9 @@ import com.example.myapplication.classes.modules.main.search.viewmodel.SearchVie
 import com.example.myapplication.classes.modules.main.now_playing.viewmodel.NowPlayingViewModel
 import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.modules.main.personal.viewmodel.PersonalListViewModel
+import com.example.myapplication.classes.modules.main.profile.routing.ProfileRouting
+import com.example.myapplication.classes.modules.main.profile.routing.ProfileRoutingInterface
+import com.example.myapplication.classes.modules.main.profile.viewmodel.ProfileViewModel
 import com.example.myapplication.classes.modules.main.top.viewmodel.TopRatedViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
@@ -51,6 +54,7 @@ val appModule = module{
 
     factory<MainRoutingInterface>{ MainRouting(get()) }
     factory<RegisterRoutingInterface>{ RegisterRouting(get()) }
+    factory<ProfileRoutingInterface>{ ProfileRouting(get()) }
 
     factory<AuthRepository> { AuthRepositoyImpl(get()) }
     factory<MoviesRepository> { MoviesRepositoryImpl(get()) }
@@ -63,4 +67,5 @@ val appModule = module{
     viewModel{ SearchViewModel(get(), get(), get()) }
     viewModel{ PersonalListViewModel(get(), get()) }
     viewModel{ TopRatedViewModel(get(), get()) }
+    viewModel{ ProfileViewModel(get(), get(), get()) }
 }

@@ -40,4 +40,20 @@
         tools:layout="@layout/fragment_search"
         />
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.classes.modules.main.profile.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_enter"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+
+    </fragment>
+
 </navigation>
