@@ -39,7 +39,7 @@ class UserMovieRepositoryImpl(
 
     override suspend fun getPersonalList(): List<MovieModel> {
         return withContext(Dispatchers.IO) {
-            bbdd.getPersonalList(bbdd.getCurrentUser())
+            bbdd.getPersonalList(bbdd.getCurrentUser()).sortedByDescending { it.extraInfo?.ownVote }
         }
     }
 

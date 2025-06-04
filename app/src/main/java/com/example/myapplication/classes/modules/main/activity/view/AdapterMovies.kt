@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
 import com.bumptech.glide.Glide
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
@@ -49,6 +51,9 @@ class AdapterMovies(
             circularProgress.maxProgress = BuildConfig.MAX_RATING
             circularProgress.setCurrentProgress(movie.movieAverageVote?.toDouble().valueOrZero)
 
+            updateProgressColor(circularProgress, circularProgress.progress)
+            Log.d("LOGCOLORS",circularProgress.progress.toString())
+
             cvMovie.setOnClickListener {
                 clickInterface.onFilmClick(movie)
             }
@@ -59,6 +64,22 @@ class AdapterMovies(
     }
 
     override fun getItemCount() = movieList.size
+
+    fun updateProgressColor(progressView: CircularProgressIndicator, progress: Double) {
+        progressView.setProgress(progress, 10.0)
+
+        val color = when {
+            progress >= 7.0 -> ContextCompat.getColor(progressView.context, R.color.lightGreen)
+            progress >= 5.0 -> ContextCompat.getColor(progressView.context, R.color.stateYellow)
+            progress > 3.0 -> ContextCompat.getColor(progressView.context, R.color.stateOrange)
+            else -> ContextCompat.getColor(progressView.context, R.color.stateRed)
+        }
+
+        progressView.progressColor = color
+        progressView.dotColor = color
+        progressView.textColor = color
+
+    }
 
     private fun setFavCheckView(favCheckView: ImageView, selectedMovie: Movie, isFav: Boolean) {
         favCheckView.setImageResource(
