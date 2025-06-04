@@ -21,7 +21,6 @@ class AuthServiceImpl: AuthService{
     override suspend fun session(): String?{
 
         var connected = FirebaseAuth.getInstance().currentUser
-        Log.d("PROBANDOO",connected?.displayName.toString())
         return if (connected != null){
 
             val snap = db.collection("Usuarios").document(connected.uid).get().await()
