@@ -5,6 +5,7 @@ import com.example.myapplication.classes.models.firebase.MovieModel
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
 class MovieUserServiceImpl: MovieUserService {
@@ -64,17 +65,18 @@ class MovieUserServiceImpl: MovieUserService {
         } catch (e: Exception){ null }
     }
 
-    override suspend fun modifyMovieData(uid: String,extraInfo: UserMovieExtraInfo?): MovieModel? {
+    override suspend fun modifyMovieData(uid: String, movieId: Int,extraInfo: UserMovieExtraInfo?): MovieModel? {
         return try{
 
-            val document = db.collection("Usuarios").document(uid).collection("Lista Personal")
-                .document("extraInfo").update(mapOf(
-                    "ownVote" to extraInfo?.ownVote,
-                    "ownVoteDate" to extraInfo?.ownVoteDate,
-                    "userReview" to extraInfo?.userReview
-                )).await()
 
-null
+            val data = mapOf("extraInfo" to extraInfo)
+            val document = db.collection("Usuarios").document(uid).collection("Lista Personal").document(movieId.toString())
+
+            document.set(data, SetOptions.merge())
+            val movie = db.collection("Usuarios").document(uid).collection("Lista Personal").document(movieId.toString()).get().await()
+
+            movie.toObject(MovieModel::class.java)
+
         } catch (e: Exception){ null }
     }
 }

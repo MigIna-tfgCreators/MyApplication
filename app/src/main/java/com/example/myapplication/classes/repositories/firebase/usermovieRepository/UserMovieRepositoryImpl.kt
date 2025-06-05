@@ -73,4 +73,13 @@ class UserMovieRepositoryImpl(
         }
     }
 
+    override suspend fun updateInformation(
+        movieId: Int,
+        extraInfo: UserMovieExtraInfo
+    ): MovieModel? {
+        return withContext(Dispatchers.IO) {
+            bbdd.modifyMovieData(bbdd.getCurrentUser(), movieId, extraInfo)
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.myapplication.classes.modules.main.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.details.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.details.model.DetailsState
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
@@ -31,6 +32,8 @@ class DetailsViewModel(
                 DetailsEvent.ClearError -> clearError()
 
                 is DetailsEvent.ShowPersonalData -> getPersonalInformation(event.id)
+
+                is DetailsEvent.UpdateData -> updateData(event.vote, event.review, event.id)
             }
         }
     }
@@ -95,6 +98,23 @@ class DetailsViewModel(
                 val info = firebaseRepository.getExtraInfo(id)
 
                 _movie.value = _movie.value.copy(extraInfo = info , isLoading = false)
+
+            } catch (e: Exception) {
+                _movie.value = _movie.value.copy(isLoading = false, error = e.message)
+            }
+        }
+    }
+
+    private fun updateData(vote: Int, review: String, id: Int){
+        viewModelScope.launch {
+            try {
+                _movie.value = _movie.value.copy(isLoading = true, error = null)
+
+                val info = UserMovieExtraInfo(ownVote = vote, userReview = review)
+
+                firebaseRepository.updateInformation(id,info)
+
+                _movie.value = _movie.value.copy(isLoading = false, extraInfo = info)
 
             } catch (e: Exception) {
                 _movie.value = _movie.value.copy(isLoading = false, error = e.message)

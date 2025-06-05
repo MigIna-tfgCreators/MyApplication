@@ -11,4 +11,5 @@ interface UserMovieRepository {
     suspend fun checkUserMovie(movieId: Int): Boolean
     suspend fun getExtraInfo(movieId: Int): UserMovieExtraInfo
     suspend fun getPersonalInformation(): List<Double>
+    suspend fun updateInformation(movieId: Int, extraInfo: UserMovieExtraInfo): MovieModel?
 }

@@ -180,13 +180,18 @@ class MovieDetailsFragment(
                                 true
                             }
                         }
+
+                        flagChecked = true
+
                     }
                     else{
-                        Toast.makeText(requireContext(),etNewReview.text.toString(), Toast.LENGTH_SHORT).show()
-                        Toast.makeText(requireContext(),"${rating/2}", Toast.LENGTH_SHORT).show()
-                        dismiss()
+                        textInpuReview.visibility = View.GONE
+                        btEditData.setText(getString(R.string.edit))
+                        val newVote = (rating*2).toInt()
+                        val newReview = etNewReview.text.toString()
+                        viewModel.addDetailsEvent(DetailsEvent.UpdateData(newVote, newReview, movieId))
+                        flagChecked = false
                     }
-                    flagChecked = true
                 }
 
             }

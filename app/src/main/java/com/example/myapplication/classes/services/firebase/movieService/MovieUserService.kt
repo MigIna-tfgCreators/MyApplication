@@ -11,7 +11,7 @@ interface MovieUserService {
     suspend fun hasUserMovie(movieId: Int, uid: String): Boolean
     suspend fun getPersonalList(uid: String): List<MovieModel>
     suspend fun getMovieById(uid: String, movieId: Int): MovieModel?
-    suspend fun modifyMovieData(uid: String,extraInfo: UserMovieExtraInfo?): MovieModel?
+    suspend fun modifyMovieData(uid: String,movieId: Int,extraInfo: UserMovieExtraInfo?): MovieModel?
     val db: FirebaseFirestore
 
 }
