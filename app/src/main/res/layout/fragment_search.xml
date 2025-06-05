@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.85"
             android:hint="@string/search_movie_text"
+            android:textColorHint="@color/white_translucent"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline">
 

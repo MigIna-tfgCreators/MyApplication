@@ -41,6 +41,7 @@
     <string name="films">Peliculas</string>
     <string name="sesion">Sesion</string>
     <string name="search">Busqueda</string>
+    <string name="search_normal">Búsqueda</string>
     <string name="apply_filters">Aplicar filtros seleccionados</string>
     <string name="reset_filters">Limpiar filtros</string>
     <string name="search_movie">Buscar película</string>

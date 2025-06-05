@@ -144,18 +144,24 @@
             android:id="@+id/btClearValoration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/white"
             android:text="@string/clean_filters"
             />
         <Button
             android:id="@+id/btNotErase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/white"
             android:text="@string/go_back"
             />
         <Button
             android:id="@+id/btAddValoration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/white"
             />
 
     </LinearLayout>

@@ -12,7 +12,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_movie_text"
+        android:hint="@string/search_normal"
+        android:textColorHint="@color/white_translucent"
         app:boxBackgroundMode="outline"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 

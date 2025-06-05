@@ -17,8 +17,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.15"
-            android:hint="@string/filter_personal_list"
+            android:layout_weight="0.08"
+            android:hint="@string/search_normal"
+            android:textColorHint="@color/white_translucent"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/white">
