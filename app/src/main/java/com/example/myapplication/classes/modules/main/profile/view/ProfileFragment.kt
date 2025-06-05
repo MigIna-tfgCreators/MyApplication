@@ -17,6 +17,8 @@ import com.example.myapplication.classes.modules.main.profile.viewmodel.ProfileV
 import com.example.myapplication.databinding.FragmentProfileBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class ProfileFragment: DialogFragment() {
 
@@ -59,16 +61,31 @@ class ProfileFragment: DialogFragment() {
         viewModel.viewModelScope.launch {
             viewModel.profileState.collect { state ->
                 setUp(state)
+
+                if(state.isLoading)
+                    binding.progressProfile.visibility = View.VISIBLE
+                else
+                    binding.progressProfile.visibility = View.GONE
             }
         }
-
     }
 
     private fun setUp(state: ProfileState){
         binding.apply {
             tvUsername.text = "Bienvenido/a ${state.userName}"
-            tvWatchedMovies.text = state.totalPersonalFilms.toString()
-            tvFavoriteMovies.text = state.averageVotes.valueOrZero.toString()
+
+            tvWatchedMovies.text = if(state.totalPersonalFilms != null)
+                state.totalPersonalFilms.toString()
+            else
+                "0"
+
+            val valorationAverage = state.averageVotes.valueOrZero
+
+            val correctedValoration = if(valorationAverage!= null)
+                BigDecimal(valorationAverage).setScale(2, RoundingMode.HALF_UP).toString()
+            else
+                "0.00"
+            tvFavoriteMovies.text = correctedValoration
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.myapplication.classes.modules.main.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.classes.extensions.valueOrEmpty
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.classes.modules.main.details.model.DetailsEvent
 import com.example.myapplication.classes.modules.main.details.model.DetailsState
@@ -110,7 +111,8 @@ class DetailsViewModel(
             try {
                 _movie.value = _movie.value.copy(isLoading = true, error = null)
 
-                val info = UserMovieExtraInfo(ownVote = vote, userReview = review)
+                val afterDate = _movie.value.extraInfo?.ownVoteDate
+                val info = UserMovieExtraInfo(vote, afterDate.valueOrEmpty, review)
 
                 firebaseRepository.updateInformation(id,info)
 

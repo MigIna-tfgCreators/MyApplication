@@ -117,6 +117,7 @@ class MovieDetailsFragment(
 
 
             if(!isPersonalMovie){
+                btEditData.visibility = View.GONE
                 tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
                 starContainer.visibility = View.GONE
                 tvMovieDescriptionDetails.setText(movie?.movieDescription)
