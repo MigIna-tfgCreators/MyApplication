@@ -85,5 +85,7 @@
     <string name="average_valoration">Valoración media</string>
     <string name="logout">Cerrar sesión</string>
     <string name="edit">Editar campos</string>
+    <string name="insert_new_review">Inserte la nueva review</string>
+    <string name="confirm_changes">Confirmar cambios</string>
 
 </resources>

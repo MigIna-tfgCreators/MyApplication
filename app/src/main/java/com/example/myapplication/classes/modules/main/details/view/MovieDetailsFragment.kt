@@ -1,12 +1,15 @@
 package com.example.myapplication.classes.modules.main.details.view
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.example.myapplication.BuildConfig
@@ -86,6 +89,7 @@ class MovieDetailsFragment(
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun setUI(state: DetailsState?){
         binding.apply {
             val movie = state?.actualFilm
@@ -157,16 +161,30 @@ class MovieDetailsFragment(
                 tvMovieCast.visibility = View.GONE
                 starContainer.visibility = View.VISIBLE
                 val list = listOf(star1,star2,star3, star4, star5)
-                updateStars(information?.ownVote?.toFloat().valueOrZero, list)
+                var rating = information?.ownVote?.toFloat().valueOrZero/2
+                updateStars(rating, list)
 
                 var flagChecked = false
 
                 btEditData.setOnClickListener {
                     if(!flagChecked){
-
+                        textInpuReview.visibility = View.VISIBLE
+                        btEditData.setText(getString(R.string.confirm_changes))
+                        list.forEachIndexed { index, star ->
+                            star.setOnTouchListener { v, event ->
+                                if (event.action == MotionEvent.ACTION_UP) {
+                                    val isLeft = event.x < v.width / 2
+                                    rating = if (isLeft) index + 0.5f else index + 1f
+                                    updateStars(rating, list)
+                                }
+                                true
+                            }
+                        }
                     }
                     else{
-
+                        Toast.makeText(requireContext(),etNewReview.text.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),"${rating/2}", Toast.LENGTH_SHORT).show()
+                        dismiss()
                     }
                     flagChecked = true
                 }
@@ -177,16 +195,15 @@ class MovieDetailsFragment(
     }
     private fun updateStars(rating: Float, stars: List<ImageView>) {
         Log.d("STARSRATE",rating.toString())
-        val valoration = rating/2
         for (i in stars.indices) {
             val star = stars[i]
             val position = i + 1
 
             when {
-                valoration >= position -> {
+                rating >= position -> {
                     star.setImageResource(R.drawable.star_valoration)
                 }
-                valoration >= position - 0.5 -> {
+                rating >= position - 0.5 -> {
                     star.setImageResource(R.drawable.half_star_valoration)
                 }
                 else -> {
