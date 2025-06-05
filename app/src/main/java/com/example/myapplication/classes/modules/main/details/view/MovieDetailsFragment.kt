@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.example.myapplication.BuildConfig
@@ -15,6 +16,8 @@ import com.example.myapplication.classes.modules.main.details.model.DetailsState
 import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
 import com.example.myapplication.classes.extensions.extractClaveYoutube
 import com.example.myapplication.classes.extensions.valueOrEmpty
+import com.example.myapplication.classes.extensions.valueOrNoReview
+import com.example.myapplication.classes.extensions.valueOrZero
 import com.example.myapplication.databinding.FragmentMovieDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -90,7 +93,6 @@ class MovieDetailsFragment(
             val video = state?.youtubeVideo
 
             tvMovieTitleDetails.setText(movie?.movieTitle)
-            tvMovieDescriptionDetails.setText(movie?.movieDescription)
 
             Glide.with(requireContext())
                 .load("${BuildConfig.BASE_IMAGE_URL}${movie?.moviePoster}")
@@ -108,11 +110,12 @@ class MovieDetailsFragment(
             })
 
             val genresNames = movie?.movieGenres?.joinToString(", "){ it.genreName }
-            tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
 
 
             if(!isPersonalMovie){
                 tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
+                starContainer.visibility = View.GONE
+                tvMovieDescriptionDetails.setText(movie?.movieDescription)
 
                 val cast = credits?.cast?.take(3)?.joinToString("\n"){
                     "${it.nameCast} como ${it.characterCast}"
@@ -142,17 +145,54 @@ class MovieDetailsFragment(
                 val information = viewModel.movie.value.extraInfo
 
                 information.apply {
-                    tvMovieCast.setText(this?.userReview.valueOrEmpty)
-                    tvDirector.setText("Tu voto es: ${this?.ownVote}")
+                    tvMovieGenreDetails.setText("Reseña: ${this?.userReview.valueOrNoReview}")
+                    tvMovieDescriptionDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
                     tvScreenWriter.setText("La añadiste a tu lista el  ${this?.ownVoteDate}")
                 }
-                val linearLayout = binding.tvMovieGenreDetails.parent as ViewGroup
-                linearLayout.removeView(binding.tvMovieGenreDetails)
-                linearLayout.addView(binding.tvMovieGenreDetails, linearLayout.indexOfChild(binding.tvMovieDescriptionDetails) + 1)
+                val linearLayout = tvMovieGenreDetails.parent as ViewGroup
+                linearLayout.removeView(tvMovieGenreDetails)
+                linearLayout.addView(tvMovieGenreDetails, linearLayout.indexOfChild(tvMovieDescriptionDetails) + 1)
 
+                tvDirector.visibility = View.GONE
+                tvMovieCast.visibility = View.GONE
+                starContainer.visibility = View.VISIBLE
+                val list = listOf(star1,star2,star3, star4, star5)
+                updateStars(information?.ownVote?.toFloat().valueOrZero, list)
+
+                var flagChecked = false
+
+                btEditData.setOnClickListener {
+                    if(!flagChecked){
+
+                    }
+                    else{
+
+                    }
+                    flagChecked = true
+                }
 
             }
 
+        }
+    }
+    private fun updateStars(rating: Float, stars: List<ImageView>) {
+        Log.d("STARSRATE",rating.toString())
+        val valoration = rating/2
+        for (i in stars.indices) {
+            val star = stars[i]
+            val position = i + 1
+
+            when {
+                valoration >= position -> {
+                    star.setImageResource(R.drawable.star_valoration)
+                }
+                valoration >= position - 0.5 -> {
+                    star.setImageResource(R.drawable.half_star_valoration)
+                }
+                else -> {
+                    star.setImageResource(R.drawable.not_filled_star)
+                }
+            }
         }
     }
 }

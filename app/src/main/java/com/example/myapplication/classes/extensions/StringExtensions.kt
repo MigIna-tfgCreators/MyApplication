@@ -7,4 +7,5 @@ val String?.valueOrEmpty: String
     get() = this ?: ""
 
 val String?.valueOrNoReview: String
-    get() = this ?: "Sin reseña"
+    get() = if(this.isNullOrBlank()) "Sin reseña"
+            else this

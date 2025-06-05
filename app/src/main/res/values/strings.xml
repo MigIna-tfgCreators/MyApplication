@@ -84,5 +84,6 @@
     <string name="films_watched">Películas vistas</string>
     <string name="average_valoration">Valoración media</string>
     <string name="logout">Cerrar sesión</string>
+    <string name="edit">Editar campos</string>
 
 </resources>
