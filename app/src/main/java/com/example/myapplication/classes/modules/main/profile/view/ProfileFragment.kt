@@ -30,7 +30,10 @@ class ProfileFragment: DialogFragment() {
         dialog.setContentView(R.layout.fragment_profile)
 
         dialog.window?.apply {
-            setLayout((resources.displayMetrics.widthPixels * 0.5).toInt(), ViewGroup.LayoutParams.MATCH_PARENT)
+            setLayout(
+                (resources.displayMetrics.widthPixels * 0.5).toInt(),
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
             setGravity(Gravity.END)
             setWindowAnimations(R.style.SlideDialogAnimation)
             setBackgroundDrawableResource(R.drawable.background)
@@ -42,7 +45,11 @@ class ProfileFragment: DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
@@ -62,7 +69,7 @@ class ProfileFragment: DialogFragment() {
             viewModel.profileState.collect { state ->
                 setUp(state)
 
-                if(state.isLoading)
+                if (state.isLoading)
                     binding.progressProfile.visibility = View.VISIBLE
                 else
                     binding.progressProfile.visibility = View.GONE
@@ -70,24 +77,22 @@ class ProfileFragment: DialogFragment() {
         }
     }
 
-    private fun setUp(state: ProfileState){
+    private fun setUp(state: ProfileState) {
         binding.apply {
             tvUsername.text = "Bienvenido/a ${state.userName}"
 
-            tvWatchedMovies.text = if(state.totalPersonalFilms != null)
-                state.totalPersonalFilms.toString()
-            else
-                "0"
+            tvWatchedMovies.text = state.totalPersonalFilms?.toString() ?: "0"
 
             val valorationAverage = state.averageVotes.valueOrZero
 
-            val correctedValoration = if(valorationAverage!= null)
-                BigDecimal(valorationAverage).setScale(2, RoundingMode.HALF_UP).toString()
-            else
-                "0.00"
+            val correctedValoration =
+                if (!valorationAverage.isNaN() && !valorationAverage.isInfinite()) {
+                    BigDecimal(valorationAverage).setScale(2, RoundingMode.HALF_UP).toString()
+                } else {
+                    "0.00"
+                }
+
             tvFavoriteMovies.text = correctedValoration
         }
     }
-
-
 }
