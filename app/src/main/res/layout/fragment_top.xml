@@ -20,11 +20,12 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etFilterTop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:layout_height="50dp"
+            android:inputType="text"
             android:maxLines="1"
-            android:textSize="18sp"
-            android:inputType="text" />
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

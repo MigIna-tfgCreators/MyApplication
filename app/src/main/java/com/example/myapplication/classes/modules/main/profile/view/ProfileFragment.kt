@@ -65,6 +65,10 @@ class ProfileFragment: DialogFragment() {
             viewModel.addEvent(ProfileEvents.LogOut)
         }
 
+        binding.btBackDetails.setOnClickListener {
+            dismiss()
+        }
+
         viewModel.viewModelScope.launch {
             viewModel.profileState.collect { state ->
                 setUp(state)

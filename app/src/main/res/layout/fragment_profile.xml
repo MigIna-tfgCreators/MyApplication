@@ -17,8 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tvUsername"
@@ -96,18 +95,39 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Botón Go Back agregado -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogout"
+        android:id="@+id/btBackDetails"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/logout"
-        app:backgroundTint="?attr/colorError"
-        android:textColor="@android:color/white"
-        android:icon="@drawable/szene"
-        android:iconTint="@android:color/white"
-        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:text="@string/go_back"
+        android:backgroundTint="@color/lightBlue"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/statsCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="12dp" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></Space>
+
+    <!-- Botón Logout modificado para estar debajo del botón go back -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:icon="@drawable/szene"
+        android:iconTint="@android:color/white"
+        android:text="@string/logout"
+        android:textColor="@android:color/white"
+        app:backgroundTint="?attr/colorError"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btBackDetails" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

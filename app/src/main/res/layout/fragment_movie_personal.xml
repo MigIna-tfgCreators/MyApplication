@@ -17,7 +17,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.08"
+            android:layout_weight="0.1"
             android:hint="@string/search_normal"
             android:textColorHint="@color/white_translucent"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -32,7 +32,7 @@
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView

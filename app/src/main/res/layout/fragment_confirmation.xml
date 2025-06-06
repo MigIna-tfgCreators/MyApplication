@@ -132,7 +132,7 @@
         android:id="@+id/containerButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/addContainer"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,31 +140,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="20dp">
 
-        <Button
-            android:id="@+id/btClearValoration"
+        <!-- Fila superior: Limpiar + Volver -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
-            android:textColor="@color/white"
-            android:text="@string/clean_filters"
-            />
-        <Button
-            android:id="@+id/btNotErase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
-            android:textColor="@color/white"
-            android:text="@string/go_back"
-            />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btNotErase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lightBlue"
+                android:textColor="@color/white"
+                android:text="@string/go_back"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/btClearValoration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lightBlue"
+                android:textColor="@color/white"
+                android:text="Limpiar"
+                />
+
+
+        </LinearLayout>
+
+        <!-- Botón debajo: Añadir valoración -->
         <Button
             android:id="@+id/btAddValoration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/lightBlue"
             android:textColor="@color/white"
-            />
+            android:text="Añadir"
+            android:layout_marginVertical="13dp"
+                />
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

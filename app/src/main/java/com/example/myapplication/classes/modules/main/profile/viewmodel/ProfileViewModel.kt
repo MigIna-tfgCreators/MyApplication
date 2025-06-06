@@ -21,6 +21,8 @@ class ProfileViewModel(
     private val _profileState = MutableStateFlow<ProfileState>(ProfileState())
     val profileState: StateFlow<ProfileState> = _profileState.asStateFlow()
 
+
+
     fun addEvent(event: ProfileEvents){
         viewModelScope.launch {
             when(event) {
@@ -55,5 +57,9 @@ class ProfileViewModel(
             routing.navigateToStart()
         }
     }
+
+
+
+
 
 }

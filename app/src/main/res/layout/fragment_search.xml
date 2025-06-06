@@ -9,6 +9,8 @@
     android:padding="10dp"
     android:background="@drawable/background">
 
+
+
     <LinearLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
@@ -30,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,7 +51,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMovieList"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="550dp"
         android:padding="10dp"
         tools:listitem="@layout/item_rv_movie"
         />
