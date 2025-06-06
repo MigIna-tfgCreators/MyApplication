@@ -3,7 +3,7 @@
     <string name="general_ok">Ok</string>
     <string name="cancel">Cancelar</string>
     <string name="white" />
-    <string name="isFavourite">Añadido a favoritos</string>
+    <string name="isFavourite">Añadido a mi lista</string>
     <string name="state">Estado: </string>
     <string name="refill_data">Rellene  los datos</string>
 
@@ -29,8 +29,8 @@
     <string name="error_msg_login">No se ha podido comprobar al usuario con las credenciales escritas, revise sus credenciales</string>
     <string name="error_msg_register">No se ha podido registrar al usuario, compruebe que las credenciales escritas cumplen con lo mínimo</string>
     <string name="error_msg_fav_film">No se ha podido añadir a su lista</string>
-    <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta movie a su lista de favoritos?</string>
-    <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta movie de su lista de favoritos?</string>
+    <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta película a la lista?</string>
+    <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta película de su lista de favoritos?</string>
 
     <!-- Other texts -->
     <string name="popularity">popularity</string>
@@ -40,7 +40,7 @@
 
     <string name="films">Peliculas</string>
     <string name="sesion">Sesion</string>
-    <string name="search">Busqueda</string>
+    <string name="search">Búsqueda</string>
     <string name="search_normal">Búsqueda</string>
     <string name="apply_filters">Aplicar filtros seleccionados</string>
     <string name="reset_filters">Limpiar filtros</string>
@@ -60,11 +60,12 @@
     <string name="release_date_title">Fecha lanzamiento</string>
     <string name="ascendent_title">Ascendente</string>
     <string name="downgrade_title">Descendente</string>
+    <string name="cast">Reparto:</string>
     <string name="genres_text_details">Genero(s):</string>
     <string name="now_playing_title">Cartelera</string>
-    <string name="top_title">Top</string>
+    <string name="top_title">Top 100</string>
     <string name="search_title">Búsqueda</string>
-    <string name="favorites_title">Favoritos</string>
+    <string name="favorites_title">Mi lista</string>
     <string name="profile_title">Perfil</string>
     <string name="error_message_general">Correo o contraseña incorrectos.</string>
     <string name="error_message_create">No se pudo registrar el usuario.</string>

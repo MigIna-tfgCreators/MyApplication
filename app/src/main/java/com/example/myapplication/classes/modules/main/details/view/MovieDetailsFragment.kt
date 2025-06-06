@@ -2,7 +2,11 @@ package com.example.myapplication.classes.modules.main.details.view
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -117,15 +121,55 @@ class MovieDetailsFragment(
 
 
             if(!isPersonalMovie){
-                btEditData.visibility = View.GONE
-                tvMovieGenreDetails.setText("${getString(R.string.genres_text_details)} $genresNames")
-                starContainer.visibility = View.GONE
-                tvMovieDescriptionDetails.setText(movie?.movieDescription)
+                val descriptionSpannable = SpannableStringBuilder()
 
-                val cast = credits?.cast?.take(3)?.joinToString("\n"){
-                    "${it.nameCast} como ${it.characterCast}"
+                val sinopsisTitle = "Sinopsis:\n"
+                descriptionSpannable.append(sinopsisTitle)
+                descriptionSpannable.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    sinopsisTitle.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                movie?.movieDescription?.let {
+                    descriptionSpannable.append(it)
                 }
-                tvMovieCast.setText(cast)
+
+                tvMovieDescriptionDetails.text = descriptionSpannable
+
+                val castSpannable = SpannableStringBuilder()
+
+                val repartoTitle = "Reparto:\n\n"
+                castSpannable.append(repartoTitle)
+                castSpannable.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    repartoTitle.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+
+                credits?.cast?.take(3)?.forEachIndexed { index, it ->
+                    val start = castSpannable.length
+                    castSpannable.append(it.nameCast)
+                    castSpannable.setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        start,
+                        castSpannable.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    castSpannable.append(" como ${it.characterCast}")
+
+                    if (index != 2 && index != credits.cast.lastIndex) {
+                        castSpannable.append("\n")
+                    }
+                }
+
+                tvMovieCast.text = castSpannable
+
+
+
+
 
                 val director = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.director)}
                 val writer = credits?.crew?.firstOrNull{ it.jobCrew == getString(R.string.writer) || it.jobCrew == getString(R.string.screenplay)}

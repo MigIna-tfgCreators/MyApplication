@@ -96,7 +96,7 @@ class ConfirmationFragment(
     private fun setUp(){
         binding.apply {
             if(isFav){
-                tvExplicationQuestion.text = "¿Quieres quitarlo de favoritos?"
+                tvExplicationQuestion.text = "¿Eliminar de mi lista?"
 
                 addContainer.visibility = View.GONE
                 btClearValoration.visibility = View.GONE
@@ -104,7 +104,7 @@ class ConfirmationFragment(
                 btAddValoration.setText("Eliminar")
             }
             else{
-                tvExplicationQuestion.text = "¿Quieres añadirlo a favoritos?"
+                tvExplicationQuestion.text = "¿Añadir a mi lista?"
 
                 addContainer.visibility = View.VISIBLE
                 btClearValoration.visibility = View.VISIBLE
