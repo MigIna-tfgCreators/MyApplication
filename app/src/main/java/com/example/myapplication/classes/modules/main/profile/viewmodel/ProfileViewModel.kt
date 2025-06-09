@@ -28,6 +28,7 @@ class ProfileViewModel(
             when(event) {
                 ProfileEvents.GetPersonalInformation -> getInformation()
                 ProfileEvents.LogOut -> logout()
+                ProfileEvents.ClearError -> _profileState.value = _profileState.value.copy(error = null)
             }
         }
     }

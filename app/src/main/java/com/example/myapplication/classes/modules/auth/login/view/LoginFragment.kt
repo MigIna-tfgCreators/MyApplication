@@ -36,6 +36,8 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeLoading()
+
         binding.btAccessLg.setOnClickListener {
             viewModel.viewModelScope.launch {
                 binding.apply {
@@ -76,5 +78,12 @@ class LoginFragment: Fragment() {
             }
     }
 
+    private fun observeLoading(){
+        viewModel.viewModelScope.launch {
+            viewModel.signState.collect { state ->
+                binding.progressBarLogin.visibility = if (state.isLoading == true) View.VISIBLE else View.GONE
+            }
+        }
+    }
 
 }

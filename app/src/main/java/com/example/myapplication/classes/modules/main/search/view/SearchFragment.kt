@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.modules.main.search.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,17 +9,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.textChanges
 import com.example.myapplication.classes.extensions.valueOrEmpty
 import com.example.myapplication.classes.extensions.valueOrFalse
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
+import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.search.model.SearchEvents
 import com.example.myapplication.classes.modules.main.search.viewmodel.SearchViewModel
 import com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment
 import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
+import com.example.myapplication.classes.modules.main.profile.model.ProfileEvents
+import com.example.myapplication.classes.modules.main.profile.model.ProfileState
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
 import com.example.myapplication.databinding.FragmentSearchBinding
 import kotlinx.coroutines.delay
@@ -123,6 +128,7 @@ class SearchFragment : Fragment() {
             viewModel.searchState.collect { state ->
                 val movieList = state.actualMovies
                 val personalList = state.actualPersonalMovies
+                showError(state)
                 binding.recyclerViewMovieList.post {
                     Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
@@ -146,5 +152,16 @@ class SearchFragment : Fragment() {
         }
 
     }
-
+    private fun showError(state: GeneralMovieState){
+        state.error?.let { error ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.error_type))
+                .setMessage(error)
+                .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.addEvent(SearchEvents.ClearErrors)
+                }
+                .show()
+        }
+    }
 }

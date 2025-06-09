@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.modules.main.top.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,12 +14,15 @@ import com.example.myapplication.classes.extensions.textChanges
 import com.example.myapplication.classes.extensions.valueOrFalse
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
+import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
 import com.example.myapplication.classes.modules.main.activity.model.MainEvents
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
 import com.example.myapplication.classes.modules.main.details.view.MovieDetailsFragment
 import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
+import com.example.myapplication.classes.modules.main.profile.model.ProfileEvents
+import com.example.myapplication.classes.modules.main.profile.model.ProfileState
 import com.example.myapplication.classes.modules.main.top.model.TopRatedEvents
 import com.example.myapplication.classes.modules.main.top.viewmodel.TopRatedViewModel
 import com.example.myapplication.classes.providers.EndlessRecyclerOnScrollListener
@@ -102,6 +106,7 @@ class TopFragment : Fragment() {
             viewModel.moviesState.collect { state ->
                 val movieList = state.actualMovies
                 val personalList = state.actualPersonalMovies
+                showError(state)
                 binding.rvTopMovies.post {
                     Log.d("TOP_LIST_DEBUG", "Personales: ${personalList?.size}")
                     adapter.updateList(movieList)
@@ -122,6 +127,20 @@ class TopFragment : Fragment() {
                         viewModel.addEvent(TopRatedEvents.ShowAllList)
                     }
                 }
+        }
+    }
+
+    private fun showError(state: GeneralMovieState){
+        state.error?.let { error ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.error_type))
+                .setMessage(error)
+                .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.addEvent(TopRatedEvents.ResetAll)
+                    viewModel.addEvent(TopRatedEvents.ShowAllList)
+                }
+                .show()
         }
     }
 }

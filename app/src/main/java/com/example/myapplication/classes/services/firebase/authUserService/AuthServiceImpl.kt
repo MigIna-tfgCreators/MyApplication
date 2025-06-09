@@ -52,13 +52,13 @@ class AuthServiceImpl: AuthService{
             throw Exception("Credenciales inválidas")
             false
         } catch (e: FirebaseAuthEmailException){
-            throw Exception("Email ya está en uso")
+            throw Exception("Email ya en uso")
             false
         } catch (e: FirebaseAuthWeakPasswordException) {
             throw Exception("Contraseña débil: ${e.reason}")
             false
         }catch (e: Exception){
-            throw Exception("Error desconocido ${e.localizedMessage}")
+            throw Exception(e.localizedMessage)
             false
         }
     }

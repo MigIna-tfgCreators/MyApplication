@@ -20,7 +20,7 @@ class NowPlayingViewModel(
     private val firebaseRepository: UserMovieRepository
 ): ViewModel()  {
 
-    private val _moviesState = MutableStateFlow<GeneralMovieState>(GeneralMovieState())
+    private val _moviesState = MutableStateFlow(GeneralMovieState())
     val moviesState: StateFlow<GeneralMovieState> = _moviesState.asStateFlow()
 
     private var lastQuery = ""

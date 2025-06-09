@@ -49,6 +49,7 @@ class SearchViewModel(
             is SearchEvents.HasInPersonal -> hashInPersonal(event.movie, event.info)
 
             SearchEvents.ResetFav -> resetFav()
+            SearchEvents.ClearErrors -> _searchState.value = _searchState.value.copy(error = null)
         }
     }
     private fun resetFav(){

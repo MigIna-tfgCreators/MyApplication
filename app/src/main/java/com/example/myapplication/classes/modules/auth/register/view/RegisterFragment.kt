@@ -35,6 +35,8 @@ class RegisterFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeLoading()
+
         binding.btAccessNew.setOnClickListener {
             viewModel.viewModelScope.launch {
                 binding.apply {
@@ -72,4 +74,11 @@ class RegisterFragment: Fragment() {
     }
 
 
+    private fun observeLoading(){
+        viewModel.viewModelScope.launch {
+            viewModel.signState.collect { state ->
+                binding.progressBarRegister.visibility = if (state.isLoading == true) View.VISIBLE else View.GONE
+            }
+        }
+    }
 }

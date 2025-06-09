@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.modules.main.now_playing.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.textChanges
 import com.example.myapplication.classes.extensions.valueOrFalse
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
+import com.example.myapplication.classes.modules.auth.activity.model.AuthEvents
+import com.example.myapplication.classes.modules.auth.activity.model.AuthState
+import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
 import com.example.myapplication.classes.modules.main.activity.view.AdapterMovies
 import com.example.myapplication.classes.modules.main.activity.view.ClickItemInterface
 import com.example.myapplication.classes.modules.main.now_playing.model.NowPlayingEvents
@@ -103,6 +108,8 @@ class NowPlayingFragment : Fragment() {
             viewModel.moviesState.collect { state ->
                 val movieList = state.actualMovies
                 val personalList = state.actualPersonalMovies
+                showError(state)
+
                 binding.rvWatchedMovies.post {
                     Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
@@ -123,6 +130,19 @@ class NowPlayingFragment : Fragment() {
                     viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
                 }
             }
+        }
+    }
+    private fun showError(state: GeneralMovieState){
+        state.error?.let { error ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.error_type))
+                .setMessage(error)
+                .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.addEventFilms(NowPlayingEvents.ResetAll)
+                    viewModel.addEventFilms(NowPlayingEvents.ShowAllList)
+                }
+                .show()
         }
     }
 }

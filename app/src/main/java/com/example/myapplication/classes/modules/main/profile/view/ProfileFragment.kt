@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.modules.main.profile.view
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
@@ -11,6 +12,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
 import com.example.myapplication.classes.extensions.valueOrZero
+import com.example.myapplication.classes.modules.main.activity.model.GeneralMovieState
+import com.example.myapplication.classes.modules.main.personal.model.PersonalListEvents
 import com.example.myapplication.classes.modules.main.profile.model.ProfileEvents
 import com.example.myapplication.classes.modules.main.profile.model.ProfileState
 import com.example.myapplication.classes.modules.main.profile.viewmodel.ProfileViewModel
@@ -72,7 +75,7 @@ class ProfileFragment: DialogFragment() {
         viewModel.viewModelScope.launch {
             viewModel.profileState.collect { state ->
                 setUp(state)
-
+                showError(state)
                 if (state.isLoading)
                     binding.progressProfile.visibility = View.VISIBLE
                 else
@@ -97,6 +100,18 @@ class ProfileFragment: DialogFragment() {
                 }
 
             tvFavoriteMovies.text = correctedValoration
+        }
+    }
+    private fun showError(state: ProfileState){
+        state.error?.let { error ->
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.error_type))
+                .setMessage(error)
+                .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    viewModel.addEvent(ProfileEvents.ClearError)
+                }
+                .show()
         }
     }
 }
