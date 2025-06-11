@@ -56,11 +56,7 @@ class NowPlayingFragment : Fragment() {
                     viewModel.viewModelScope.launch {
                         viewModel.addEventFilms(NowPlayingEvents.CheckMovie(movie))
 
-                        val state = viewModel.moviesState.first { it.isInPersonalList != null }
-
-                        val isFav = state.isInPersonalList
-
-                        bottomSheet = MovieDetailsFragment(movie.movieId, isFav.valueOrFalse)
+                        bottomSheet = MovieDetailsFragment(movie.movieId, false)
                         bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
                         viewModel.addEventFilms(NowPlayingEvents.ResetAll)
@@ -111,7 +107,6 @@ class NowPlayingFragment : Fragment() {
                 showError(state)
 
                 binding.rvWatchedMovies.post {
-                    Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
                     adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                     binding.progressMovieList.visibility = View.GONE

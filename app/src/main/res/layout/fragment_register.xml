@@ -8,6 +8,7 @@
     android:gravity="center"
     android:textAlignment="center"
     android:orientation="vertical"
+    android:layout_marginTop="80dp"
     android:padding="8dp">
 
     <TextView
@@ -16,9 +17,8 @@
         android:text="@string/refill_data"
         android:layout_marginTop="20dp"
         />
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"/>
+
+    <Space android:layout_width="wrap_content" android:layout_height="30dp"/>
 
     <TextView
         style="@style/white_large_general_textview"
@@ -28,6 +28,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
@@ -38,9 +39,7 @@
             style="@style/authuser_edittext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"/>
+    <Space android:layout_width="wrap_content" android:layout_height="30dp"/>
 
     <TextView
         style="@style/white_large_general_textview"
@@ -50,6 +49,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
@@ -60,12 +60,7 @@
             style="@style/authuser_edittext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"/>
-
+    <Space android:layout_width="wrap_content" android:layout_height="30dp"/>
 
     <TextView
         style="@style/white_large_general_textview"
@@ -75,6 +70,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewPswd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
@@ -91,12 +87,28 @@
         android:layout_height="wrap_content"
         />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btAccessNew"
-        style="@style/login_large_buttons"
-        android:text="@string/layout_create_bt"
-        android:layout_marginTop="30dp"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btGoBack"
+            style="@style/login_large_buttons"
+            android:text="@string/go_back" />
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btAccessNew"
+            style="@style/login_large_buttons"
+            android:text="@string/layout_create_bt" />
+    </LinearLayout>
+
 
 
 </LinearLayout>

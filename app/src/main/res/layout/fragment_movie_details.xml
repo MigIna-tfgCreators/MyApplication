@@ -137,7 +137,8 @@
                 android:layout_weight="1"
                 android:text="@string/edit"
                 android:backgroundTint="@color/lightBlue"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </LinearLayout>

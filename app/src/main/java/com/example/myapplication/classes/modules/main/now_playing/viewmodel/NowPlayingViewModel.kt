@@ -63,7 +63,6 @@ class NowPlayingViewModel(
                     actualPersonalMovies = personalMovies
                 )
 
-                Log.d("NowPlayingFragment", "All movies: ${allMovies.size}, Personal movies: ${personalMovies.size}")
 
             } catch (e: Exception) {
                 _moviesState.value = _moviesState.value.copy(isLoading = false, error = e.message)
@@ -81,13 +80,13 @@ class NowPlayingViewModel(
                 _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = true)
 
                 val currentList = _moviesState.value.actualMovies
-                Log.d("NowPlayingFragment2","currrentList -> ${currentList.size}")
+
 
                 val searchedMovies = currentList.filter {
                     it.movieTitle.contains(query, ignoreCase = true)
                 }
 
-                Log.d("NowPlayingFragment2","searchedList -> ${searchedMovies.size}")
+
 
                 _moviesState.value = _moviesState.value.copy(actualMovies = searchedMovies, isLoading = false, actualQuery = query)
 
@@ -142,7 +141,6 @@ class NowPlayingViewModel(
                 _moviesState.value = _moviesState.value.copy(isLoading = true, error = null)
 
                 val flag = firebaseRepository.checkUserMovie(movie.movieId)
-                Log.d("TESTEANDOOO",flag.toString())
                 _moviesState.value = _moviesState.value.copy(isLoading = false)
 
                 if(flag) quitPersonalMovie(movie)

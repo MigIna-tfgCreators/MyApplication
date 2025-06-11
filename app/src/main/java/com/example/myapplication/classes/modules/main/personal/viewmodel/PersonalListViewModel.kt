@@ -84,10 +84,7 @@ class PersonalListViewModel(
         if(_moviesState.value.isLoading) return
         viewModelScope.launch {
             try{
-
-                Log.d("AYUDA","personalList.size.toString()")
-
-                _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = false, error = null)
+                 _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = false, error = null)
 
                 val personalList = firebaseRepository.getPersonalList()
 
@@ -113,18 +110,11 @@ class PersonalListViewModel(
                 _moviesState.value = _moviesState.value.copy(isLoading = true, isSearchMode = true)
 
                 val currentList = _moviesState.value.actualMovies
-                Log.d("NowPlayingFragment2","currrentList -> ${currentList.size}")
+
 
                 val searchedMovies = currentList.filter {
                     it.movieTitle.contains(query, ignoreCase = true)
                 }
-
-                Log.d("NowPlayingFragment2","searchedList -> ${searchedMovies.size}")
-
-//                val combinedData = if(actualPage == 1)
-//                    searchedMovies
-//                else
-//                    (currentList?.plus(searchedMovies))?.distinctBy<Movie> { it.movieId }
 
                 _moviesState.value = _moviesState.value.copy(actualMovies = searchedMovies, isLoading = false, actualQuery = query)
 
@@ -141,7 +131,6 @@ class PersonalListViewModel(
                 _moviesState.value = _moviesState.value.copy(isLoading = true, error = null)
 
                 val flag = firebaseRepository.checkUserMovie(movie.movieId)
-                Log.d("TESTEANDOOO",flag.toString())
                 _moviesState.value = _moviesState.value.copy(isLoading = false)
 
                 if(flag) quitPersonalMovie(movie)

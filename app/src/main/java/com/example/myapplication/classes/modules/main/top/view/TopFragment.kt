@@ -57,11 +57,7 @@ class TopFragment : Fragment() {
                     viewModel.viewModelScope.launch {
                         viewModel.addEvent(TopRatedEvents.CheckMovie(movie))
 
-                        val state = viewModel.moviesState.first { it.isInPersonalList != null }
-
-                        val isFav = state.isInPersonalList
-
-                        bottomSheet = MovieDetailsFragment(movie.movieId, isFav.valueOrFalse)
+                        bottomSheet = MovieDetailsFragment(movie.movieId, false)
                         bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
                         viewModel.addEvent(TopRatedEvents.ResetAll)
@@ -108,7 +104,6 @@ class TopFragment : Fragment() {
                 val personalList = state.actualPersonalMovies
                 showError(state)
                 binding.rvTopMovies.post {
-                    Log.d("TOP_LIST_DEBUG", "Personales: ${personalList?.size}")
                     adapter.updateList(movieList)
                     adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                 }

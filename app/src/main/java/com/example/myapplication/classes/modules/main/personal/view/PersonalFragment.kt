@@ -101,7 +101,6 @@ class PersonalFragment: Fragment() {
                 val personalList = state.actualPersonalMovies
                 showError(state)
                 binding.rvWatchedMovies.post {
-                    Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(personalList)
                     adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                     binding.progressPersonalList.visibility = View.GONE

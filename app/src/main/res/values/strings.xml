@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Szene</string>
     <string name="general_ok">Ok</string>
     <string name="cancel">Cancelar</string>
     <string name="white" />
@@ -31,6 +31,16 @@
     <string name="error_msg_fav_film">No se ha podido añadir a su lista</string>
     <string name="warning_msg_plus_fav">¿Está seguro que quiere añadir esta película a la lista?</string>
     <string name="warning_msg_minus_fav">¿Está seguro que quiere quitar esta película de su lista de favoritos?</string>
+
+
+    <string name="error_name_empty">El nombre no puede estar vacío</string>
+    <string name="error_email_empty">El correo no puede estar vacío</string>
+    <string name="error_email_invalid">El correo no es válido</string>
+    <string name="error_password_short">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_password_empty">La contraseña no puede estar vacía</string>
+
+
+
 
     <!-- Other texts -->
     <string name="popularity">popularity</string>
@@ -81,7 +91,7 @@
     <string name="clean_filters">Limpiar filtros</string>
     <string name="go_back"> Volver</string>
     <string name="search_movie_text">Buscar película</string>
-    <string name="filter_now_playing_films">Filtrar cartelera</string>
+    <string name="filter_now_playing_films">Buscar</string>
     <string name="filter_personal_list">Filtrar peliculas valoradas</string>
     <string name="films_watched">Películas vistas</string>
     <string name="average_valoration">Valoración media</string>

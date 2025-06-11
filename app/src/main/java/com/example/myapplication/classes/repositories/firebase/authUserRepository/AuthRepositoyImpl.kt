@@ -16,14 +16,12 @@ class AuthRepositoyImpl(
 
     override suspend fun register(name: String, email: String, pswd: String): Boolean {
         return withContext(Dispatchers.IO) {
-            Log.d("PROBANDO","$name -> $email : $pswd")
             bbdd.register(name,email,pswd)
         }
     }
 
     override suspend fun login(email: String, pswd: String): Boolean {
         return withContext(Dispatchers.IO) {
-            Log.d("PROBANDO","$email : $pswd")
             bbdd.login(email,pswd)
         }
     }

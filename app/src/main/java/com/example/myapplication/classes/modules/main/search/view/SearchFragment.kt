@@ -55,11 +55,7 @@ class SearchFragment : Fragment() {
                     viewModel.viewModelScope.launch {
                         viewModel.addEvent(SearchEvents.CheckMovie(movie))
 
-                        val state = viewModel.searchState.first { it.isInPersonalList != null }
-
-                        val isFav = state.isInPersonalList
-
-                        bottomSheet = MovieDetailsFragment(movie.movieId, isFav.valueOrFalse)
+                        bottomSheet = MovieDetailsFragment(movie.movieId, false)
                         bottomSheet.show(parentFragmentManager, bottomSheet.tag)
 
                         viewModel.addEvent(SearchEvents.ResetFav)
@@ -89,7 +85,6 @@ class SearchFragment : Fragment() {
                     if(viewModel.searchState.value.isSearchMode == true)
                         viewModel.addEvent(SearchEvents.SearchMovies(viewModel.searchState.value.actualQuery.toString()))
                     else {
-                        Log.d("AYUDA PO FAVO","vacas")
                         viewModel.addEvent(SearchEvents.GetFilterList)
                         binding.progressMovieBar.visibility = View.GONE
                     }
@@ -130,7 +125,6 @@ class SearchFragment : Fragment() {
                 val personalList = state.actualPersonalMovies
                 showError(state)
                 binding.recyclerViewMovieList.post {
-                    Log.d("AYUDA PO FAVO","${personalList?.size}")
                     adapter.updateList(movieList)
                     adapter.setSaved(personalList?.mapNotNull { it.movieId }?.toSet() ?: emptySet())
                     binding.progressMovieBar.visibility = View.GONE

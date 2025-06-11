@@ -109,7 +109,6 @@ class MovieDetailsFragment(
             val url = video.let {
                 "https://www.youtube.com/watch?v=${it?.videoKey}"
             }
-            Log.d("Identificador","URL -> $url")
 
             youtubePlayerView.addYouTubePlayerListener(object: AbstractYouTubePlayerListener(){
                 override fun onReady(youTubePlayer: YouTubePlayer) {
@@ -119,8 +118,9 @@ class MovieDetailsFragment(
 
             val genresNames = movie?.movieGenres?.joinToString(", "){ it.genreName }
 
+            btEditData.visibility = if (isPersonalMovie) View.VISIBLE else View.GONE
 
-            if(!isPersonalMovie){
+            if (!isPersonalMovie) {
                 val descriptionSpannable = SpannableStringBuilder()
 
                 val sinopsisTitle = "Sinopsis:\n"
@@ -244,7 +244,6 @@ class MovieDetailsFragment(
         }
     }
     private fun updateStars(rating: Float, stars: List<ImageView>) {
-        Log.d("STARSRATE",rating.toString())
         for (i in stars.indices) {
             val star = stars[i]
             val position = i + 1

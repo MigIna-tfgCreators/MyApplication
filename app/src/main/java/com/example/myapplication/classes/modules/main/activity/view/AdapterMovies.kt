@@ -52,7 +52,6 @@ class AdapterMovies(
             circularProgress.setCurrentProgress(movie.movieAverageVote?.toDouble().valueOrZero)
 
             updateProgressColor(circularProgress, circularProgress.progress)
-            Log.d("LOGCOLORS",circularProgress.progress.toString())
 
             cvMovie.setOnClickListener {
                 clickInterface.onFilmClick(movie)
@@ -91,11 +90,9 @@ class AdapterMovies(
                     clickInterface.onCheckClick(selectedMovie,extraInfo)
 
                     if (isFav) {
-                        Log.d("AYUDA","DEBERIAS SER CIRCULO")
                         R.drawable.plus_circle
                     }
                     else {
-                        Log.d("AYUDA","DEBERIAS SER ESTRELLA")
                         R.drawable.filled_small_star
                     }
                     notifyDataSetChanged()

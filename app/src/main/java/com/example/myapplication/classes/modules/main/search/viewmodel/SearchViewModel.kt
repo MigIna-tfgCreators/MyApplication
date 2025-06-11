@@ -80,7 +80,7 @@ class SearchViewModel(
                 if (_searchState.value.isLoading) return@launch
                 _searchState.value = _searchState.value.copy(isLoading = true, isSearchMode = false)
 
-                Log.d("NowPlayingFragment Page", "lpagina -> $actualPage")
+
 
 
                 val filterListDeferred =async {
@@ -90,7 +90,7 @@ class SearchViewModel(
                     ).filter { it.movieAverageVote != null && it.movieAverageVote >0.0 }
                         .sortedByDescending { it.movieTotalVotes }
 
-                    Log.d("NowPlayingFragment List",list.size.toString())
+
                     list
                 }
                 val personalListDeferred = async {
@@ -103,7 +103,7 @@ class SearchViewModel(
 
                 val allMovies = _searchState.value.actualMovies + filterList
 
-                Log.d("NowPlayingFragment", "listados -> ${filterList.size} ; ${allMovies.size}")
+
 
                 _searchState.value = _searchState.value.copy(actualMovies = allMovies,
                     actualPersonalMovies = personalList, isLoading = false)
@@ -225,13 +225,10 @@ class SearchViewModel(
     private fun hashInPersonal(movie: Movie, info: UserMovieExtraInfo?){
         viewModelScope.launch {
             try{
-                Log.d("TESTEANDOOO","flag.toString()")
-
                 if (_searchState.value.isLoading) return@launch
                 _searchState.value = _searchState.value.copy(isLoading = true, error = null)
 
                 val flag = firebaseRepository.checkUserMovie(movie.movieId)
-                Log.d("TESTEANDOOO",flag.toString())
                 _searchState.value = _searchState.value.copy(isLoading = false)
 
                 if(flag) quitPersonalMovie(movie)
@@ -246,13 +243,11 @@ class SearchViewModel(
 
     private fun checkMovie(movie: Movie){
         viewModelScope.launch {
-            Log.d("FAVORITO","probando")
             try{
                 if (_searchState.value.isLoading) return@launch
                 _searchState.value = _searchState.value.copy(isLoading = true, error = null)
 
                 val check = firebaseRepository.checkUserMovie(movie.movieId)
-                Log.d("FAVORITO",check.toString())
                 _searchState.value = _searchState.value.copy(isLoading = false, isInPersonalList = check)
 
             } catch (e: Exception){
