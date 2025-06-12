@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
             var isValid = true
 
             if (email.isEmpty()) {
-                binding.tilEmailLog.error = getString(R.string.error_email_empty)
+                binding.tilEmailLog.error = getString(R.string.campo_error)
                 isValid = false
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.tilEmailLog.error = getString(R.string.error_email_invalid)
@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
             }
 
             if (password.isEmpty()) {
-                binding.tilPswdLog.error = getString(R.string.error_password_empty)
+                binding.tilPswdLog.error = getString(R.string.campo_error)
                 isValid = false
             }
 

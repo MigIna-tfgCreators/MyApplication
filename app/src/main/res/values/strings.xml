@@ -49,6 +49,7 @@
     <string name="descender">.desc</string>
 
     <string name="films">Peliculas</string>
+    <string name="campo_error">Rellene este campo</string>
     <string name="sesion">Sesion</string>
     <string name="search">Búsqueda</string>
     <string name="search_normal">Búsqueda</string>
