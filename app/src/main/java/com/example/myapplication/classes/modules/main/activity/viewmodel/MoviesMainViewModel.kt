@@ -3,6 +3,7 @@ package com.example.myapplication.classes.modules.main.activity.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
 import com.example.myapplication.classes.modules.main.activity.model.MainEvents
+import com.example.myapplication.classes.modules.main.profile.view.ProfileFragment
 
 class MoviesMainViewModel(
     private val routing: MainRoutingInterface
@@ -18,13 +19,6 @@ class MoviesMainViewModel(
 
             MainEvents.TopList -> routing.navigateToTop()
 
-            MainEvents.AppearanceProfile -> {
-                //Todavía por implementar
-            }
         }
     }
-
-
-
-
 }

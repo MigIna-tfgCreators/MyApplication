@@ -65,7 +65,6 @@ interface APIServiceInterface {
         @Query("language") language: String = BuildConfig.LANGUAGE
     ): Response<MovieRemote>
 
-
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Int,

@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".classes.modules.main.top.view.TopFragment"
     android:background="@drawable/background"
     android:padding="16dp"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etFilterTop"
-        android:background="@color/white"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:textSize="18sp"/>
+        android:hint="@string/search_normal"
+        android:textColorHint="@color/white_translucent"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFilterTop"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPeliculasTop"
+        android:id="@+id/rvTopMovies"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

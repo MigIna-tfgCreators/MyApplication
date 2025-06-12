@@ -19,12 +19,10 @@ class UserMovieRepositoryImpl(
 ):  UserMovieRepository{
     override suspend fun addPersonalMovie(movie: Movie, extraInfo: UserMovieExtraInfo?) {
         withContext(Dispatchers.IO) {
-            Log.d("AYUDAME","ME Crean")
             val movieFB = movie.toFirebaseModel
 
-            movieFB.ownVote = extraInfo?.ownVote
-            movieFB.ownVoteDate = extraInfo?.ownVoteDate
-            movieFB.userReview = extraInfo?.userReview
+
+            movieFB.extraInfo = extraInfo
 
             bbdd.addPersonalMovie(movieFB, bbdd.getCurrentUser())
         }
@@ -32,7 +30,6 @@ class UserMovieRepositoryImpl(
 
     override suspend fun quitPersonalMovie(movie: Movie) {
         return withContext(Dispatchers.IO) {
-            Log.d("AYUDAME","ME MUERO")
             val movieFB = bbdd.getMovieById(bbdd.getCurrentUser(),movie.movieId)
 
             if(movieFB != null)
@@ -42,15 +39,46 @@ class UserMovieRepositoryImpl(
 
     override suspend fun getPersonalList(): List<MovieModel> {
         return withContext(Dispatchers.IO) {
-            val list = bbdd.getPersonalList(bbdd.getCurrentUser())
-            Log.d("AYUDA SII",list.size.toString())
-            list
+            bbdd.getPersonalList(bbdd.getCurrentUser()).sortedByDescending { it.extraInfo?.ownVote }
         }
     }
 
     override suspend fun checkUserMovie(movieId: Int): Boolean {
         return withContext(Dispatchers.IO) {
             bbdd.hasUserMovie(movieId,bbdd.getCurrentUser())
+        }
+    }
+
+    override suspend fun getExtraInfo(movieId: Int): UserMovieExtraInfo {
+        return withContext(Dispatchers.IO) {
+            val movieFB = bbdd.getMovieById(bbdd.getCurrentUser(),movieId)
+            movieFB?.extraInfo ?: UserMovieExtraInfo()
+        }
+    }
+
+    override suspend fun getPersonalInformation(): List<Double> {
+        return withContext(Dispatchers.IO) {
+            val list = bbdd.getPersonalList(bbdd.getCurrentUser())
+            val moviesCount = list.size
+            var averageVotes = 0.00
+
+            for(movie in list){
+                averageVotes += movie.extraInfo?.ownVote.valueOrZero
+            }
+
+            averageVotes = averageVotes/moviesCount
+
+            listOf<Double>(moviesCount.toDouble(), averageVotes)
+
+        }
+    }
+
+    override suspend fun updateInformation(
+        movieId: Int,
+        extraInfo: UserMovieExtraInfo
+    ): MovieModel? {
+        return withContext(Dispatchers.IO) {
+            bbdd.modifyMovieData(bbdd.getCurrentUser(), movieId, extraInfo)
         }
     }
 

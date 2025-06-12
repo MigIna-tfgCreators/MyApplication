@@ -12,6 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.classes.modules.auth.activity.model.AuthEvents
 import com.example.myapplication.classes.modules.auth.activity.model.AuthState
 import com.example.myapplication.classes.modules.auth.activity.viewModel.SignViewModel
+import com.example.myapplication.classes.providers.FirebaseTranslator
 import com.example.myapplication.databinding.FragmentLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: SignViewModel by viewModel()
@@ -27,21 +28,43 @@ class LoginFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeLoading()
+
         binding.btAccessLg.setOnClickListener {
-            viewModel.viewModelScope.launch {
-                binding.apply {
-                    viewModel.addEvent(AuthEvents.CheckAuth(etEmailLog.text.toString(), etPswdLog.text.toString()))
+            val email = binding.etEmailLog.text.toString().trim()
+            val password = binding.etPswdLog.text.toString().trim()
+
+            // Limpiar errores anteriores
+            binding.tilEmailLog.error = null
+            binding.tilPswdLog.error = null
+
+            var isValid = true
+
+            if (email.isEmpty()) {
+                binding.tilEmailLog.error = getString(R.string.error_email_empty)
+                isValid = false
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.tilEmailLog.error = getString(R.string.error_email_invalid)
+                isValid = false
+            }
+
+            if (password.isEmpty()) {
+                binding.tilPswdLog.error = getString(R.string.error_password_empty)
+                isValid = false
+            }
+
+            if (isValid) {
+                viewModel.viewModelScope.launch {
+                    viewModel.addEvent(AuthEvents.CheckAuth(email, password))
                 }
-                clearData()
             }
         }
 
@@ -50,31 +73,45 @@ class LoginFragment: Fragment() {
         }
 
         viewModel.viewModelScope.launch {
-            viewModel.signState.collect { showError(it) }
+            viewModel.signState.collect { showGlobalError(it) }
+        }
+
+
+
+    }
+
+    private fun showGlobalError(state: AuthState) {
+        state.errorMessage?.let { error ->
+            FirebaseTranslator().initTranslate(error,
+                onResult = { translatedText ->
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.error_type))
+                        .setMessage(translatedText ?: error)
+                        .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                            dialog.dismiss()
+                            viewModel.addEvent(AuthEvents.ClearErrors)
+                        }
+                        .show()
+                },
+                onError = {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(getString(R.string.error_type))
+                        .setMessage(error)
+                        .setPositiveButton(R.string.general_ok) { dialog, _ ->
+                            dialog.dismiss()
+                            viewModel.addEvent(AuthEvents.ClearErrors)
+                        }
+                        .show()
+                })
         }
     }
 
-    private fun clearData(){
-        binding.apply {
-            etEmailLog.setText(getString(R.string.white))
-            etPswdLog.setText(getString(R.string.white))
-        }
-    }
-
-    private fun showError(state: AuthState){
-        if (!isAdded || context == null) return
-        if(!state.errorMessage.isNullOrBlank())
-            state.errorMessage.let { error ->
-                AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.error_type))
-                    .setMessage(error)
-                    .setPositiveButton(R.string.general_ok) { dialog, _ ->
-                        dialog.dismiss()
-                        viewModel.addEvent(AuthEvents.ClearErrors)
-                    }
-                    .show()
+    private fun observeLoading() {
+        viewModel.viewModelScope.launch {
+            viewModel.signState.collect { state ->
+                binding.progressBarLogin.visibility =
+                    if (state.isLoading == true) View.VISIBLE else View.GONE
             }
+        }
     }
-
-
 }

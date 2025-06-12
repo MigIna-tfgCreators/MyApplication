@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.R
+import com.example.myapplication.classes.extensions.valueOrNoReview
 import com.example.myapplication.classes.models.API.Movie
 import com.example.myapplication.classes.models.firebase.UserMovieExtraInfo
 import com.example.myapplication.databinding.FragmentConfirmationBinding
@@ -95,7 +96,7 @@ class ConfirmationFragment(
     private fun setUp(){
         binding.apply {
             if(isFav){
-                tvExplicationQuestion.text = "¿Quieres quitarlo de favoritos?"
+                tvExplicationQuestion.text = "¿Eliminar de mi lista?"
 
                 addContainer.visibility = View.GONE
                 btClearValoration.visibility = View.GONE
@@ -103,7 +104,7 @@ class ConfirmationFragment(
                 btAddValoration.setText("Eliminar")
             }
             else{
-                tvExplicationQuestion.text = "¿Quieres añadirlo a favoritos?"
+                tvExplicationQuestion.text = "¿Añadir a mi lista?"
 
                 addContainer.visibility = View.VISIBLE
                 btClearValoration.visibility = View.VISIBLE
@@ -120,7 +121,7 @@ class ConfirmationFragment(
         val extraInfo = UserMovieExtraInfo(
             ownVote = (rating*2).toInt(),
             ownVoteDate = LocalDate.now().toString(),
-            userReview = review
+            userReview = review.valueOrNoReview
         )
 
         onDismissResult(aceptChange, extraInfo)

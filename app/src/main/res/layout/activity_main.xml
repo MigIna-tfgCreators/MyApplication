@@ -13,13 +13,40 @@
         android:src="@drawable/background"
         />
     <LinearLayout
-        style="@style/vertical_general_linearlayout">
+        style="@style/vertical_general_linearlayout"
+        android:padding="0dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvTitle"
-            style="@style/white_bolded_center_title"
-            android:text="@string/now_playing_title"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="25dp"
+            android:paddingHorizontal="16dp">
+
+            <ImageView
+                android:id="@+id/ivSceneIcon"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:src="@drawable/szene"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTitle"
+                style="@style/white_bolded_center_title"
+                android:text="@string/now_playing_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/movieContainer"
@@ -29,6 +56,7 @@
             android:layout_weight="1"
             app:navGraph="@navigation/nav_graph_listfilms"
             app:defaultNavHost="true"
+            android:layout_margin="7dp"
             />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,8 +68,5 @@
             app:itemIconSize="30dp"
             android:background="@color/darkBlue"
             />
-
-
     </LinearLayout>
-
 </FrameLayout>

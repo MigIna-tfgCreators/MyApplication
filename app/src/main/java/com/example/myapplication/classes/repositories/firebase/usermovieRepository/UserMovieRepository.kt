@@ -9,4 +9,7 @@ interface UserMovieRepository {
     suspend fun quitPersonalMovie(movie: Movie)
     suspend fun getPersonalList(): List<MovieModel>
     suspend fun checkUserMovie(movieId: Int): Boolean
+    suspend fun getExtraInfo(movieId: Int): UserMovieExtraInfo
+    suspend fun getPersonalInformation(): List<Double>
+    suspend fun updateInformation(movieId: Int, extraInfo: UserMovieExtraInfo): MovieModel?
 }

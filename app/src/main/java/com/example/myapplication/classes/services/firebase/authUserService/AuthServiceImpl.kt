@@ -21,14 +21,11 @@ class AuthServiceImpl: AuthService{
     override suspend fun session(): String?{
 
         var connected = FirebaseAuth.getInstance().currentUser
-        Log.d("Hola","Adios ${connected?.uid}")
         return if (connected != null){
 
-            val snap = db.collection("Usuarios")
-                .whereEqualTo("Correo",connected.email)
-                .get().await()
+            val snap = db.collection("Usuarios").document(connected.uid).get().await()
 
-            snap.documents.firstOrNull()?.getString("Nombre")
+            snap.getString("Nombre")
         }else{
             return null
         }
@@ -40,13 +37,12 @@ class AuthServiceImpl: AuthService{
         return try{
             val id = checkUser(email,pswd, true).toString()
 
-            val user = UsersModel(id,name, email, pswd, listOf<Movie>())
+            val user = UsersModel(id,name, email)
 
             db.collection("Usuarios").document(id).set(
                 hashMapOf(
                     "Nombre" to user.userName,
-                    "Correo" to user.userEmail,
-                    "Lista Personal" to user.userPersonalList
+                    "Correo" to user.userEmail
                 )
             ).await()
 
@@ -56,13 +52,13 @@ class AuthServiceImpl: AuthService{
             throw Exception("Credenciales inválidas")
             false
         } catch (e: FirebaseAuthEmailException){
-            throw Exception("Email ya está en uso")
+            throw Exception("Email ya en uso")
             false
         } catch (e: FirebaseAuthWeakPasswordException) {
             throw Exception("Contraseña débil: ${e.reason}")
             false
         }catch (e: Exception){
-            throw Exception("Error desconocido ${e.localizedMessage}")
+            throw Exception(e.localizedMessage)
             false
         }
     }

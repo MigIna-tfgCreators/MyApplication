@@ -9,9 +9,14 @@ import com.example.myapplication.classes.modules.auth.activity.viewModel.SignVie
 import com.example.myapplication.classes.modules.main.activity.routing.MainRouting
 import com.example.myapplication.classes.modules.main.activity.routing.MainRoutingInterface
 import com.example.myapplication.classes.modules.main.activity.viewmodel.MoviesMainViewModel
-import com.example.myapplication.classes.modules.main.busqueda.viewmodel.SearchViewModel
-import com.example.myapplication.classes.modules.main.cartelera.viewmodel.NowPlayingViewModel
-import com.example.myapplication.classes.modules.main.detalles.viewmodel.DetailsViewModel
+import com.example.myapplication.classes.modules.main.search.viewmodel.SearchViewModel
+import com.example.myapplication.classes.modules.main.now_playing.viewmodel.NowPlayingViewModel
+import com.example.myapplication.classes.modules.main.details.viewmodel.DetailsViewModel
+import com.example.myapplication.classes.modules.main.personal.viewmodel.PersonalListViewModel
+import com.example.myapplication.classes.modules.main.profile.routing.ProfileRouting
+import com.example.myapplication.classes.modules.main.profile.routing.ProfileRoutingInterface
+import com.example.myapplication.classes.modules.main.profile.viewmodel.ProfileViewModel
+import com.example.myapplication.classes.modules.main.top.viewmodel.TopRatedViewModel
 import com.example.myapplication.classes.providers.ContextProvider
 import com.example.myapplication.classes.providers.ContextProviderInterface
 import com.example.myapplication.classes.repositories.api.moviesRepository.MoviesRepository
@@ -49,6 +54,7 @@ val appModule = module{
 
     factory<MainRoutingInterface>{ MainRouting(get()) }
     factory<RegisterRoutingInterface>{ RegisterRouting(get()) }
+    factory<ProfileRoutingInterface>{ ProfileRouting(get()) }
 
     factory<AuthRepository> { AuthRepositoyImpl(get()) }
     factory<MoviesRepository> { MoviesRepositoryImpl(get()) }
@@ -57,6 +63,9 @@ val appModule = module{
     viewModel{ SignViewModel(get(), get(), get()) }
     viewModel{ MoviesMainViewModel(get()) }
     viewModel{ NowPlayingViewModel(get(), get()) }
-    viewModel{ DetailsViewModel(get()) }
-    viewModel{ SearchViewModel(get(), get()) }
+    viewModel{ DetailsViewModel(get(), get()) }
+    viewModel{ SearchViewModel(get(), get(), get()) }
+    viewModel{ PersonalListViewModel(get(), get()) }
+    viewModel{ TopRatedViewModel(get(), get()) }
+    viewModel{ ProfileViewModel(get(), get(), get()) }
 }

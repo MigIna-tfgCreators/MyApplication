@@ -20,8 +20,8 @@
     <string name="layout_login_tv">Bienvenido</string>
     <string name="layout_login_btAccess">Iniciar sesión</string>
     <string name="layout_login_btNew">Nuevo usuario</string>
-    <string name="layout_details_btFavPlus">Añadir a favoritos</string>
-    <string name="layout_details_btFavQuit">Quitar de favoritos</string>
+    <string name="layout_details_btFavPlus">Añadir a mi lista</string>
+    <string name="layout_details_btFavQuit">Quitar de mi lista</string>
 
 
     <!-- Error/Warning texts -->

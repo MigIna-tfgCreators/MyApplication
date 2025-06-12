@@ -1,5 +1,6 @@
 package com.example.myapplication.classes.repositories.firebase.authUserRepository
 
+import android.util.Log
 import com.example.myapplication.classes.services.firebase.authUserService.AuthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
